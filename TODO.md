@@ -83,7 +83,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
 
 ## Milestone 3 — Shared commerce and browsing
 
-- [ ] **S10 — Define commerce models and fixtures**
+- [x] **S10 — Define commerce models and fixtures**
   - Deliver: normalized products, variants, collections, images, money, availability, pagination, provider errors, and adapter contract. Implement a mock adapter with 8–12 deterministic sample products and stable SKUs.
   - Include: list/search products, list collections, retrieve product, and validate current cart prices/availability. Fixtures cover sizes, price differences, sold-out states, missing notes, long names, and multiple images. Top 10 is a curated collection.
   - Checkpoint: focused tests verify money handling, variant identity, pagination, and unavailable-data behavior; fixture data is clearly development-only.
@@ -243,5 +243,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S07 | [Accessible atoms](docs/design-system.md): actions, icons, fields, choices, chips, badges and live states. `pnpm verify` passed with zero diagnostics; 2 browser tests passed including keyboard/focus, labels/errors, disabled/loading states and 44px targets. Six text contrast pairs passed 4.5:1; `git diff --check` passed. | `git log --all --grep='Step: S07'` |
 | S08 | [Product molecules](docs/design-system.md): COP prices, long-title cards, breadcrumbs, bounded quantity and native variant selectors. `pnpm verify` passed with zero diagnostics; all 3 browser tests passed including changed prices, unavailable variants, quantity edge cases and responsive overflow checks; `git diff --check` passed. | `git log --all --grep='Step: S08'` |
 | S09 | [Shared layout and navigation](docs/design-system.md): responsive header/footer, skip link, modal drawers and native accordions. `pnpm verify` passed with zero diagnostics; all 7 Chromium tests passed including focus trapping/return, dismissal, scroll lock, desktop resize, accordions and WhatsApp. Axe scans: no WCAG A/AA violations in mobile preview/open menu. Reviewed mobile/desktop screenshots; narrow cards use one column. `git diff --check` passed. | `git log --all --grep='Step: S09'` |
+
+| S10 | [Shared contract and mock catalog](docs/commerce.md): 12 labeled sample products, 36 stable variants/SKUs, curated Top 10, integer COP and authoritative mock validation. `pnpm verify` passed: 4 commerce tests, 4 config tests, 2 runtime tests and zero diagnostics. Pagination, money/overflow, identities, optional/unavailable data and combined filtering checked; `git diff --check` passed. | `git log --all --grep='Step: S10'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

@@ -13,11 +13,12 @@
     "format": "prettier --write src tests *.mjs playwright.config.ts package.json tsconfig.json .prettierrc.json .github render.yaml",
     "format:check": "prettier --check src tests *.mjs playwright.config.ts package.json tsconfig.json .prettierrc.json .github render.yaml",
     "lint": "eslint src tests *.mjs playwright.config.ts --max-warnings 0",
-    "verify": "pnpm format:check && pnpm lint && pnpm test:config && pnpm check && pnpm build && pnpm test:runtime",
+    "verify": "pnpm format:check && pnpm lint && pnpm test:config && pnpm test:commerce && pnpm check && pnpm build && pnpm test:runtime",
     "build": "astro build",
     "preview": "astro preview",
     "start": "node --env-file-if-exists=.env dist/server/entry.mjs",
     "test:config": "node --experimental-strip-types --test tests/commerce-config.test.ts",
+    "test:commerce": "node --experimental-strip-types --test tests/commerce.test.ts",
     "test:runtime": "node --test tests/runtime.test.mjs",
     "test:ui": "playwright test",
     "astro": "astro"
