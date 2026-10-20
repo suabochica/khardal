@@ -73,7 +73,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: long names, COP prices, unavailable variants, and narrow layouts render correctly.
   - Commit: `feat: Add product interface components`
 
-- [ ] **S09 — Build navigation and shared layout**
+- [x] **S09 — Build navigation and shared layout**
   - Deliver: header, mobile menu, footer, and accessible drawer/accordion primitives. Navigation: Tienda, Más vendidos, Nosotros, Contacto; policies in footer.
   - Checkpoint: focus management, Escape dismissal, keyboard operation, scroll behavior, and responsive navigation work without overlapping content.
   - Commit: `feat: Add storefront navigation and layout`
@@ -239,5 +239,6 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S06 | [Design foundations](docs/design-system.md): Tailwind tokens, self-hosted licensed/preloaded fonts, readable typography, responsive development preview. `pnpm verify` passed with zero diagnostics; `pnpm test:ui` passed Chromium font/token/overflow checks at 320/390/768/1440px. Runtime suite confirms preview 404 in production; `git diff --check` passed. | `git log --all --grep='Step: S06'` |
 | S07 | [Accessible atoms](docs/design-system.md): actions, icons, fields, choices, chips, badges and live states. `pnpm verify` passed with zero diagnostics; 2 browser tests passed including keyboard/focus, labels/errors, disabled/loading states and 44px targets. Six text contrast pairs passed 4.5:1; `git diff --check` passed. | `git log --all --grep='Step: S07'` |
 | S08 | [Product molecules](docs/design-system.md): COP prices, long-title cards, breadcrumbs, bounded quantity and native variant selectors. `pnpm verify` passed with zero diagnostics; all 3 browser tests passed including changed prices, unavailable variants, quantity edge cases and responsive overflow checks; `git diff --check` passed. | `git log --all --grep='Step: S08'` |
+| S09 | [Shared layout and navigation](docs/design-system.md): responsive header/footer, skip link, modal drawers and native accordions. `pnpm verify` passed with zero diagnostics; all 7 Chromium tests passed including focus trapping/return, dismissal, scroll lock, desktop resize, accordions and WhatsApp. Axe scans: no WCAG A/AA violations in mobile preview/open menu. Reviewed mobile/desktop screenshots; narrow cards use one column. `git diff --check` passed. | `git log --all --grep='Step: S09'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

@@ -12,6 +12,10 @@ import ProductCard from '../../components/molecules/ProductCard.astro';
 import Breadcrumbs from '../../components/molecules/Breadcrumbs.astro';
 import QuantityControl from '../../components/molecules/QuantityControl.astro';
 import VariantSelector from '../../components/molecules/VariantSelector.astro';
+import Header from '../../components/organisms/Header.astro';
+import Footer from '../../components/organisms/Footer.astro';
+import Drawer from '../../components/molecules/Drawer.astro';
+import Accordion from '../../components/molecules/Accordion.astro';
 
 if (!import.meta.env.DEV) return new Response(null, { status: 404 });
 
@@ -23,13 +27,44 @@ const swatches = [
   ['on-surface', 'bg-on-surface text-surface', '#1c1c1a'],
   ['error', 'bg-error text-on-error', '#ba1a1a'],
 ];
+const previewLinks = [
+  { label: 'Tienda', href: '#product-controls' },
+  { label: 'Más vendidos', href: '#products-heading' },
+  { label: 'Nosotros', href: '#type-heading' },
+  { label: 'Contacto', href: '#footer' },
+];
 ---
 
 <BaseLayout
   title="Sistema de diseño | Khardal Perfumería"
   description="Vista de desarrollo del sistema visual de Khardal Perfumería."
 >
-  <main id="contenido" class="page-container section-space space-y-space-xl">
+  <a href="#contenido" class="skip-link">
+    Saltar al contenido
+  </a>
+  <Header links={previewLinks}>
+    <Drawer
+      slot="actions"
+      id="cart-preview"
+      title="Bolsa de ejemplo"
+      triggerLabel="Abrir bolsa de ejemplo"
+      triggerClass="icon-action"
+    >
+      <Icon slot="trigger" name="bag" />
+      <p class="mb-space-lg">
+        Esta es una vista de ejemplo del panel. El carrito se implementará en
+        S16–S19.
+      </p>
+      <a class="action action-secondary" href="#product-controls">
+        Revisar componentes
+      </a>
+    </Drawer>
+  </Header>
+  <main
+    id="contenido"
+    tabindex="-1"
+    class="page-container section-space space-y-space-xl"
+  >
     <header class="max-w-3xl space-y-space-md">
       <p class="type-label text-primary">Khardal · Sistema de diseño</p>
       <h1 class="type-display">Calma, carácter y una esencia propia.</h1>
@@ -171,7 +206,7 @@ const swatches = [
         Precios y nombres ficticios para revisar la interfaz. Las fotografías
         son referencias, no productos aprobados.
       </p>
-      <div class="grid grid-cols-1 gap-gutter min-[380px]:grid-cols-2 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-3">
         <ProductCard
           name="Muestra editorial de ámbar y maderas con un nombre extraordinariamente largo"
           href="#product-controls"
@@ -230,7 +265,52 @@ const swatches = [
         </div>
       </div>
     </section>
+    <section aria-labelledby="layout-heading" class="space-y-space-lg">
+      <h2 id="layout-heading" class="type-headline">
+        05 / Navegación y paneles
+      </h2>
+      <p>
+        La cabecera muestra los cuatro destinos de ejemplo. En móvil, abre el
+        menú para comprobar el foco y el desplazamiento.
+      </p>
+      <Drawer id="filter-preview" title="Filtros de ejemplo">
+        <Chip>Floral</Chip>
+        <p class="mt-space-md">
+          Panel de demostración. Los filtros del catálogo se implementarán en
+          S13.
+        </p>
+      </Drawer>
+      <div id="demo-shipping">
+        <Accordion title="Envíos · ejemplo de acordeón">
+          <p>
+            Aquí aparecerá la información de envíos aprobada. Los plazos
+            actuales están pendientes de confirmación.
+          </p>
+        </Accordion>
+      </div>
+      <div id="demo-returns">
+        <Accordion title="Devoluciones · ejemplo de acordeón">
+          <p>Aquí aparecerán las condiciones de devolución aprobadas.</p>
+        </Accordion>
+      </div>
+      <div id="demo-privacy">
+        <Accordion title="Privacidad y términos · ejemplo de acordeón">
+          <p>
+            Contenido de desarrollo; las políticas finales se incorporarán en
+            S28.
+          </p>
+        </Accordion>
+      </div>
+    </section>
   </main>
+  <Footer
+    links={[
+      { label: 'Envíos', href: '#demo-shipping' },
+      { label: 'Devoluciones', href: '#demo-returns' },
+      { label: 'Privacidad', href: '#demo-privacy' },
+      { label: 'Términos', href: '#demo-privacy' },
+    ]}
+  />
 </BaseLayout>
 
 <script>

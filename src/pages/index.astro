@@ -1,19 +1,19 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import StoreLayout from '../layouts/StoreLayout.astro';
 
 export const prerender = true;
 ---
 
-<BaseLayout
+<StoreLayout
   title="Khardal Perfumería"
   description="Estamos preparando la tienda en línea de Khardal Perfumería en Colombia."
 >
-  <main class="page-container section-space">
+  <div class="page-container section-space">
     <h1 class="type-display mb-space-lg">Khardal Perfumería</h1>
     <p>Estamos preparando nuestra tienda en línea.</p>
     <p>
       Pronto podrás explorar nuestro catálogo y solicitar tu pedido por
       WhatsApp.
     </p>
-  </main>
-</BaseLayout>
+  </div>
+</StoreLayout>

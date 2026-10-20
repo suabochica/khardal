@@ -1,0 +1,45 @@
+---
+interface Props {
+  links?: { label: string; href: string }[];
+}
+const { links = [] } = Astro.props;
+---
+
+<footer
+  id="footer"
+  class="border-t border-outline-variant bg-surface-container"
+>
+  <div class="page-container section-space grid gap-space-xl md:grid-cols-2">
+    <div class="space-y-space-md">
+      <p class="type-title tracking-widest uppercase">Khardal Perfumería</p>
+      <p class="max-w-prose text-on-surface-variant">
+        Una conversación para encontrar tu próxima fragancia.
+      </p>
+      <a
+        class="inline-flex min-h-11 items-center text-primary underline"
+        href="https://wa.me/573108570230"
+      >
+        Escríbenos por WhatsApp
+      </a>
+    </div>
+    {links.length > 0 && (
+      <nav aria-label="Información y políticas">
+        <ul class="grid gap-space-sm sm:grid-cols-2">
+          {links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="inline-flex min-h-11 items-center text-sm underline"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+    <p class="type-caption md:col-span-2">
+      © {new Date().getFullYear()} Khardal Perfumería · Colombia
+    </p>
+  </div>
+</footer>

@@ -76,3 +76,37 @@ S08 checkpoint: full verification passed; all 3 browser tests passed. Browser
 coverage includes price changes (30/60ml), unavailable/all-unavailable choices,
 quantity limits, empty/fractional input, breadcrumb current-page semantics and
 responsive long-title cards without horizontal overflow at four viewport widths.
+
+## S09: shared layout, navigation and disclosures
+
+Header and Footer live in `components/organisms/`; StoreLayout composes the shared
+document, skip link, sticky navigation, focusable main region and footer.
+Navigation links are data-driven. The preview demonstrates Tienda, Más vendidos,
+Nosotros and Contacto against existing preview anchors. The temporary homepage
+only links to implemented destinations (Inicio and the primary WhatsApp). S11–S15
+will supply real shopping, company and policy URLs as those pages are built.
+Search, account, newsletter and real cart controls are not fabricated here.
+
+Drawer accepts a unique `id`, title, optional left/right side and a trigger slot
+(slot content must not contain another interactive control). Native `dialog`
+provides modal semantics/background inertness; the component adds explicit Tab
+wrapping, initial close-button focus, Escape/native cancel, backdrop and link
+dismissal, expanded state and focus return. Background scroll is locked only
+while a dialog is open; inner content can scroll. Crossing the desktop breakpoint
+closes an open mobile menu and focuses the wordmark when the trigger becomes
+hidden. Keep one Header per page to preserve its unique menu ID.
+
+Accordion uses native `details`/`summary` so it works without client JavaScript.
+Global reduced-motion styles apply; drawers do not depend on animation or blur.
+Footer accepts approved secondary links and exposes the confirmed primary number.
+Policy text in the preview is explicitly pending approval, not published terms.
+
+S09 checkpoint: full verification and all 7 Chromium tests passed, with zero type
+diagnostics. Checks include skip navigation, focus wrapping/return, Escape,
+backdrop/close/link dismissal, scroll-lock release, breakpoint changes, desktop
+navigation, native accordion keyboard use and primary WhatsApp destination.
+Automated axe WCAG A/AA scans reported no violations in the mobile preview and
+open menu. Mobile/desktop screenshots were visually reviewed; the preview product
+grid now stays single-column below 640px so long names are readable. This is a
+design-system preview, not the finished home/PLP/PDP. Real screen-reader, Safari,
+Android/iOS device and full transactional testing remain in S32.

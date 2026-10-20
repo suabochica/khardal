@@ -1,0 +1,78 @@
+---
+import Icon from '../atoms/Icon.astro';
+import Drawer from '../molecules/Drawer.astro';
+interface Props {
+  links: { label: string; href: string }[];
+  currentPath?: string;
+}
+const { links, currentPath = Astro.url.pathname } = Astro.props;
+---
+
+<header class="site-header sticky top-0 z-20 border-b border-outline-variant bg-surface">
+  <div class="page-container flex min-h-16 items-center justify-between gap-space-sm py-space-xs">
+    <div class="lg:hidden">
+      <Drawer
+        id="mobile-navigation"
+        title="Menú"
+        triggerLabel="Abrir menú"
+        side="left"
+        triggerClass="icon-action"
+      >
+        <Icon slot="trigger" name="menu" />
+        <nav aria-label="Navegación móvil">
+          <ul class="space-y-space-sm">
+            {links.map((link) => (
+              <li>
+                <a
+                  class="flex min-h-11 items-center border-b border-outline-variant py-space-sm"
+                  href={link.href}
+                  aria-current={link.href === currentPath ? 'page' : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </Drawer>
+    </div>
+    <a
+      href="/"
+      aria-label="Khardal Perfumería · Inicio"
+      class="wordmark flex min-h-11 flex-col justify-center font-heading text-lg tracking-[0.16em] uppercase sm:text-2xl"
+    >
+      Khardal
+      <span class="text-[10px] leading-relaxed tracking-[0.22em]">
+        Perfumería
+      </span>
+    </a>
+    <nav aria-label="Navegación principal" class="hidden lg:block">
+      <ul class="flex flex-wrap gap-space-lg">
+        {links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={link.href === currentPath ? 'page' : undefined}
+              class="inline-flex min-h-11 items-center text-sm hover:text-primary hover:underline aria-[current=page]:underline"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="flex min-w-11 items-center justify-end gap-space-xs">
+      <slot name="actions" />
+    </div>
+  </div>
+</header>
+
+<script>
+  const desktop = window.matchMedia('(min-width: 64rem)');
+  desktop.addEventListener('change', () => {
+    if (desktop.matches)
+      document
+        .querySelector<HTMLDialogElement>('#mobile-navigation[open]')
+        ?.close();
+  });
+</script>

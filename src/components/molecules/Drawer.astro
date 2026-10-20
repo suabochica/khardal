@@ -1,0 +1,125 @@
+---
+import Icon from '../atoms/Icon.astro';
+interface Props {
+  id: string;
+  title: string;
+  triggerLabel?: string;
+  side?: 'left' | 'right';
+  triggerClass?: string;
+}
+const {
+  id,
+  title,
+  triggerLabel = title,
+  side = 'right',
+  triggerClass = 'action action-secondary',
+} = Astro.props;
+---
+
+<button
+  type="button"
+  data-dialog-open={id}
+  aria-controls={id}
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  aria-label={triggerLabel}
+  class={triggerClass}
+>
+  <slot name="trigger">{triggerLabel}</slot>
+</button>
+<dialog
+  id={id}
+  aria-labelledby={`${id}-title`}
+  class:list={['drawer', `drawer-${side}`]}
+  data-drawer
+>
+  <div class="flex min-h-0 flex-1 flex-col">
+    <header class="flex items-center justify-between gap-space-md border-b border-outline-variant p-space-lg">
+      <h2 id={`${id}-title`} class="type-title">
+        {title}
+      </h2>
+      <button
+        type="button"
+        data-dialog-close
+        aria-label={`Cerrar ${title.toLowerCase()}`}
+        class="icon-action"
+        autofocus
+      >
+        <Icon name="close" />
+      </button>
+    </header>
+    <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain p-space-lg">
+      <slot />
+    </div>
+  </div>
+</dialog>
+
+<script>
+  document
+    .querySelectorAll<HTMLDialogElement>('dialog[data-drawer]')
+    .forEach((dialog) => {
+      const triggers = document.querySelectorAll<HTMLButtonElement>(
+        `[data-dialog-open="${CSS.escape(dialog.id)}"]`,
+      );
+      let opener: HTMLButtonElement | null = null;
+      triggers.forEach((trigger) =>
+        trigger.addEventListener('click', () => {
+          if (dialog.open) return;
+          opener = trigger;
+          dialog.showModal();
+          trigger.setAttribute('aria-expanded', 'true');
+        }),
+      );
+      dialog
+        .querySelectorAll<HTMLButtonElement>('[data-dialog-close]')
+        .forEach((button) =>
+          button.addEventListener('click', () => dialog.close()),
+        );
+      dialog.addEventListener('close', () => {
+        triggers.forEach((trigger) =>
+          trigger.setAttribute('aria-expanded', 'false'),
+        );
+        if (opener?.getClientRects().length)
+          opener.focus({ preventScroll: true });
+        else
+          document
+            .querySelector<HTMLAnchorElement>('.wordmark')
+            ?.focus({ preventScroll: true });
+      });
+      dialog.addEventListener('keydown', (event) => {
+        if (event.key !== 'Tab') return;
+        const focusable = [
+          ...dialog.querySelectorAll<HTMLElement>(
+            'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), summary, [tabindex]:not([tabindex="-1"])',
+          ),
+        ].filter((element) => element.getClientRects().length > 0);
+        const first = focusable[0],
+          last = focusable.at(-1);
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      });
+      dialog.addEventListener('click', (event) => {
+        if (
+          event.target instanceof Element &&
+          event.target.closest('a[href]')
+        ) {
+          dialog.close();
+          return;
+        }
+        if (event.target !== dialog) return;
+        const box = dialog.getBoundingClientRect();
+        if (
+          event.clientX < box.left ||
+          event.clientX > box.right ||
+          event.clientY < box.top ||
+          event.clientY > box.bottom
+        )
+          dialog.close();
+      });
+    });
+</script>

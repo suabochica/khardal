@@ -1,0 +1,19 @@
+---
+import Icon from '../atoms/Icon.astro';
+interface Props {
+  title: string;
+  open?: boolean;
+}
+const { title, open = false } = Astro.props;
+---
+
+<details open={open} class="accordion border-b border-outline-variant">
+  <summary class="flex min-h-14 list-none items-center justify-between gap-space-md py-space-md font-medium">
+    <span>{title}</span>
+    <Icon name="plus" class="accordion-plus" />
+    <Icon name="minus" class="accordion-minus" />
+  </summary>
+  <div class="pb-space-lg text-on-surface-variant">
+    <slot />
+  </div>
+</details>

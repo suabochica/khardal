@@ -56,7 +56,8 @@ Sin variables de entorno se selecciona `mock`. Para configurar un proveedor,
 copia el contenido de `.env.example` en `.env` y consulta la
 [guía de runtime y entornos](docs/runtime-and-environments.md).
 No se requieren credenciales reales para desarrollar con `mock`.
-Tailwind y los tokens visuales se incorporarán en S06.
+Tailwind, los tokens visuales y los componentes compartidos están disponibles en
+la vista de desarrollo del sistema de diseño.
 
 Para comprobar la compilación de producción:
 
@@ -81,7 +82,9 @@ La conexión de hosting y la verificación alojada están pendientes; consulta l
 ## Sistema de diseño
 
 Con `pnpm dev`, abre `http://localhost:4321/dev/design`. Esta ruta de desarrollo
-muestra los tokens y componentes; devuelve 404 en producción.
+muestra la paleta, tipografía, controles, productos de ejemplo, navegación,
+paneles y acordeones; devuelve 404 en producción. Los productos y precios de esa
+vista son demostraciones, no el catálogo aprobado.
 Consulta [la guía del sistema de diseño](docs/design-system.md).
 Para las comprobaciones de navegador:
 

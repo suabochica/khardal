@@ -1,0 +1,26 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/organisms/Header.astro';
+import Footer from '../components/organisms/Footer.astro';
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+// Expand these links as real routes arrive in S11–S15, rather than linking to 404s.
+const links = [
+  { label: 'Inicio', href: '/' },
+  { label: 'WhatsApp', href: 'https://wa.me/573108570230' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <a href="#contenido" class="skip-link">
+    Saltar al contenido
+  </a>
+  <Header links={links} />
+  <main id="contenido" tabindex="-1">
+    <slot />
+  </main>
+  <Footer />
+</BaseLayout>

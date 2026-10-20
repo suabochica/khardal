@@ -88,6 +88,10 @@
   html {
     color-scheme: light;
     scroll-padding-top: 6rem;
+    scrollbar-gutter: stable;
+  }
+  html:has(dialog[open]) {
+    overflow: hidden;
   }
   body {
     background: var(--color-surface);
@@ -150,6 +154,66 @@
 }
 
 @layer components {
+  .icon-action {
+    display: inline-flex;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-on-surface);
+  }
+  .icon-action:hover {
+    background: var(--color-surface-container);
+  }
+  .drawer {
+    position: fixed;
+    inset-block: 0;
+    width: min(92vw, 28rem);
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+  }
+  .drawer[open] {
+    display: flex;
+  }
+  .drawer-left {
+    margin: 0 auto 0 0;
+  }
+  .drawer-right {
+    margin: 0 0 0 auto;
+  }
+  .drawer::backdrop {
+    background: rgb(28 28 26 / 35%);
+  }
+  .accordion-minus {
+    display: none;
+  }
+  .accordion[open] > summary .accordion-plus {
+    display: none;
+  }
+  .accordion[open] > summary .accordion-minus {
+    display: block;
+  }
+  .accordion > summary::-webkit-details-marker {
+    display: none;
+  }
+  .skip-link {
+    position: fixed;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 50;
+    transform: translateY(-200%);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 0.75rem 1rem;
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
   .quantity-button {
     display: inline-flex;
     align-items: center;
