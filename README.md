@@ -32,6 +32,10 @@ base inicial. La página de inicio es temporal; aún no contiene catálogo ni ca
 | --- | --- |
 | `pnpm dev` | Servidor local con recarga automática |
 | `pnpm check` | Sincronización de tipos de Astro y comprobación de TypeScript/plantillas |
+| `pnpm format` | Aplica el formato de Prettier al código y configuración |
+| `pnpm format:check` | Comprueba el formato sin modificar archivos |
+| `pnpm lint` | Reglas de JavaScript, TypeScript y Astro; no permite advertencias |
+| `pnpm verify` | Formato, lint, pruebas, tipos, build y pruebas del servidor compilado |
 | `pnpm build` | Genera la compilación de producción en `dist/` |
 | `pnpm preview` | Sirve localmente la compilación existente para revisión |
 | `pnpm start` | Ejecuta el servidor Node compilado; carga `.env` si existe |
@@ -42,8 +46,7 @@ base inicial. La página de inicio es temporal; aún no contiene catálogo ni ca
 Antes de registrar cambios de aplicación:
 
 ```sh
-pnpm check
-pnpm build
+pnpm verify
 git diff --check
 ```
 
@@ -65,6 +68,15 @@ HOST=127.0.0.1 PORT=4321 pnpm start
 Si `pnpm dev` indica que ya existe un servidor, abre la URL indicada. Puedes
 consultarlo con `pnpm astro dev status`, ver los logs con `pnpm astro dev logs`
 y detenerlo con `pnpm astro dev stop` antes de usar el mismo puerto.
+
+## CI y previews
+
+GitHub Actions ejecutará `pnpm verify` en pushes a `main` y pull requests usando
+Node 22.22.0 (archivo `.node-version`) y pnpm 12.14.0. `render.yaml` define una
+preview Node con catálogo mock, comprobación de salud y metadatos `noindex`.
+`DEPLOYMENT_ENV=preview` debe estar definido al compilar esa preview.
+La conexión de Render y la verificación alojada están pendientes; consulta la
+[guía de CI y previews](docs/ci-and-previews.md).
 
 ## Estructura inicial
 

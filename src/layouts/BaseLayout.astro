@@ -1,4 +1,6 @@
 ---
+import { DEPLOYMENT_ENV } from 'astro:env/server';
+
 interface Props {
   title: string;
   description: string;
@@ -13,6 +15,9 @@ const { title, description } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {DEPLOYMENT_ENV !== 'production' && (
+      <meta name="robots" content="noindex, nofollow" />
+    )}
     <title>{title}</title>
   </head>
   <body>

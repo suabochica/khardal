@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://render.com/schema/render.yaml.json
+# Preview-only baseline; no production backend credentials or custom domain.
+services:
+  - type: web
+    name: khardal-storefront-preview
+    runtime: node
+    plan: free
+    autoDeployTrigger: checksPass
+    previews:
+      generation: manual
+    buildCommand: npm install --global pnpm@12.14.0 && pnpm install --frozen-lockfile && pnpm verify
+    startCommand: node dist/server/entry.mjs
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.22.0
+      - key: HOST
+        value: 0.0.0.0
+      - key: COMMERCE_PROVIDER
+        value: mock
+      - key: DEPLOYMENT_ENV
+        value: preview
+      - key: ASTRO_TELEMETRY_DISABLED
+        value: '1'

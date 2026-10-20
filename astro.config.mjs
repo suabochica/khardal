@@ -8,6 +8,12 @@ export default defineConfig({
   adapter: node({ mode: 'standalone' }),
   env: {
     schema: {
+      DEPLOYMENT_ENV: envField.enum({
+        context: 'server',
+        access: 'public',
+        values: ['development', 'preview', 'production'],
+        default: 'development',
+      }),
       COMMERCE_PROVIDER: envField.string(serverSecret),
       WOOCOMMERCE_URL: envField.string(serverSecret),
       WOOCOMMERCE_CONSUMER_KEY: envField.string(serverSecret),

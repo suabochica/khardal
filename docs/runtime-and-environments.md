@@ -57,6 +57,9 @@ silently allowing all HTTP hosts.
 
 All settings use `astro:env/server` with secret access, including provider selection
 and hostnames, so they are read at runtime rather than baked into the artifact.
+S05 adds `DEPLOYMENT_ENV` separately as a build-time **public server** enum used
+for non-production robots metadata; it is not a commerce credential. See the
+[CI/preview guide](ci-and-previews.md) for deployment and rebuild requirements.
 Provider-specific fields are individually optional in Astro's schema; the shared
 parser requires only fields for the selected provider. Whitespace-only credentials
 fail; inactive-provider settings are ignored. Errors report field names/rules, not

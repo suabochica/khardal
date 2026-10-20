@@ -16,27 +16,40 @@ async function withServer(settings, check) {
   const child = spawn(process.execPath, ['dist/server/entry.mjs'], {
     env: {
       ...process.env,
-      HOST: '127.0.0.1', PORT: String(port),
+      HOST: '127.0.0.1',
+      PORT: String(port),
       COMMERCE_PROVIDER: 'mock',
-      WOOCOMMERCE_URL: '', WOOCOMMERCE_CONSUMER_KEY: '', WOOCOMMERCE_CONSUMER_SECRET: '',
-      SHOPIFY_STORE_DOMAIN: '', SHOPIFY_STOREFRONT_PRIVATE_TOKEN: '',
+      WOOCOMMERCE_URL: '',
+      WOOCOMMERCE_CONSUMER_KEY: '',
+      WOOCOMMERCE_CONSUMER_SECRET: '',
+      SHOPIFY_STORE_DOMAIN: '',
+      SHOPIFY_STOREFRONT_PRIVATE_TOKEN: '',
       ...settings,
     },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   let logs = '';
-  child.stdout.on('data', (data) => { logs += data; });
-  child.stderr.on('data', (data) => { logs += data; });
+  child.stdout.on('data', (data) => {
+    logs += data;
+  });
+  child.stderr.on('data', (data) => {
+    logs += data;
+  });
   const base = `http://127.0.0.1:${port}`;
   try {
     let ready = false;
     for (let attempt = 0; attempt < 100; attempt++) {
       if (child.exitCode !== null) break;
       try {
-        const response = await fetch(`${base}/`, { signal: AbortSignal.timeout(1000) });
+        const response = await fetch(`${base}/`, {
+          signal: AbortSignal.timeout(1000),
+        });
         assert.equal(response.status, 200);
         const html = await response.text();
         assert.match(html, /lang="es-CO"/);
+        if (process.env.DEPLOYMENT_ENV !== 'production') {
+          assert.match(html, /name="robots" content="noindex, nofollow"/);
+        }
         assert.ok(!html.includes(marker));
         ready = true;
         break;
@@ -58,8 +71,17 @@ async function withServer(settings, check) {
 test('production renders dynamic uncached responses with runtime-only provider credentials', async () => {
   for (const settings of [
     {},
-    { COMMERCE_PROVIDER: 'woocommerce', WOOCOMMERCE_URL: 'http://localhost:8080', WOOCOMMERCE_CONSUMER_KEY: marker, WOOCOMMERCE_CONSUMER_SECRET: marker },
-    { COMMERCE_PROVIDER: 'shopify', SHOPIFY_STORE_DOMAIN: 'example.myshopify.com', SHOPIFY_STOREFRONT_PRIVATE_TOKEN: marker },
+    {
+      COMMERCE_PROVIDER: 'woocommerce',
+      WOOCOMMERCE_URL: 'http://localhost:8080',
+      WOOCOMMERCE_CONSUMER_KEY: marker,
+      WOOCOMMERCE_CONSUMER_SECRET: marker,
+    },
+    {
+      COMMERCE_PROVIDER: 'shopify',
+      SHOPIFY_STORE_DOMAIN: 'example.myshopify.com',
+      SHOPIFY_STOREFRONT_PRIVATE_TOKEN: marker,
+    },
   ]) {
     await withServer(settings, async (base) => {
       const first = await fetch(`${base}/api/health`);
@@ -78,12 +100,18 @@ test('production renders dynamic uncached responses with runtime-only provider c
 });
 
 test('missing active-provider credentials fail clearly without public disclosure', async () => {
-  await withServer({ COMMERCE_PROVIDER: 'shopify', SHOPIFY_STORE_DOMAIN: 'example.myshopify.com' }, async (base, logs) => {
-    const response = await fetch(`${base}/api/health`);
-    assert.equal(response.status, 500);
-    const body = await response.text();
-    assert.ok(!body.includes('SHOPIFY_STOREFRONT_PRIVATE_TOKEN'));
-    await new Promise((resolve) => setTimeout(resolve, 50));
-    assert.match(logs(), /SHOPIFY_STOREFRONT_PRIVATE_TOKEN is required/);
-  });
+  await withServer(
+    {
+      COMMERCE_PROVIDER: 'shopify',
+      SHOPIFY_STORE_DOMAIN: 'example.myshopify.com',
+    },
+    async (base, logs) => {
+      const response = await fetch(`${base}/api/health`);
+      assert.equal(response.status, 500);
+      const body = await response.text();
+      assert.ok(!body.includes('SHOPIFY_STOREFRONT_PRIVATE_TOKEN'));
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      assert.match(logs(), /SHOPIFY_STOREFRONT_PRIVATE_TOKEN is required/);
+    },
+  );
 });

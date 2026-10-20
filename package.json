@@ -10,6 +10,10 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
+    "format": "prettier --write src tests *.mjs package.json tsconfig.json .prettierrc.json .github render.yaml",
+    "format:check": "prettier --check src tests *.mjs package.json tsconfig.json .prettierrc.json .github render.yaml",
+    "lint": "eslint src tests *.mjs --max-warnings 0",
+    "verify": "pnpm format:check && pnpm lint && pnpm test:config && pnpm check && pnpm build && pnpm test:runtime",
     "build": "astro build",
     "preview": "astro preview",
     "start": "node --env-file-if-exists=.env dist/server/entry.mjs",
@@ -23,7 +27,14 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.11",
+    "@eslint/js": "10.0.1",
     "@types/node": "^22.20.5",
-    "typescript": "6.0.3"
+    "eslint": "10.13.0",
+    "eslint-plugin-astro": "3.2.1",
+    "globals": "17.13.0",
+    "prettier": "3.9.10",
+    "prettier-plugin-astro": "1.1.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.2"
   }
 }
