@@ -8,6 +8,10 @@ import Chip from '../../components/atoms/Chip.astro';
 import TextField from '../../components/atoms/TextField.astro';
 import Choice from '../../components/atoms/Choice.astro';
 import Status from '../../components/atoms/Status.astro';
+import ProductCard from '../../components/molecules/ProductCard.astro';
+import Breadcrumbs from '../../components/molecules/Breadcrumbs.astro';
+import QuantityControl from '../../components/molecules/QuantityControl.astro';
+import VariantSelector from '../../components/molecules/VariantSelector.astro';
 
 if (!import.meta.env.DEV) return new Response(null, { status: 404 });
 
@@ -147,6 +151,84 @@ const swatches = [
       <Status variant="error">
         No pudimos cargar el ejemplo. Intenta de nuevo.
       </Status>
+    </section>
+    <section
+      id="product-controls"
+      aria-labelledby="products-heading"
+      class="space-y-space-lg"
+    >
+      <h2 id="products-heading" class="type-headline">
+        04 / Componentes de producto
+      </h2>
+      <Breadcrumbs
+        items={[
+          { label: 'Inicio', href: '/' },
+          { label: 'Sistema de diseño', href: '/dev/design' },
+          { label: 'Productos de ejemplo' },
+        ]}
+      />
+      <p class="type-caption">
+        Precios y nombres ficticios para revisar la interfaz. Las fotografías
+        son referencias, no productos aprobados.
+      </p>
+      <div class="grid grid-cols-1 gap-gutter min-[380px]:grid-cols-2 lg:grid-cols-3">
+        <ProductCard
+          name="Muestra editorial de ámbar y maderas con un nombre extraordinariamente largo"
+          href="#product-controls"
+          amountCop={38300}
+          from
+          notes="Notas de ejemplo · Ámbar, madera y especias"
+          image={{
+            src: '/images/01-product.png',
+            alt: 'Referencia de un frasco sobre lino; no representa un producto aprobado.',
+          }}
+        />
+        <ProductCard
+          name="Muestra sin disponibilidad"
+          href="#product-controls"
+          amountCop={67600}
+          available={false}
+          image={{
+            src: '/images/02-product.png',
+            alt: 'Referencia de frasco junto a higos y madera.',
+          }}
+        />
+        <ProductCard
+          name="Muestra sin fotografía ni notas"
+          href="#product-controls"
+          amountCop={0}
+        />
+      </div>
+      <div class="grid gap-space-xl md:grid-cols-2">
+        <VariantSelector
+          id="demo-variants"
+          variants={[
+            { id: '30', label: '30 ml', amountCop: 38300, available: true },
+            { id: '60', label: '60 ml', amountCop: 46300, available: true },
+            {
+              id: '100',
+              label: '100 ml · Presentación de ejemplo agotada',
+              amountCop: 67600,
+              available: false,
+            },
+          ]}
+        />
+        <div class="space-y-space-lg">
+          <QuantityControl id="demo-quantity" max={5} />
+          <VariantSelector
+            id="demo-sold-out"
+            legend="Sin disponibilidad"
+            variants={[
+              {
+                id: '100',
+                label: '100 ml',
+                amountCop: 67600,
+                available: false,
+              },
+            ]}
+          />
+        </div>
+      </div>
     </section>
   </main>
 </BaseLayout>

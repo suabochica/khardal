@@ -1,0 +1,64 @@
+---
+import Badge from '../atoms/Badge.astro';
+import Icon from '../atoms/Icon.astro';
+import Price from './Price.astro';
+interface Props {
+  name: string;
+  href: string;
+  amountCop: number;
+  notes?: string;
+  image?: { src: string; alt: string };
+  available?: boolean;
+  from?: boolean;
+}
+const {
+  name,
+  href,
+  amountCop,
+  notes,
+  image,
+  available = true,
+  from = false,
+} = Astro.props;
+---
+
+<article class="product-card min-w-0 border border-outline-variant bg-surface-container-low">
+  <div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
+    {image ? (
+      <img
+        src={image.src}
+        alt={image.alt}
+        width="516"
+        height="690"
+        loading="lazy"
+        decoding="async"
+        class="h-full w-full object-cover"
+      />
+    ) : (
+      <div class="flex h-full items-center justify-center p-space-md text-on-surface-variant">
+        Imagen no disponible
+      </div>
+    )}
+    {!available && (
+      <div class="absolute top-space-sm left-space-sm">
+        <Badge>Agotado</Badge>
+      </div>
+    )}
+  </div>
+  <div class="flex flex-col items-start gap-space-sm p-space-md">
+    <h3 class="type-title">
+      <a href={href} class="hover:underline">
+        {name}
+      </a>
+    </h3>
+    {notes && <p class="type-caption">{notes}</p>}
+    <Price amountCop={amountCop} from={from} />
+    <a
+      href={href}
+      class="inline-flex min-h-11 items-center gap-space-sm text-sm font-semibold text-primary underline"
+    >
+      Ver perfume <span class="sr-only">{name}</span>
+      <Icon name="arrow" />
+    </a>
+  </div>
+</article>

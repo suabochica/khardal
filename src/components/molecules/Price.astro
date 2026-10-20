@@ -1,0 +1,13 @@
+---
+import { formatCop } from '../../lib/formatting/price';
+interface Props {
+  amountCop: number;
+  from?: boolean;
+}
+const { amountCop, from = false } = Astro.props;
+---
+
+<span class="font-semibold tabular-nums">
+  {from && <span class="font-normal">Desde </span>}
+  {formatCop(amountCop)}
+</span>

@@ -150,6 +150,51 @@
 }
 
 @layer components {
+  .quantity-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  .quantity-button:disabled {
+    color: var(--color-outline);
+    cursor: not-allowed;
+  }
+  .quantity-input {
+    width: 3.5rem;
+    min-height: 2.75rem;
+    text-align: center;
+    appearance: textfield;
+  }
+  .quantity-input::-webkit-inner-spin-button,
+  .quantity-input::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+  .variant-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    min-height: 2.75rem;
+    border: 1px solid var(--color-outline);
+    cursor: pointer;
+    overflow-wrap: anywhere;
+  }
+  .variant-option:has(:checked) {
+    background: var(--color-primary-fixed);
+    border-color: var(--color-primary);
+  }
+  .variant-option:has(:focus-visible) {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+  .variant-option:has(:disabled) {
+    background: var(--color-surface-container);
+    color: var(--color-on-surface-variant);
+    cursor: not-allowed;
+  }
   .action {
     display: inline-flex;
     align-items: center;

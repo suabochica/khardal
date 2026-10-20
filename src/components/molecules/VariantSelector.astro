@@ -1,0 +1,87 @@
+---
+import Price from './Price.astro';
+import { formatCop } from '../../lib/formatting/price';
+interface Props {
+  id: string;
+  legend?: string;
+  selectedId?: string;
+  variants: {
+    id: string;
+    label: string;
+    amountCop: number;
+    available: boolean;
+  }[];
+}
+const {
+  id,
+  legend = 'Elige una presentación',
+  selectedId,
+  variants,
+} = Astro.props;
+const selected =
+  variants.find((v) => v.id === selectedId && v.available) ??
+  variants.find((v) => v.available);
+---
+
+<fieldset data-variants class="min-w-0 space-y-space-md">
+  <legend class="mb-space-sm font-medium">{legend}</legend>
+  <div class="grid grid-cols-1 gap-space-sm sm:grid-cols-2">
+    {variants.map((variant) => (
+      <label class="variant-option" for={`${id}-${variant.id}`}>
+        <input
+          id={`${id}-${variant.id}`}
+          type="radio"
+          name={id}
+          value={variant.id}
+          disabled={!variant.available}
+          checked={selected?.id === variant.id}
+          data-label={variant.label}
+          data-amount={variant.amountCop}
+          data-price={formatCop(variant.amountCop)}
+          class="choice-control"
+        />
+        <span class="min-w-0">
+          <span class="block font-medium">{variant.label}</span>
+          <span class="block text-sm">
+            <Price amountCop={variant.amountCop} />
+          </span>
+          {!variant.available && <span class="block text-sm">Agotado</span>}
+        </span>
+      </label>
+    ))}
+  </div>
+  <p role="status" data-variant-status class="type-caption">
+    {selected
+      ? `Presentación seleccionada: ${selected.label} · ${formatCop(selected.amountCop)}`
+      : 'Sin presentaciones disponibles.'}
+  </p>
+</fieldset>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>('[data-variants]')
+    .forEach((selector) => {
+      selector.addEventListener('change', (event) => {
+        const radio = event.target;
+        if (
+          !(radio instanceof HTMLInputElement) ||
+          !radio.checked ||
+          radio.disabled
+        )
+          return;
+        const status = selector.querySelector('[data-variant-status]');
+        if (status)
+          status.textContent = `Presentación seleccionada: ${radio.dataset.label} · ${radio.dataset.price}`;
+        selector.dispatchEvent(
+          new CustomEvent('variant-change', {
+            bubbles: true,
+            detail: {
+              variantId: radio.value,
+              amountCop: Number(radio.dataset.amount),
+              available: true,
+            },
+          }),
+        );
+      });
+    });
+</script>

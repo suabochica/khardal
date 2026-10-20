@@ -1,0 +1,104 @@
+---
+import Icon from '../atoms/Icon.astro';
+interface Props {
+  id: string;
+  name?: string;
+  label?: string;
+  value?: number;
+  min?: number;
+  max?: number;
+  disabled?: boolean;
+}
+const {
+  id,
+  name = 'quantity',
+  label = 'Cantidad',
+  min = 1,
+  max = 99,
+  value = min,
+  disabled = false,
+} = Astro.props;
+if (
+  !Number.isSafeInteger(min) ||
+  !Number.isSafeInteger(max) ||
+  min < 1 ||
+  max < min
+)
+  throw new Error('Quantity bounds must be positive integers with max >= min.');
+const initial = Math.max(
+  min,
+  Math.min(max, Number.isFinite(value) ? Math.trunc(value) : min),
+);
+---
+
+<div class="space-y-space-sm" role="group" aria-label={label} data-quantity>
+  <label for={id} class="block font-medium">
+    {label}
+  </label>
+  <div class="inline-flex items-center border border-outline bg-surface-container-lowest">
+    <button
+      type="button"
+      aria-label="Reducir cantidad"
+      data-decrease
+      disabled={disabled || initial <= min}
+      class="quantity-button"
+    >
+      <Icon name="minus" />
+    </button>
+    <input
+      id={id}
+      name={name}
+      type="number"
+      inputmode="numeric"
+      min={min}
+      max={max}
+      step="1"
+      value={initial}
+      disabled={disabled}
+      required
+      class="quantity-input"
+    />
+    <button
+      type="button"
+      aria-label="Aumentar cantidad"
+      data-increase
+      disabled={disabled || initial >= max}
+      class="quantity-button"
+    >
+      <Icon name="plus" />
+    </button>
+  </div>
+</div>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>('[data-quantity]')
+    .forEach((control) => {
+      const input = control.querySelector('input');
+      const decrease =
+        control.querySelector<HTMLButtonElement>('[data-decrease]');
+      const increase =
+        control.querySelector<HTMLButtonElement>('[data-increase]');
+      if (!input || !decrease || !increase) return;
+      const commit = (value: number) => {
+        const min = Number(input.min),
+          max = Number(input.max);
+        const next = Math.max(
+          min,
+          Math.min(max, Number.isFinite(value) ? Math.trunc(value) : min),
+        );
+        input.value = String(next);
+        decrease.disabled = input.disabled || next <= min;
+        increase.disabled = input.disabled || next >= max;
+        control.dispatchEvent(
+          new CustomEvent('quantity-change', {
+            bubbles: true,
+            detail: { quantity: next },
+          }),
+        );
+      };
+      decrease.addEventListener('click', () => commit(input.valueAsNumber - 1));
+      increase.addEventListener('click', () => commit(input.valueAsNumber + 1));
+      input.addEventListener('change', () => commit(input.valueAsNumber));
+    });
+</script>

@@ -25,9 +25,11 @@ test('controls expose labels, errors, keyboard state and touch targets', async (
   ).toHaveAccessibleDescription('Escribe tu nombre para continuar.');
   await page.getByLabel('Activar opción de ejemplo').check();
   await expect(page.getByLabel('Activar opción de ejemplo')).toBeChecked();
-  await page.getByRole('radio', { name: '30 ml' }).focus();
+  await page.getByRole('radio', { name: '30 ml', exact: true }).focus();
   await page.keyboard.press('ArrowRight');
-  await expect(page.getByRole('radio', { name: '60 ml' })).toBeChecked();
+  await expect(
+    page.getByRole('radio', { name: '60 ml', exact: true }),
+  ).toBeChecked();
   for (const element of [action, chip, page.getByLabel('Correo electrónico')]) {
     const bounds = await element.boundingBox();
     expect(bounds?.height).toBeGreaterThanOrEqual(44);

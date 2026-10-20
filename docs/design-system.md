@@ -52,3 +52,27 @@ descriptions, loading/disabled semantics and touch heights were checked in
 Chromium. Six normal-text token pairs passed 4.5:1 contrast (primary CTA 6.73:1,
 body 16.27:1, secondary 8.88:1, error 6.16:1, accent badge 13.27:1, error badge
 7.24:1). Screen-reader/real-device review remains in S32.
+
+## S08: product molecules
+
+Price, ProductCard, Breadcrumbs, QuantityControl and VariantSelector live under
+`components/molecules/`. The preview includes long names, missing images/notes,
+zero-price display, different presentations and sold-out states. The displayed
+prices and product names are explicitly fictional development content.
+
+Prices accept **whole COP pesos** as non-negative safe integers (`amountCop`);
+`formatCop` applies `es-CO` formatting with an explicit COP currency code. Future
+adapters must convert provider monetary units explicitly. These UI props are not
+the S10 commerce contract or authoritative stock/price validation.
+
+VariantSelector uses native radio groups, disables unavailable presentations,
+announces the selected price and emits bubbling `variant-change` with variant ID,
+COP amount and availability. QuantityControl clamps committed input to integer
+bounds, disables limit buttons and emits `quantity-change`. Empty/nonfinite input
+returns to the minimum. Both controls remain usable as native inputs without JS;
+client events are integration points for S14/S16 rather than an implemented cart.
+
+S08 checkpoint: full verification passed; all 3 browser tests passed. Browser
+coverage includes price changes (30/60ml), unavailable/all-unavailable choices,
+quantity limits, empty/fractional input, breadcrumb current-page semantics and
+responsive long-title cards without horizontal overflow at four viewport widths.
