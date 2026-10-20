@@ -1,0 +1,23 @@
+---
+import ProductCard from '../molecules/ProductCard.astro';
+import type { Product } from '../../lib/commerce/models';
+import { lowestPrice } from '../../lib/commerce/mock';
+interface Props {
+  product: Product;
+  linked?: boolean;
+}
+const { product, linked = false } = Astro.props;
+const available = product.variants.some((v) => v.availability === 'available');
+const unknown = product.variants.some((v) => v.availability === 'unknown');
+---
+
+<ProductCard
+  name={product.name}
+  href={linked ? `/perfumes/${product.slug}` : undefined}
+  amountCop={lowestPrice(product)}
+  from={product.variants.length > 1}
+  notes={`${product.category} · ${product.family}`}
+  image={product.images[0]}
+  available={available}
+  unavailableLabel={unknown ? 'Disponibilidad por confirmar' : 'Agotado'}
+/>

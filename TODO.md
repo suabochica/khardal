@@ -89,7 +89,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: focused tests verify money handling, variant identity, pagination, and unavailable-data behavior; fixture data is clearly development-only.
   - Commit: `feat: Define commerce models and mock catalog`
 
-- [ ] **S11 — Build the homepage**
+- [x] **S11 — Build the homepage**
   - Deliver: editorial hero, collection links, featured products, verified service information, brand introduction, and FAQ/contact access.
   - Checkpoint: compare mobile/desktop hierarchy with references; use one clear primary CTA and working links.
   - Commit: `feat: Build the Spanish storefront homepage`
@@ -245,5 +245,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S09 | [Shared layout and navigation](docs/design-system.md): responsive header/footer, skip link, modal drawers and native accordions. `pnpm verify` passed with zero diagnostics; all 7 Chromium tests passed including focus trapping/return, dismissal, scroll lock, desktop resize, accordions and WhatsApp. Axe scans: no WCAG A/AA violations in mobile preview/open menu. Reviewed mobile/desktop screenshots; narrow cards use one column. `git diff --check` passed. | `git log --all --grep='Step: S09'` |
 
 | S10 | [Shared contract and mock catalog](docs/commerce.md): 12 labeled sample products, 36 stable variants/SKUs, curated Top 10, integer COP and authoritative mock validation. `pnpm verify` passed: 4 commerce tests, 4 config tests, 2 runtime tests and zero diagnostics. Pagination, money/overflow, identities, optional/unavailable data and combined filtering checked; `git diff --check` passed. | `git log --all --grep='Step: S10'` |
+
+| S11 | [Editorial homepage](docs/commerce.md): server-driven selection, sample/noindex notice, hero, collections, service steps, brand introduction, FAQs and WhatsApp. `pnpm verify` and 8 browser tests passed; zero type diagnostics. Reviewed mobile/desktop screenshots against references; verified anchors, reserved hero image and four-width overflow checks. Real-provider unavailable views return 503; `git diff --check` passed. | `git log --all --grep='Step: S11'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

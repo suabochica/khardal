@@ -5,8 +5,9 @@ import Footer from '../components/organisms/Footer.astro';
 interface Props {
   title: string;
   description: string;
+  sample?: boolean;
 }
-const { title, description } = Astro.props;
+const { title, description, sample = false } = Astro.props;
 // Expand these links as real routes arrive in S11–S15, rather than linking to 404s.
 const links = [
   { label: 'Inicio', href: '/' },
@@ -14,12 +15,18 @@ const links = [
 ];
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} noindex={sample}>
   <a href="#contenido" class="skip-link">
     Saltar al contenido
   </a>
   <Header links={links} />
   <main id="contenido" tabindex="-1">
+    {sample && (
+      <p class="bg-secondary-container px-space-md py-space-sm text-center text-sm text-on-surface">
+        Catálogo de demostración. Productos, precios e ilustraciones de muestra;
+        no disponibles para pedidos reales.
+      </p>
+    )}
     <slot />
   </main>
   <Footer />

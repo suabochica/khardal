@@ -40,3 +40,25 @@ Checkpoint: `pnpm verify` passed (4 commerce domain tests, 4 config tests,
 2 runtime tests, zero type diagnostics, formatting/lint/build). Domain tests cover
 money conversion/overflow, unique variant/SKU identity, pagination and curation,
 accented search and combined filters, isolated responses and unavailable data.
+
+## S11 — editorial homepage
+
+The homepage fetches its curated selection through the server adapter at request
+time (`no-store`), with a recoverable 503 view if the provider is unavailable.
+It uses a split editorial hero, one primary discovery CTA, three service steps,
+featured cards, collection introductions, a brand introduction and native FAQs.
+At this checkpoint discovery links are real in-page anchors; S12 connects the
+catalog/collection routes and S14 adds product links when detail routes exist.
+The copy makes no manufacturing, payment-security, review or shipping promises.
+
+Mock pages display a prominent sample notice and force noindex even in a
+production deployment. The synthetic images have explicit illustration captions.
+The hero reserves image space, prioritizes its image and uses the licensed fonts.
+Production now renders the homepage dynamically: configured but unimplemented
+real providers return 503 without leaking configuration or substituting samples.
+
+Checkpoint: full `pnpm verify` and 8 browser tests passed. Homepage checks cover
+one h1, working discovery/collection anchors, image priority and no horizontal
+overflow at 320/390/768/1440px. Reviewed 390px and 1440px screenshots against the
+home references: stacked mobile / split desktop hero, tonal sections, generous
+spacing and three editorial cards. Final photography/content remains S28/S29.

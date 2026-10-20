@@ -44,7 +44,7 @@ async function withServer(settings, check) {
         const response = await fetch(`${base}/`, {
           signal: AbortSignal.timeout(1000),
         });
-        assert.equal(response.status, 200);
+        assert.equal(response.status, settings.COMMERCE_PROVIDER ? 503 : 200);
         const html = await response.text();
         assert.match(html, /lang="es-CO"/);
         if (process.env.DEPLOYMENT_ENV !== 'production') {

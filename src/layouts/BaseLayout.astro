@@ -7,9 +7,10 @@ import bodyFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.w
 interface Props {
   title: string;
   description: string;
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -32,7 +33,7 @@ const { title, description } = Astro.props;
       crossorigin
     />
     <meta name="description" content={description} />
-    {DEPLOYMENT_ENV !== 'production' && (
+    {(noindex || DEPLOYMENT_ENV !== 'production') && (
       <meta name="robots" content="noindex, nofollow" />
     )}
     <title>{title}</title>
