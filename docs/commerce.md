@@ -111,3 +111,31 @@ Checkpoint: `pnpm verify` passed (5 domain tests, zero diagnostics) and all 14
 browser tests passed. Covered query bounds, accents, combinations, sorting,
 pagination reset/preservation, reload/back, empty results, mobile drawer scope,
 malformed ranges and mobile filtering with JavaScript disabled.
+
+## S14 — product details and selection integration
+
+`/perfumes/[slug]` renders the adapter product, gallery, description, selected
+price/SKU/stock, quantity, optional notes, confirmation/policy summaries and
+same-family related products (excluding itself). Cards now link to these routes.
+Missing products return 404; provider failures return a recoverable 503. All
+catalog/detail responses remain no-store. Gallery links work as full-image links
+without JavaScript; with JavaScript they replace the main image and its alt text.
+
+Available variants update price/SKU and quantity bounds immediately. Unknown and
+sold-out variants cannot be selected; fully unavailable products disable review.
+Unknown stock quantity is labeled for confirmation rather than presented as
+invented inventory. Native GET review also works without JavaScript.
+
+The functional **Revisar selección** action previews the selection and dispatches
+a bubbling `cart:add-request` event with provider/product/variant identity, SKU,
+quantity and display amount. This is S16's add-to-cart integration point; at this
+checkpoint it deliberately claims neither cart persistence nor an accepted order.
+S16 will connect persistence and the real add CTA; S18 must revalidate all client
+data. No order handoff is implemented by this review action.
+
+Checkpoint: `pnpm verify` and all 17 browser tests passed (zero diagnostics).
+Covered changing prices/SKUs, sold-out sizes/products, quantity clamping on variant
+change, integration payload, gallery selection, absent notes/images, unknown
+availability, real 404 and native no-JavaScript review. Long-title detail layouts
+fit 320/390/768/1440px. Reviewed 390/1440px catalog/detail screenshots against the
+four listing/detail references; shared home screenshots were reviewed in S11.

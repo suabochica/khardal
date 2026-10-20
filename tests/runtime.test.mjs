@@ -104,6 +104,11 @@ test('production renders dynamic uncached responses with runtime-only provider c
       if (!settings.COMMERCE_PROVIDER) {
         assert.equal((await fetch(`${base}/colecciones/missing`)).status, 404);
         assert.equal((await fetch(`${base}/tienda?page=invalid`)).status, 400);
+        assert.equal((await fetch(`${base}/perfumes/missing`)).status, 404);
+        assert.equal(
+          (await fetch(`${base}/perfumes/brisa-bergamota`)).status,
+          200,
+        );
       }
     });
   }

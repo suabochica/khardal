@@ -104,7 +104,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: reload/back navigation preserves state; combinations, no results, and pagination resets are correct.
   - Commit: `feat: Add catalog search and filtering`
 
-- [ ] **S14 — Build product detail pages**
+- [x] **S14 — Build product detail pages**
   - Deliver: `/perfumes/[slug]`, gallery, description, variant-specific price/stock, quantity, add-to-cart integration point, optional notes, policy summaries, and related products.
   - Checkpoint: each variant updates price/availability correctly; missing products return 404; optional content is omitted cleanly; responsive gallery works.
   - Commit: `feat: Add perfume detail pages`
@@ -251,5 +251,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S12 | [Catalog and collections](docs/commerce.md): shared SSR listing, native pagination, loading/empty/error views, real navigation links and distinct unknown/sold-out states. `pnpm verify` and all 11 browser tests passed, zero diagnostics. Actual 404/400/503 and no-store checked in production; collection membership, optional data, pending status and four viewport widths checked; `git diff --check` passed. | `git log --all --grep='Step: S12'` |
 
 | S13 | [URL search/filter semantics](docs/commerce.md): `/buscar`, adapter facets, category/family/inclusive COP range, stable sorting and mobile drawer with no-JS fallback. `pnpm verify` and all 14 browser tests passed, zero diagnostics. Checked bounded/duplicate queries, combinations, empty results, reload/back, pagination reset/preservation and mobile no-JS filtering; `git diff --check` passed. | `git log --all --grep='Step: S13'` |
+
+| S14 | [Perfume details and selection event](docs/commerce.md): gallery, live variant prices/SKUs/stock, bounded quantity, optional notes, related cards and policy summaries. `pnpm verify` and 17 browser tests passed, zero diagnostics. Checked missing products (404), unavailable variants/products, gallery, cart-integration payload, no-JS review and long names at four widths. Reviewed mobile/desktop catalog/detail screenshots against references; `git diff --check` passed. | `git log --all --grep='Step: S14'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

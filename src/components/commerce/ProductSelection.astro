@@ -1,0 +1,142 @@
+---
+import VariantSelector from '../molecules/VariantSelector.astro';
+import QuantityControl from '../molecules/QuantityControl.astro';
+import { formatCop } from '../../lib/formatting/price';
+import type { Product } from '../../lib/commerce/models';
+interface Props {
+  product: Product;
+  provider: string;
+}
+const { product, provider } = Astro.props;
+const requested = product.variants.find(
+  (v) =>
+    v.id === Astro.url.searchParams.get('variante') &&
+    v.availability === 'available',
+);
+const selected =
+  requested ?? product.variants.find((v) => v.availability === 'available');
+const quantity = Math.max(
+  1,
+  Math.min(
+    selected?.stockQuantity ?? 99,
+    99,
+    Math.trunc(Number(Astro.url.searchParams.get('quantity'))) || 1,
+  ),
+);
+const status = selected
+  ? `Disponible${product.sample ? ' en muestra' : ''} · ${selected.stockQuantity === null ? 'Cantidad por confirmar' : `${selected.stockQuantity} unidades`}`
+  : product.variants.some((v) => v.availability === 'unknown')
+    ? 'Disponibilidad por confirmar'
+    : 'Agotado';
+---
+
+<form
+  data-product-selection
+  data-provider={provider}
+  data-sample={product.sample ? 'true' : 'false'}
+  data-product-id={product.id}
+  data-product-name={product.name}
+  method="get"
+  action={Astro.url.pathname}
+  class="space-y-space-lg"
+>
+  <div class="bg-surface-container p-space-lg">
+    <p data-selected-price class="text-2xl font-medium">
+      {formatCop((selected ?? product.variants[0])!.price.amount)}
+    </p>
+    <p data-stock-status class="type-caption mt-space-sm">
+      {status}
+    </p>
+    <p class="type-caption mt-space-sm">
+      SKU:{' '}
+      <span data-selected-sku>{(selected ?? product.variants[0])?.sku}</span>
+    </p>
+  </div>
+  <VariantSelector
+    id="variante"
+    selectedId={selected?.id}
+    variants={product.variants.map((v) => ({
+      id: v.id,
+      label: v.label,
+      amountCop: v.price.amount,
+      available: v.availability === 'available',
+      stockQuantity: v.stockQuantity,
+      sku: v.sku,
+      unavailableLabel:
+        v.availability === 'unknown' ? 'Por confirmar' : 'Agotado',
+    }))}
+  />
+  <QuantityControl
+    id="product-quantity"
+    value={quantity}
+    max={Math.max(1, Math.min(99, selected?.stockQuantity ?? 99))}
+    disabled={!selected}
+  />
+  <button
+    class="action action-primary w-full"
+    type="submit"
+    disabled={!selected}
+  >
+    Revisar selección
+  </button>
+  <p class="type-caption">
+    Vista previa de selección. El carrito se conectará en la siguiente etapa.
+    Esta acción no guarda un carrito ni reserva inventario.
+  </p>
+  <p role="status" data-selection-summary>
+    {requested
+      ? `Selección preparada: ${product.name} · ${requested.label} × ${quantity}. No se ha creado un pedido.`
+      : ''}
+  </p>
+</form>
+<script>
+  document
+    .querySelectorAll<HTMLFormElement>('[data-product-selection]')
+    .forEach((form) => {
+      const selected = () =>
+        form.querySelector<HTMLInputElement>('input[type="radio"]:checked');
+      const quantity = form.querySelector<HTMLInputElement>(
+        '[data-quantity] input',
+      );
+      const summary = form.querySelector('[data-selection-summary]');
+      const clearSummary = () => {
+        if (summary) summary.textContent = '';
+      };
+      form.addEventListener('variant-change', () => {
+        const radio = selected();
+        if (!radio || !quantity) return;
+        quantity.max = String(
+          Math.max(1, Math.min(99, Number(radio.dataset.stock))),
+        );
+        quantity.dispatchEvent(new Event('change', { bubbles: true }));
+        const price = form.querySelector('[data-selected-price]'),
+          stock = form.querySelector('[data-stock-status]'),
+          sku = form.querySelector('[data-selected-sku]');
+        if (price) price.textContent = radio.dataset.price ?? '';
+        if (stock)
+          stock.textContent = `Disponible${form.dataset.sample === 'true' ? ' en muestra' : ''} · ${radio.dataset.stockKnown === 'true' ? `${radio.dataset.stock} unidades` : 'Cantidad por confirmar'}`;
+        if (sku) sku.textContent = radio.dataset.sku ?? '';
+        clearSummary();
+      });
+      form.addEventListener('quantity-change', clearSummary);
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const radio = selected();
+        if (!radio || !quantity || !form.reportValidity()) return;
+        const detail = {
+          provider: form.dataset.provider,
+          productId: form.dataset.productId,
+          variantId: radio.value,
+          sku: radio.dataset.sku,
+          quantity: quantity.valueAsNumber,
+          amountCop: Number(radio.dataset.amount),
+        };
+        // S16 consumes this request; prices remain non-authoritative until S18 validation.
+        form.dispatchEvent(
+          new CustomEvent('cart:add-request', { bubbles: true, detail }),
+        );
+        if (summary)
+          summary.textContent = `Selección preparada: ${form.dataset.productName} · ${radio.dataset.label} × ${detail.quantity}. No se ha creado un pedido.`;
+      });
+    });
+</script>

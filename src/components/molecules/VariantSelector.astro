@@ -10,6 +10,9 @@ interface Props {
     label: string;
     amountCop: number;
     available: boolean;
+    stockQuantity?: number | null;
+    sku?: string;
+    unavailableLabel?: string;
   }[];
 }
 const {
@@ -38,6 +41,9 @@ const selected =
           data-label={variant.label}
           data-amount={variant.amountCop}
           data-price={formatCop(variant.amountCop)}
+          data-stock={variant.stockQuantity ?? 99}
+          data-stock-known={variant.stockQuantity != null ? 'true' : 'false'}
+          data-sku={variant.sku}
           class="choice-control"
         />
         <span class="min-w-0">
@@ -45,7 +51,11 @@ const selected =
           <span class="block text-sm">
             <Price amountCop={variant.amountCop} />
           </span>
-          {!variant.available && <span class="block text-sm">Agotado</span>}
+          {!variant.available && (
+            <span class="block text-sm">
+              {variant.unavailableLabel ?? 'Agotado'}
+            </span>
+          )}
         </span>
       </label>
     ))}

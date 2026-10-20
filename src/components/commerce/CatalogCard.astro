@@ -6,7 +6,7 @@ interface Props {
   product: Product;
   linked?: boolean;
 }
-const { product, linked = false } = Astro.props;
+const { product, linked = true } = Astro.props;
 const available = product.variants.some((v) => v.availability === 'available');
 const unknown = product.variants.some((v) => v.availability === 'unknown');
 ---

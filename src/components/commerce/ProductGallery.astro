@@ -1,0 +1,92 @@
+---
+import type { CatalogImage } from '../../lib/commerce/models';
+interface Props {
+  images: CatalogImage[];
+}
+const { images } = Astro.props;
+const first = images[0];
+---
+
+<section
+  aria-label="Galería del perfume"
+  data-gallery
+  class="min-w-0 space-y-space-md"
+>
+  {first ? (
+    <>
+      <img
+        data-gallery-main
+        src={first.src}
+        alt={first.alt}
+        width={first.width}
+        height={first.height}
+        fetchpriority="high"
+        class="aspect-[4/5] max-h-[42rem] w-full bg-surface-container object-contain"
+      />
+      {images.length > 1 && (
+        <nav
+          aria-label="Imágenes del perfume"
+          class="flex gap-space-sm overflow-x-auto"
+        >
+          {images.map((image, i) => (
+            <a
+              class="block min-w-20 border border-outline-variant p-space-xs focus-visible:outline-primary"
+              href={image.src}
+              data-gallery-choice
+              data-alt={image.alt}
+              aria-label={`Ver imagen ${i + 1}`}
+              aria-current={i === 0 ? 'true' : undefined}
+            >
+              <img
+                src={image.src}
+                alt=""
+                width="96"
+                height="120"
+                loading="lazy"
+                class="h-24 w-20 object-cover"
+              />
+            </a>
+          ))}
+        </nav>
+      )}
+      <p class="type-caption" data-gallery-caption>
+        {first.alt}
+      </p>
+    </>
+  ) : (
+    <p class="flex aspect-[4/5] items-center justify-center bg-surface-container p-space-lg">
+      Imagen no disponible
+    </p>
+  )}
+</section>
+<script>
+  document
+    .querySelectorAll<HTMLElement>('[data-gallery]')
+    .forEach((gallery) => {
+      const main = gallery.querySelector<HTMLImageElement>(
+        '[data-gallery-main]',
+      );
+      const choices = gallery.querySelectorAll<HTMLAnchorElement>(
+        '[data-gallery-choice]',
+      );
+      choices.forEach((choice) =>
+        choice.addEventListener('click', (event) => {
+          if (
+            !main ||
+            event.ctrlKey ||
+            event.metaKey ||
+            event.shiftKey ||
+            event.altKey
+          )
+            return;
+          event.preventDefault();
+          main.src = choice.href;
+          main.alt = choice.dataset.alt ?? '';
+          const caption = gallery.querySelector('[data-gallery-caption]');
+          if (caption) caption.textContent = main.alt;
+          choices.forEach((other) => other.removeAttribute('aria-current'));
+          choice.setAttribute('aria-current', 'true');
+        }),
+      );
+    });
+</script>

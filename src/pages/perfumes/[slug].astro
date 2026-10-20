@@ -1,0 +1,133 @@
+---
+import StoreLayout from '../../layouts/StoreLayout.astro';
+import CatalogError from '../../components/commerce/CatalogError.astro';
+import CatalogCard from '../../components/commerce/CatalogCard.astro';
+import ProductGallery from '../../components/commerce/ProductGallery.astro';
+import ProductSelection from '../../components/commerce/ProductSelection.astro';
+import Breadcrumbs from '../../components/molecules/Breadcrumbs.astro';
+import Accordion from '../../components/molecules/Accordion.astro';
+import { getCommerce } from '../../lib/commerce/provider.server';
+let data;
+let missing = false;
+try {
+  const commerce = await getCommerce();
+  const product = await commerce.getProduct(Astro.params.slug ?? '');
+  if (!product) {
+    missing = true;
+    Astro.response.status = 404;
+  } else {
+    const related = await commerce.listProducts({
+      family: product.family,
+      pageSize: 4,
+    });
+    data = {
+      product,
+      provider: commerce.provider,
+      related: related.items.filter((p) => p.id !== product.id).slice(0, 3),
+    };
+  }
+} catch {
+  Astro.response.status = 503;
+}
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+
+<StoreLayout
+  title={`${data?.product.name ?? 'Perfume no disponible'} | Khardal Perfumería`}
+  description={
+    data?.product.description ?? 'Explora perfumes en Khardal Perfumería.'
+  }
+  sample={data?.product.sample}
+>
+  {data ? (
+    <div class="page-container section-space space-y-space-xl">
+      <Breadcrumbs
+        items={[
+          { label: 'Inicio', href: '/' },
+          { label: 'Tienda', href: '/tienda' },
+          { label: data.product.name },
+        ]}
+      />
+      <div class="grid gap-space-xl lg:grid-cols-2">
+        <ProductGallery images={data.product.images} />
+        <section
+          class="min-w-0 space-y-space-lg"
+          aria-label="Detalles del perfume"
+        >
+          <p class="type-label text-primary">
+            {data.product.category} · {data.product.family}
+          </p>
+          <h1 class="type-display">{data.product.name}</h1>
+          <p>{data.product.description}</p>
+          <ProductSelection product={data.product} provider={data.provider} />
+          <Accordion title="Envío, pago y confirmación">
+            <p>
+              Envío por confirmar según el destino. El equipo confirma la
+              disponibilidad, el valor final y la forma de pago por WhatsApp
+              antes de aceptar el pedido. Una selección no reserva inventario.
+            </p>
+          </Accordion>
+          <Accordion title="Cambios y devoluciones">
+            <p>
+              La política definitiva está pendiente de aprobación y publicación.
+              Consulta las condiciones aplicables con nuestro equipo antes de
+              solicitar un pedido.
+            </p>
+          </Accordion>
+          <a class="action action-text" href="https://wa.me/573108570230">
+            Consultar con el equipo
+          </a>
+        </section>
+      </div>
+      {data.product.notes && (
+        <section
+          aria-label="Notas olfativas"
+          class="bg-surface-container-low p-space-xl space-y-space-lg"
+        >
+          <div>
+            <p class="type-label text-primary">El perfil de muestra</p>
+            <h2 class="type-headline mt-space-sm">
+              Un recorrido por sus notas
+            </h2>
+          </div>
+          <div class="grid gap-space-lg md:grid-cols-3">
+            {[
+              { label: 'Salida', notes: data.product.notes.top },
+              { label: 'Corazón', notes: data.product.notes.heart },
+              { label: 'Fondo', notes: data.product.notes.base },
+            ]
+              .filter((group) => group.notes.length)
+              .map((group) => (
+                <article class="border-t border-outline pt-space-md">
+                  <h3 class="type-title">{group.label}</h3>
+                  <p class="mt-space-sm">{group.notes.join(' · ')}</p>
+                </article>
+              ))}
+          </div>
+        </section>
+      )}
+      {data.related.length > 0 && (
+        <section class="space-y-space-lg">
+          <h2 class="type-headline">De la misma familia olfativa</h2>
+          <div class="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-3">
+            {data.related.map((product) => (
+              <CatalogCard product={product} />
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  ) : missing ? (
+    <section class="page-container section-space space-y-space-lg">
+      <h1 class="type-headline">Perfume no encontrado</h1>
+      <p>
+        Este perfume no está disponible. Explora otras opciones en la tienda.
+      </p>
+      <a class="action action-secondary" href="/tienda">
+        Ver perfumes
+      </a>
+    </section>
+  ) : (
+    <CatalogError />
+  )}
+</StoreLayout>
