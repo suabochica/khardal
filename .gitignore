@@ -1,0 +1,11 @@
+# Dependencies and generated output
+node_modules/
+dist/
+.astro/
+
+# Local environment and tooling
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
