@@ -44,7 +44,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: clean dependency installation, type check, and production build; root page renders with `lang="es-CO"`.
   - Commit: `build: Bootstrap the Astro application`
 
-- [ ] **S04 — Configure runtime and environments**
+- [x] **S04 — Configure runtime and environments**
   - Deliver: validated provider configuration, credential-free `.env.example`, ignored local secrets, suitable Astro runtime adapter, and documented rendering/cache strategy.
   - Checkpoint: missing required provider configuration fails clearly; private credentials stay server-side; server rendering runs locally. Hosting remains provisional until a deployment smoke test.
   - Commit: `build: Configure runtime and environments`
@@ -232,5 +232,6 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S01 | Reviewed against prompt, design files/screens, and approved brand, mock-backend strategy, WhatsApp routing, manual orders, and design adjustments. Whitespace validation performed before commit. | `git log --all --grep='Step: S01'` |
 | S02 | [Content/source map, asset review, missing-input register and CSV templates](docs/content-inventory.md). Reviewed seven public pages plus terms URL (404); social conflicts remain pending owner confirmation. CSV checkpoint passed: 46 rows, consistent columns, unique old paths, 18 observed product links. `git diff --check` passed. | `git log --all --grep='Step: S02'` |
 | S03 | Astro 7.4.1, strict TypeScript 6.0.3 (compatible with the checker's peer range), pnpm 12.14.0, shared Spanish layout and [setup README](README.md). Fresh `pnpm install` and `pnpm install --frozen-lockfile --force` passed on Node 25.9.0; `pnpm check`: zero errors/warnings/hints; `pnpm build`: one static page. Production preview HTTP smoke check passed: 200, HTML, `es-CO`, brand title, one h1, Spanish copy, zero scripts. Generated output/local env ignore checks and `git diff --check` passed. | `git log --all --grep='Step: S03'` |
+| S04 | [Runtime/env decision and cache policy](docs/runtime-and-environments.md); Node standalone, prerendered home, dynamic no-store health endpoint, server-only provider configuration and credential-free `.env.example`. Frozen install, 4 config tests, type check (zero diagnostics), production build and 2 runtime tests passed. Same build exercised all three providers with runtime-only dummy credentials; missing-token failure verified. Build-time secret sentinel absent from all 18 output files; local env files ignored. `git diff --check` passed. Hosting remains provisional pending deployment smoke test; no backend connectivity claimed. | `git log --all --grep='Step: S04'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

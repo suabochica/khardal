@@ -34,6 +34,9 @@ base inicial. La página de inicio es temporal; aún no contiene catálogo ni ca
 | `pnpm check` | Sincronización de tipos de Astro y comprobación de TypeScript/plantillas |
 | `pnpm build` | Genera la compilación de producción en `dist/` |
 | `pnpm preview` | Sirve localmente la compilación existente para revisión |
+| `pnpm start` | Ejecuta el servidor Node compilado; carga `.env` si existe |
+| `pnpm test:config` | Comprueba la validación de configuración de comercio |
+| `pnpm test:runtime` | Verifica el servidor compilado; requiere `pnpm build` previo |
 | `pnpm astro --help` | Ayuda de la CLI de Astro |
 
 Antes de registrar cambios de aplicación:
@@ -44,9 +47,24 @@ pnpm build
 git diff --check
 ```
 
-La configuración inicial genera páginas estáticas. S04 incorporará la estrategia
-de ejecución, variables de entorno y adaptador para las rutas dinámicas.
+La aplicación usa el adaptador Node standalone. La página de inicio se genera
+estáticamente y `/api/health` se ejecuta en el servidor con `Cache-Control: no-store`.
+Sin variables de entorno se selecciona `mock`. Para configurar un proveedor,
+copia el contenido de `.env.example` en `.env` y consulta la
+[guía de runtime y entornos](docs/runtime-and-environments.md).
+No se requieren credenciales reales para desarrollar con `mock`.
 Tailwind y los tokens visuales se incorporarán en S06.
+
+Para comprobar la compilación de producción:
+
+```sh
+pnpm build
+HOST=127.0.0.1 PORT=4321 pnpm start
+```
+
+Si `pnpm dev` indica que ya existe un servidor, abre la URL indicada. Puedes
+consultarlo con `pnpm astro dev status`, ver los logs con `pnpm astro dev logs`
+y detenerlo con `pnpm astro dev stop` antes de usar el mismo puerto.
 
 ## Estructura inicial
 

@@ -12,13 +12,18 @@
     "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
+    "start": "node --env-file-if-exists=.env dist/server/entry.mjs",
+    "test:config": "node --experimental-strip-types --test tests/commerce-config.test.ts",
+    "test:runtime": "node --test tests/runtime.test.mjs",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "11.1.9",
     "astro": "7.4.1"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.11",
+    "@types/node": "^22.20.5",
     "typescript": "6.0.3"
   }
 }
