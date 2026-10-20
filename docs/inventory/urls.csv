@@ -1,0 +1,39 @@
+status,old_path,proposed_path,source,notes
+proposed,/,/,https://khardal.co/,Keep homepage path
+proposed,/collections/all,/tienda,https://khardal.co/products/khamrah,Observed breadcrumb; destination not implemented
+proposed,/collections/hombres,/colecciones/hombres,https://khardal.co/,Observed footer link
+proposed,/collections/mujeres,/colecciones/mujeres,https://khardal.co/,Observed footer link
+proposed,/collections/arabes,/colecciones/arabes,https://khardal.co/,Observed footer link
+proposed,/collections/unisex,/colecciones/unisex,https://khardal.co/,Observed category link
+proposed,/collections/top-10,/colecciones/top-10,https://khardal.co/,Observed category link
+proposed,/collections/hombres/Hombres,/colecciones/hombres,https://khardal.co/,Observed tagged navigation path; verify equivalent membership
+proposed,/collections/mujeres/Mujeres,/colecciones/mujeres,https://khardal.co/,Observed tagged navigation path; verify equivalent membership
+proposed,/collections/arabes/Arabes,/colecciones/arabes,https://khardal.co/,Observed tagged navigation path; verify equivalent membership
+proposed,/collections/unisex/Unisex,/colecciones/unisex,https://khardal.co/,Observed tagged navigation path; verify equivalent membership
+proposed,/collections/top-10/Top-10,/colecciones/top-10,https://khardal.co/,Observed tagged navigation path; verify equivalent membership
+proposed,/products/godina,/perfumes/godina,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/jamex-unisex,/perfumes/jamex-unisex,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/kalan,/perfumes/kalan,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/khamrah,/perfumes/khamrah,https://khardal.co/products/khamrah,Detail reviewed; product approval pending
+proposed,/products/absoluto,/perfumes/absoluto,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/adictive-vibe,/perfumes/adictive-vibe,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/adrea,/perfumes/adrea,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/afrodisio,/perfumes/afrodisio,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/a-tiempo,/perfumes/a-tiempo,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/adivina,/perfumes/adivina,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/adorable,/perfumes/adorable,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/amatista,/perfumes/amatista,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/la-amatis,/perfumes/la-amatis,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/layton-exclusif,/perfumes/layton-exclusif,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/aperlada,/perfumes/aperlada,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/arabia,/perfumes/arabia,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/aventura,/perfumes/aventura,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/products/bhara,/perfumes/bhara,https://khardal.co/,Observed homepage link; detail not reviewed
+proposed,/pages/nosotros,/nosotros,https://khardal.co/pages/nosotros,Includes legacy team and stores links
+proposed,/pages/contact,/contacto,https://khardal.co/pages/contact,Includes legacy PQR link; contact workflow to confirm
+proposed,/policies/shipping-policy,/politicas/envios,https://khardal.co/policies/shipping-policy,Content reconciliation pending I08
+proposed,/policies/refund-policy,/politicas/devoluciones,https://khardal.co/policies/refund-policy,Content reconciliation pending I09
+proposed,/policies/privacy-policy,/politicas/privacidad,https://khardal.co/policies/privacy-policy,Content reconciliation pending I10
+missing_source,/policies/terms-of-service,/politicas/terminos,https://khardal.co/policies/terms-of-service,Returned 404; candidate old path not observed in navigation; terms missing I11
+proposed,/cart,/carrito,https://khardal.co/,Do not imply an old Shopify cart session will migrate
+discovery_pending,/search,/buscar,planned_search,Legacy search action not verified; confirm query translation in S30

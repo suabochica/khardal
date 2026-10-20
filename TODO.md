@@ -34,7 +34,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: compare with `PROMPT.md`, the design references, and the user's five approved decisions; review `git diff --check`.
   - Commit: `docs: Record the implementation checklist`
 
-- [ ] **S02 — Inventory content and migration inputs**
+- [x] **S02 — Inventory content and migration inputs**
   - Deliver: product/collection/URL inventory template, policy and contact source map, asset inventory, and outstanding business facts. Confirm current social accounts; the prompt and existing site differ.
   - Checkpoint: every required content type has a source or an explicit missing-input entry; sample data is labeled.
   - Commit: `docs: Inventory content and migration inputs`
@@ -230,5 +230,6 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | Step | Checkpoint evidence | Commit lookup / status |
 | --- | --- | --- |
 | S01 | Reviewed against prompt, design files/screens, and approved brand, mock-backend strategy, WhatsApp routing, manual orders, and design adjustments. Whitespace validation performed before commit. | `git log --all --grep='Step: S01'` |
+| S02 | [Content/source map, asset review, missing-input register and CSV templates](docs/content-inventory.md). Reviewed seven public pages plus terms URL (404); social conflicts remain pending owner confirmation. CSV checkpoint passed: 46 rows, consistent columns, unique old paths, 18 observed product links. `git diff --check` passed. | `git log --all --grep='Step: S02'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.
