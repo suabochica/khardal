@@ -51,6 +51,12 @@ Pairing Astro.js with Shopify creates a headless e-commerce architecture. Shopif
 • Design Freedom: You bypass restrictive Shopify themes and build custom user experiences with complete control over code and styling.
 • SEO Performance: Static HTML generation and clean routing improve search engine indexing compared to heavy client-side JavaScript apps.
 
+Independently of the base e-commerce platform let's keep the next tech stack:
+
+- `TypeScript` as programming language for AstroJS
+- `Tailwind` to rapidly build modern websites without ever leaving your HTML following the references in `@/ui-desing`
+- `pnpm` as package manager
+
 ## Step 2: Brand's visual identity
 
 Define the brand's visual identity. Settle on a color palette, pick no more than two fonts (one for headers, one for body text), and decide on a photography style before building out pages. Please check the design guidelines in the `@/ui-design` folder (i.e, the `@/ui-design/DESIGN.md` file). Let's follow and atomic design process and there are the tokens, atoms, components and page we will include for this project.

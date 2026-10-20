@@ -1,5 +1,8 @@
 # Khardal Perfumería — Implementation checklist
 
+opencode -s ses_ea9e6c727ffePIispo0frfhGLm
+
+
 ## Approved baseline
 
 - Brand: **Khardal Perfumería**. Customer-facing content: Spanish (`es-CO`), Colombia, COP.
