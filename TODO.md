@@ -99,7 +99,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: collection membership, pagination, unavailable products, and narrow layouts behave correctly.
   - Commit: `feat: Add catalog and collection pages`
 
-- [ ] **S13 — Add search, filters, and sorting**
+- [x] **S13 — Add search, filters, and sorting**
   - Deliver: `/buscar`, category/price/fragrance-family filtering as data supports it, URL state, and accessible mobile filter drawer. Specify common filter semantics for both providers.
   - Checkpoint: reload/back navigation preserves state; combinations, no results, and pagination resets are correct.
   - Commit: `feat: Add catalog search and filtering`
@@ -249,5 +249,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S11 | [Editorial homepage](docs/commerce.md): server-driven selection, sample/noindex notice, hero, collections, service steps, brand introduction, FAQs and WhatsApp. `pnpm verify` and 8 browser tests passed; zero type diagnostics. Reviewed mobile/desktop screenshots against references; verified anchors, reserved hero image and four-width overflow checks. Real-provider unavailable views return 503; `git diff --check` passed. | `git log --all --grep='Step: S11'` |
 
 | S12 | [Catalog and collections](docs/commerce.md): shared SSR listing, native pagination, loading/empty/error views, real navigation links and distinct unknown/sold-out states. `pnpm verify` and all 11 browser tests passed, zero diagnostics. Actual 404/400/503 and no-store checked in production; collection membership, optional data, pending status and four viewport widths checked; `git diff --check` passed. | `git log --all --grep='Step: S12'` |
+
+| S13 | [URL search/filter semantics](docs/commerce.md): `/buscar`, adapter facets, category/family/inclusive COP range, stable sorting and mobile drawer with no-JS fallback. `pnpm verify` and all 14 browser tests passed, zero diagnostics. Checked bounded/duplicate queries, combinations, empty results, reload/back, pagination reset/preservation and mobile no-JS filtering; `git diff --check` passed. | `git log --all --grep='Step: S13'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

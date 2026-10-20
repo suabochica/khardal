@@ -83,3 +83,31 @@ membership, two-page listing, sold-out/unknown/missing-image cards, malformed an
 out-of-range pages, actual 404/400/503 responses, pending navigation and layouts
 at 320/390/768/1440px. Production runtime tests verify no-store and no secret
 sentinels in listing responses; configured real providers never fall back to mock.
+
+## S13 — search, filters and sorting
+
+`/buscar`, `/tienda` and collections share GET forms and URL state: `q`,
+`categoria`, `familia`, `min`, `max`, `orden`, `page`. Search is a bounded 200-char
+case/accent-insensitive substring over name/description/family. Filter options
+come from the adapter's collection-scoped `getFacets`, independent of the current
+results, so narrowing to zero results never removes recovery options. Unsupported
+facet values, duplicate known keys, fractional/negative/reversed price ranges,
+invalid sorts and invalid pages return 400. Empty values mean no filter.
+
+Inclusive price filtering matches at least one variant in the range, including
+unavailable variants; price sorting uses the minimum variant price. The UI states
+both rules. Featured is deterministic curation, not popularity. Future WooCommerce
+and Shopify adapters must preserve these semantics; native platform search syntax
+must not leak through the shared query. If a backend cannot provide a facet,
+return no options for it rather than advertising an ineffective control.
+
+Filter/sort submissions omit page, resetting to page one. Pagination preserves
+active URL state; clear links reset the current route while retaining collection
+scope. Desktop uses an inline form; mobile uses a focus-managed drawer with a
+native no-JavaScript fallback. Drawer closes when crossing the desktop breakpoint.
+Browser reload/back/forward restore fields from the URL, without local storage.
+
+Checkpoint: `pnpm verify` passed (5 domain tests, zero diagnostics) and all 14
+browser tests passed. Covered query bounds, accents, combinations, sorting,
+pagination reset/preservation, reload/back, empty results, mobile drawer scope,
+malformed ranges and mobile filtering with JavaScript disabled.

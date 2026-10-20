@@ -19,7 +19,11 @@ const links = [
   <a href="#contenido" class="skip-link">
     Saltar al contenido
   </a>
-  <Header links={links} />
+  <Header links={links}>
+    <a slot="actions" href="/buscar" class="icon-action px-space-sm text-sm">
+      Buscar
+    </a>
+  </Header>
   <main id="contenido" tabindex="-1">
     {sample && (
       <p class="bg-secondary-container px-space-md py-space-sm text-center text-sm text-on-surface">

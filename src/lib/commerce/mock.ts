@@ -21,6 +21,15 @@ export function createMockAdapter(): CommerceAdapter {
   const collections = structuredClone(sampleCollections);
   return {
     provider: 'mock',
+    async getFacets(collection) {
+      const members = products.filter(
+        (p) => !collection || p.collectionSlugs.includes(collection),
+      );
+      return {
+        categories: [...new Set(members.map((p) => p.category))].sort(),
+        families: [...new Set(members.map((p) => p.family))].sort(),
+      };
+    },
     async listProducts(query: ProductQuery = {}) {
       const {
         page = 1,

@@ -3,6 +3,8 @@ import StoreLayout from '../../layouts/StoreLayout.astro';
 import CatalogCard from './CatalogCard.astro';
 import CatalogError from './CatalogError.astro';
 import Breadcrumbs from '../molecules/Breadcrumbs.astro';
+import Drawer from '../molecules/Drawer.astro';
+import FiltersForm from './FiltersForm.astro';
 import type { loadListing } from '../../lib/commerce/listing.server';
 import { pageUrl } from '../../lib/commerce/query';
 interface Props {
@@ -13,7 +15,11 @@ const { collectionSlug, result } = Astro.props;
 const { data } = result;
 const missing = result.status === 404;
 const invalid = result.status === 400;
-const title = data?.collection?.name ?? 'Todos los perfumes';
+const title =
+  data?.collection?.name ??
+  (Astro.url.pathname === '/buscar'
+    ? 'Encuentra tu perfume'
+    : 'Todos los perfumes');
 ---
 
 <StoreLayout
@@ -56,6 +62,40 @@ const title = data?.collection?.name ?? 'Todos los perfumes';
           </a>
         ))}
       </nav>
+      <div class="hidden lg:block bg-surface-container-low p-space-lg">
+        <FiltersForm
+          id="desktop-filters"
+          query={data.query}
+          facets={data.facets}
+        />
+      </div>
+      <div class="lg:hidden">
+        <Drawer
+          id="catalog-filters"
+          title="Buscar y filtrar"
+          triggerLabel="Buscar, filtrar y ordenar"
+        >
+          <FiltersForm
+            id="mobile-filters"
+            query={data.query}
+            facets={data.facets}
+            compact
+          />
+        </Drawer>
+        <noscript>
+          <FiltersForm
+            id="fallback-filters"
+            query={data.query}
+            facets={data.facets}
+            compact
+          />
+        </noscript>
+      </div>
+      {data.query.search && (
+        <p>
+          Resultados para: <strong>{data.query.search}</strong>
+        </p>
+      )}
       <p class="type-caption">
         {data.results.total} perfumes · Página {data.results.page} de{' '}
         {Math.max(1, data.results.totalPages)}
@@ -74,10 +114,23 @@ const title = data?.collection?.name ?? 'Todos los perfumes';
       </section>
       {!data.results.items.length && (
         <section class="bg-surface-container p-space-xl space-y-space-md">
-          <h2 class="type-headline">No hay perfumes en esta página</h2>
-          <p>Vuelve al inicio del catálogo para seguir explorando.</p>
-          <a class="action action-secondary" href={Astro.url.pathname}>
-            Ver primera página
+          <h2 class="type-headline">
+            {data.results.total
+              ? 'No hay perfumes en esta página'
+              : 'No encontramos perfumes con estos filtros'}
+          </h2>
+          <p>
+            Prueba otra búsqueda o ajusta los filtros para seguir explorando.
+          </p>
+          <a
+            class="action action-secondary"
+            href={
+              data.results.total ? pageUrl(Astro.url, 1) : Astro.url.pathname
+            }
+          >
+            {data.results.total
+              ? 'Ver primera página'
+              : 'Limpiar búsqueda y filtros'}
           </a>
         </section>
       )}
@@ -114,12 +167,14 @@ const title = data?.collection?.name ?? 'Todos los perfumes';
   ) : missing || invalid ? (
     <section class="page-container section-space space-y-space-lg">
       <h1 class="type-headline">
-        {missing ? 'Colección no encontrada' : 'Revisa el número de página'}
+        {missing
+          ? 'Colección no encontrada'
+          : 'Revisa la búsqueda y los filtros'}
       </h1>
       <p>
         {missing
           ? 'Esta colección no está disponible.'
-          : 'Elige una página válida para continuar.'}
+          : 'Usa precios enteros y un rango válido, una página positiva y opciones disponibles.'}
       </p>
       <a class="action action-secondary" href="/tienda">
         Explorar la tienda
@@ -130,9 +185,26 @@ const title = data?.collection?.name ?? 'Todos los perfumes';
   )}
 </StoreLayout>
 <script>
+  const desktop = window.matchMedia('(min-width: 64rem)');
+  desktop.addEventListener('change', (event) => {
+    const drawer =
+      document.querySelector<HTMLDialogElement>('#catalog-filters');
+    if (event.matches && drawer?.open) drawer.close();
+  });
   const status = document.querySelector<HTMLElement>(
     '[data-navigation-status]',
   );
+  document
+    .querySelectorAll<HTMLFormElement>('[data-catalog-form]')
+    .forEach((form) =>
+      form.addEventListener('submit', () => {
+        // No page field: changing any filter or sort starts from page one.
+        if (status) status.hidden = false;
+        document
+          .querySelector('[data-results]')
+          ?.setAttribute('aria-busy', 'true');
+      }),
+    );
   document
     .querySelectorAll<HTMLAnchorElement>('[data-pagination]')
     .forEach((link) =>

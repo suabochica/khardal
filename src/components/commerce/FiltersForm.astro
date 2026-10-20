@@ -1,0 +1,125 @@
+---
+import type { ProductQuery } from '../../lib/commerce/models';
+interface Props {
+  id: string;
+  query: ProductQuery;
+  facets: { categories: string[]; families: string[] };
+  compact?: boolean;
+}
+const { id, query, facets, compact = false } = Astro.props;
+---
+
+<form
+  method="get"
+  action={Astro.url.pathname}
+  data-catalog-form
+  class:list={['grid gap-space-md', { 'md:grid-cols-3': !compact }]}
+  aria-label="Buscar y filtrar perfumes"
+>
+  <div>
+    <label class="block mb-space-xs font-medium" for={`${id}-q`}>
+      Buscar perfumes
+    </label>
+    <input
+      id={`${id}-q`}
+      class="field-control"
+      name="q"
+      type="search"
+      maxlength="200"
+      value={query.search}
+      placeholder="Nombre o familia"
+    />
+  </div>
+  {facets.categories.length > 0 && (
+    <div>
+      <label class="block mb-space-xs font-medium" for={`${id}-category`}>
+        Categoría
+      </label>
+      <select id={`${id}-category`} class="field-control" name="categoria">
+        <option value="">Todas</option>
+        {facets.categories.map((c) => (
+          <option value={c} selected={query.category === c}>
+            {c}
+          </option>
+        ))}
+      </select>
+    </div>
+  )}
+  {facets.families.length > 0 && (
+    <div>
+      <label class="block mb-space-xs font-medium" for={`${id}-family`}>
+        Familia olfativa
+      </label>
+      <select id={`${id}-family`} class="field-control" name="familia">
+        <option value="">Todas</option>
+        {facets.families.map((f) => (
+          <option value={f} selected={query.family === f}>
+            {f}
+          </option>
+        ))}
+      </select>
+    </div>
+  )}
+  <div>
+    <label class="block mb-space-xs font-medium" for={`${id}-min`}>
+      Precio mínimo (COP)
+    </label>
+    <input
+      id={`${id}-min`}
+      class="field-control"
+      name="min"
+      type="number"
+      min="0"
+      step="1"
+      value={query.minPrice}
+      inputmode="numeric"
+    />
+  </div>
+  <div>
+    <label class="block mb-space-xs font-medium" for={`${id}-max`}>
+      Precio máximo (COP)
+    </label>
+    <input
+      id={`${id}-max`}
+      class="field-control"
+      name="max"
+      type="number"
+      min="0"
+      step="1"
+      value={query.maxPrice}
+      inputmode="numeric"
+    />
+  </div>
+  <div>
+    <label class="block mb-space-xs font-medium" for={`${id}-sort`}>
+      Ordenar por
+    </label>
+    <select id={`${id}-sort`} class="field-control" name="orden">
+      {[
+        { value: 'featured', label: 'Selección curada' },
+        { value: 'price-asc', label: 'Menor precio inicial' },
+        { value: 'price-desc', label: 'Mayor precio inicial' },
+        { value: 'name', label: 'Nombre A–Z' },
+      ].map((o) => (
+        <option
+          value={o.value}
+          selected={(query.sort ?? 'featured') === o.value}
+        >
+          {o.label}
+        </option>
+      ))}
+    </select>
+  </div>
+  <p class:list={['type-caption', { 'md:col-span-3': !compact }]}>
+    Precios en pesos enteros. El rango incluye cualquier presentación, aunque
+    esté agotada. El orden compara el precio inicial.
+  </p>
+  <div class="flex flex-wrap gap-space-md">
+    <button class="action action-primary" type="submit">
+      Aplicar filtros
+    </button>
+    <a class="action action-text" href={Astro.url.pathname}>
+      Limpiar filtros
+    </a>
+  </div>
+</form>

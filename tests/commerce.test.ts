@@ -3,6 +3,34 @@ import { test } from 'node:test';
 import { createMockAdapter } from '../src/lib/commerce/mock.ts';
 import { cop, parseCop, lineTotal } from '../src/lib/commerce/money.ts';
 import { sampleProducts } from '../src/lib/commerce/fixtures.ts';
+import { readQuery, pageUrl } from '../src/lib/commerce/query.ts';
+
+test('URL query bounds, duplicate handling and pagination state', () => {
+  const query = readQuery(
+    new URLSearchParams(
+      'q=%C3%81mbar&min=0&max=200000&orden=price-desc&page=2',
+    ),
+  );
+  assert.equal(query.search, 'Ámbar');
+  assert.equal(query.minPrice, 0);
+  assert.equal(
+    pageUrl(
+      new URL('https://example.test/tienda?q=iris&familia=Floral&page=2'),
+      1,
+    ),
+    '/tienda?q=iris&familia=Floral',
+  );
+  for (const bad of [
+    'min=-1',
+    'min=1.5',
+    'min=200&max=100',
+    'orden=unknown',
+    'q=a&q=b',
+    'page=NaN',
+    `q=${'x'.repeat(201)}`,
+  ])
+    assert.throws(() => readQuery(new URLSearchParams(bad)));
+});
 
 test('COP conversion rejects fractions, invalid values and unsafe totals', () => {
   assert.deepEqual(parseCop('120000.00'), cop(120000));

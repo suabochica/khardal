@@ -81,6 +81,9 @@ export interface CommerceAdapter {
   getProduct(slug: string): Promise<Product | null>;
   listCollections(): Promise<Collection[]>;
   getCollection(slug: string): Promise<Collection | null>;
+  getFacets(
+    collection?: string,
+  ): Promise<{ categories: string[]; families: string[] }>;
   validateCart(lines: CartLineInput[]): Promise<CartValidation>;
 }
 export class CommerceError extends Error {
