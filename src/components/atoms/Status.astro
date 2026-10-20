@@ -1,0 +1,18 @@
+---
+interface Props {
+  variant?: 'loading' | 'error';
+}
+const { variant = 'loading' } = Astro.props;
+---
+
+<p
+  role={variant === 'error' ? 'alert' : 'status'}
+  class:list={[
+    'border-l-2 p-space-md',
+    variant === 'error'
+      ? 'border-error bg-error-container text-on-error-container'
+      : 'border-primary bg-surface-container text-on-surface-variant',
+  ]}
+>
+  <slot />
+</p>

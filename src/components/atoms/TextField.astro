@@ -1,0 +1,49 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends Omit<HTMLAttributes<'input'>, 'id' | 'type'> {
+  id: string;
+  label: string;
+  type?: HTMLAttributes<'input'>['type'];
+  hint?: string;
+  error?: string;
+}
+const {
+  id,
+  label,
+  hint,
+  error,
+  type = 'text',
+  class: className,
+  'aria-describedby': describedBy,
+  ...attrs
+} = Astro.props;
+const description =
+  [describedBy, hint && `${id}-hint`, error && `${id}-error`]
+    .filter(Boolean)
+    .join(' ') || undefined;
+---
+
+<div class="space-y-space-sm">
+  <label for={id} class="block font-medium">
+    {label}
+    {attrs.required && <span aria-hidden="true"> *</span>}
+  </label>
+  {hint && (
+    <p id={`${id}-hint`} class="type-caption">
+      {hint}
+    </p>
+  )}
+  <input
+    {...attrs}
+    id={id}
+    type={type}
+    aria-invalid={error ? 'true' : undefined}
+    aria-describedby={description}
+    class:list={['field-control', className]}
+  />
+  {error && (
+    <p id={`${id}-error`} class="text-sm text-error" role="alert">
+      {error}
+    </p>
+  )}
+</div>

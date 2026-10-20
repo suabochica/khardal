@@ -63,7 +63,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: preview matches the approved YAML palette; text is readable, font loading avoids major layout shifts, and corners remain square.
   - Commit: `feat: Add design tokens and typography`
 
-- [ ] **S07 — Build action and form atoms**
+- [x] **S07 — Build action and form atoms**
   - Deliver: buttons, links, icons, labels, fields, chips, badges, and loading/error/disabled states.
   - Checkpoint: keyboard focus, contrast, labels, and touch targets pass manual review.
   - Commit: `feat: Add accessible interface primitives`
@@ -237,5 +237,6 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S04 | [Runtime/env decision and cache policy](docs/runtime-and-environments.md); Node standalone, prerendered home, dynamic no-store health endpoint, server-only provider configuration and credential-free `.env.example`. Frozen install, 4 config tests, type check (zero diagnostics), production build and 2 runtime tests passed. Same build exercised all three providers with runtime-only dummy credentials; missing-token failure verified. Build-time secret sentinel absent from all 18 output files; local env files ignored. `git diff --check` passed. Hosting remains provisional pending deployment smoke test; no backend connectivity claimed. | `git log --all --grep='Step: S04'` |
 | S05a | [CI/preview setup and checkpoint](docs/ci-and-previews.md). Frozen install and preview-mode local verification passed (format, lint, 4 config tests, type check, build, 2 runtime tests). Final type check: zero errors/warnings/hints. Workflow YAML assertions and official Render Blueprint schema validation passed; `git diff --check` passed. S05b hosted evidence unavailable; parent S05 remains open. | `git log --all --grep='Step: S05a'` |
 | S06 | [Design foundations](docs/design-system.md): Tailwind tokens, self-hosted licensed/preloaded fonts, readable typography, responsive development preview. `pnpm verify` passed with zero diagnostics; `pnpm test:ui` passed Chromium font/token/overflow checks at 320/390/768/1440px. Runtime suite confirms preview 404 in production; `git diff --check` passed. | `git log --all --grep='Step: S06'` |
+| S07 | [Accessible atoms](docs/design-system.md): actions, icons, fields, choices, chips, badges and live states. `pnpm verify` passed with zero diagnostics; 2 browser tests passed including keyboard/focus, labels/errors, disabled/loading states and 44px targets. Six text contrast pairs passed 4.5:1; `git diff --check` passed. | `git log --all --grep='Step: S07'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

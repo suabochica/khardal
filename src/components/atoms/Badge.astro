@@ -1,0 +1,19 @@
+---
+interface Props {
+  variant?: 'neutral' | 'accent' | 'error';
+}
+const { variant = 'neutral' } = Astro.props;
+---
+
+<span
+  class:list={[
+    'inline-flex px-space-sm py-space-xs text-sm font-medium',
+    {
+      'bg-surface-container text-on-surface-variant': variant === 'neutral',
+      'bg-primary-fixed text-on-primary-fixed': variant === 'accent',
+      'bg-error-container text-on-error-container': variant === 'error',
+    },
+  ]}
+>
+  <slot />
+</span>

@@ -1,0 +1,26 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'button'> {
+  variant?: 'primary' | 'secondary' | 'text';
+  loading?: boolean;
+}
+const {
+  variant = 'primary',
+  loading = false,
+  disabled = false,
+  type = 'button',
+  class: className,
+  ...attrs
+} = Astro.props;
+---
+
+<button
+  {...attrs}
+  type={type}
+  disabled={disabled || loading}
+  aria-busy={loading || undefined}
+  class:list={['action', `action-${variant}`, className]}
+>
+  {loading ? <span>Procesando…</span> : <slot />}
+</button>

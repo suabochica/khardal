@@ -1,5 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/atoms/Button.astro';
+import Link from '../../components/atoms/Link.astro';
+import Icon from '../../components/atoms/Icon.astro';
+import Badge from '../../components/atoms/Badge.astro';
+import Chip from '../../components/atoms/Chip.astro';
+import TextField from '../../components/atoms/TextField.astro';
+import Choice from '../../components/atoms/Choice.astro';
+import Status from '../../components/atoms/Status.astro';
 
 if (!import.meta.env.DEV) return new Response(null, { status: 404 });
 
@@ -62,5 +70,96 @@ const swatches = [
         Revisar la paleta
       </a>
     </section>
+    <section aria-labelledby="atoms-heading" class="space-y-space-lg">
+      <h2 id="atoms-heading" class="type-headline">
+        03 / Acciones y formularios
+      </h2>
+      <div class="flex flex-wrap items-center gap-space-md">
+        <Button data-demo-action>
+          Confirmar ejemplo <Icon name="arrow" />
+        </Button>
+        <Button variant="secondary" data-demo-action>
+          Acción secundaria
+        </Button>
+        <Link href="#type-heading">Volver a tipografía</Link>
+        <Button disabled>No disponible</Button>
+        <Button loading>Guardar</Button>
+      </div>
+      <p id="demo-action-status" role="status" class="type-caption">
+        Las acciones de esta sección son demostraciones.
+      </p>
+      <div class="flex flex-wrap gap-space-sm">
+        <Badge>Ejemplo</Badge>
+        <Badge variant="accent">Destacado</Badge>
+        <Badge variant="error">Agotado</Badge>
+      </div>
+      <div class="flex flex-wrap gap-space-sm">
+        <Chip>Amaderado</Chip>
+        <Chip selected>Ámbar</Chip>
+        <Chip disabled>Sin datos</Chip>
+      </div>
+      <div class="grid gap-space-lg md:grid-cols-2">
+        <TextField
+          id="demo-email"
+          name="email"
+          type="email"
+          label="Correo electrónico"
+          hint="Ejemplo de campo requerido; no enviamos datos."
+          placeholder="tu@correo.com"
+          required
+          autocomplete="email"
+        />
+        <TextField
+          id="demo-error"
+          label="Nombre"
+          value=""
+          error="Escribe tu nombre para continuar."
+        />
+        <TextField
+          id="demo-disabled"
+          label="Campo deshabilitado"
+          disabled
+          value="Solo demostración"
+        />
+        <fieldset>
+          <legend class="font-medium">Presentación de ejemplo</legend>
+          <div class="flex flex-wrap gap-space-md">
+            <Choice
+              id="demo-radio-30"
+              type="radio"
+              name="demo-size"
+              value="30"
+              label="30 ml"
+              checked
+            />
+            <Choice
+              id="demo-radio-60"
+              type="radio"
+              name="demo-size"
+              value="60"
+              label="60 ml"
+            />
+          </div>
+        </fieldset>
+      </div>
+      <Choice id="demo-checkbox" label="Activar opción de ejemplo" />
+      <Status>Cargando información de ejemplo…</Status>
+      <Status variant="error">
+        No pudimos cargar el ejemplo. Intenta de nuevo.
+      </Status>
+    </section>
   </main>
 </BaseLayout>
+
+<script>
+  document
+    .querySelectorAll<HTMLButtonElement>('[data-demo-action]')
+    .forEach((button) => {
+      button.addEventListener('click', () => {
+        const status = document.getElementById('demo-action-status');
+        if (status)
+          status.textContent =
+            'Acción de ejemplo completada. No se enviaron datos.';
+      });
+    });
+</script>

@@ -30,3 +30,25 @@ runtime tests verify the preview route returns 404. Preloading reduces font swap
 exposure; field Core Web Vitals and real-device testing still belong to S32/S33.
 The approved design direction is implemented; final visual feedback can be applied
 through the preview without treating this checkpoint as a new business approval.
+
+## S07: action and form atoms
+
+`components/atoms/` provides Button, Link, Icon, Badge, Chip, TextField, Choice
+and Status. Buttons default to `type="button"`; loading disables activation and
+exposes `aria-busy`. Links remain native links. Icon-only actions require an
+accessible name on their enclosing control; icons default to decorative.
+TextField requires a unique ID/label and connects hint/error descriptions.
+Choice keeps native checkbox/radio keyboard behavior with square styling.
+Chips are independent toggle buttons and emit bubbling `chip-change` events;
+future filters can consume them. Status uses native status/alert live regions.
+
+Controls use minimum 44px interaction heights. Never remove focus outlines or
+rely solely on color to communicate invalid fields: include an error message.
+No form sends data from the preview; its demonstration actions update a status.
+
+S07 checkpoint: `pnpm verify` and both browser tests passed. Keyboard activation,
+chip toggles, native radio arrow navigation, checkbox selection, labels/error
+descriptions, loading/disabled semantics and touch heights were checked in
+Chromium. Six normal-text token pairs passed 4.5:1 contrast (primary CTA 6.73:1,
+body 16.27:1, secondary 8.88:1, error 6.16:1, accent badge 13.27:1, error badge
+7.24:1). Screen-reader/real-device review remains in S32.

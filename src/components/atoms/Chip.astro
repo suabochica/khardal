@@ -1,0 +1,36 @@
+---
+interface Props {
+  selected?: boolean;
+  disabled?: boolean;
+}
+const { selected = false, disabled = false } = Astro.props;
+---
+
+<button
+  type="button"
+  data-chip
+  aria-pressed={selected}
+  disabled={disabled}
+  class="chip"
+>
+  <slot />
+</button>
+
+<script>
+  document
+    .querySelectorAll<HTMLButtonElement>('[data-chip]')
+    .forEach((chip) => {
+      chip.addEventListener('click', () => {
+        chip.setAttribute(
+          'aria-pressed',
+          String(chip.getAttribute('aria-pressed') !== 'true'),
+        );
+        chip.dispatchEvent(
+          new CustomEvent('chip-change', {
+            bubbles: true,
+            detail: { selected: chip.getAttribute('aria-pressed') === 'true' },
+          }),
+        );
+      });
+    });
+</script>

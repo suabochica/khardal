@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends Omit<HTMLAttributes<'input'>, 'type' | 'id'> {
+  id: string;
+  label: string;
+  type?: 'checkbox' | 'radio';
+}
+const { id, label, type = 'checkbox', ...attrs } = Astro.props;
+---
+
+<label
+  for={id}
+  class="inline-flex min-h-11 items-center gap-space-sm has-disabled:cursor-not-allowed has-disabled:text-on-surface-variant"
+>
+  <input {...attrs} id={id} type={type} class="choice-control" />
+  <span>{label}</span>
+</label>
