@@ -75,8 +75,20 @@ GitHub Actions ejecutará `pnpm verify` en pushes a `main` y pull requests usand
 Node 22.22.0 (archivo `.node-version`) y pnpm 12.14.0. `render.yaml` define una
 preview Node con catálogo mock, comprobación de salud y metadatos `noindex`.
 `DEPLOYMENT_ENV=preview` debe estar definido al compilar esa preview.
-La conexión de Render y la verificación alojada están pendientes; consulta la
+La conexión de hosting y la verificación alojada están pendientes; consulta la
 [guía de CI y previews](docs/ci-and-previews.md).
+
+## Sistema de diseño
+
+Con `pnpm dev`, abre `http://localhost:4321/dev/design`. Esta ruta de desarrollo
+muestra los tokens y componentes; devuelve 404 en producción.
+Consulta [la guía del sistema de diseño](docs/design-system.md).
+Para las comprobaciones de navegador:
+
+```sh
+pnpm exec playwright install chromium
+pnpm test:ui
+```
 
 ## Estructura inicial
 

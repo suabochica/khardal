@@ -1,5 +1,8 @@
 ---
 import { DEPLOYMENT_ENV } from 'astro:env/server';
+import '../styles/global.css';
+import headingFont from '@fontsource/metrophobic/files/metrophobic-latin-400-normal.woff2?url';
+import bodyFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -14,6 +17,20 @@ const { title, description } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="preload"
+      href={headingFont}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={bodyFont}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <meta name="description" content={description} />
     {DEPLOYMENT_ENV !== 'production' && (
       <meta name="robots" content="noindex, nofollow" />

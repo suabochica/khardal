@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+if (!import.meta.env.DEV) return new Response(null, { status: 404 });
+
+const swatches = [
+  ['surface', 'bg-surface', '#fcf9f6'],
+  ['surface-container', 'bg-surface-container', '#f1edea'],
+  ['primary', 'bg-primary text-on-primary', '#844e34'],
+  ['secondary', 'bg-secondary text-on-secondary', '#755843'],
+  ['on-surface', 'bg-on-surface text-surface', '#1c1c1a'],
+  ['error', 'bg-error text-on-error', '#ba1a1a'],
+];
+---
+
+<BaseLayout
+  title="Sistema de diseño | Khardal Perfumería"
+  description="Vista de desarrollo del sistema visual de Khardal Perfumería."
+>
+  <main id="contenido" class="page-container section-space space-y-space-xl">
+    <header class="max-w-3xl space-y-space-md">
+      <p class="type-label text-primary">Khardal · Sistema de diseño</p>
+      <h1 class="type-display">Calma, carácter y una esencia propia.</h1>
+      <p>
+        Vista de desarrollo. Todos los ejemplos de productos y estados son
+        demostraciones, no un catálogo de venta.
+      </p>
+    </header>
+    <section aria-labelledby="palette-heading" class="space-y-space-md">
+      <h2 id="palette-heading" class="type-headline">
+        01 / Paleta
+      </h2>
+      <div class="grid grid-cols-2 gap-gutter md:grid-cols-3">
+        {swatches.map(([name, color, hex]) => (
+          <div
+            class:list={[
+              'min-h-36 border border-outline-variant p-space-md',
+              color,
+            ]}
+          >
+            <p class="type-label">{name}</p>
+            <p>{hex}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+    <section aria-labelledby="type-heading" class="space-y-space-md">
+      <h2 id="type-heading" class="type-headline">
+        02 / Tipografía
+      </h2>
+      <p class="type-display">Notas que dejan huella</p>
+      <p class="type-title">Metrophobic · Títulos con aire y carácter</p>
+      <p class="max-w-prose">
+        Inter · Una lectura serena en cada pantalla. Bogotá, perfumería, ámbar y
+        corazón: caracteres del español con fuentes alojadas en nuestro sitio.
+      </p>
+      <p class="type-caption">Texto secundario legible · 14 px</p>
+      <a
+        class="inline-flex min-h-11 items-center text-primary underline"
+        href="#palette-heading"
+      >
+        Revisar la paleta
+      </a>
+    </section>
+  </main>
+</BaseLayout>

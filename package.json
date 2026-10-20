@@ -10,24 +10,30 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
-    "format": "prettier --write src tests *.mjs package.json tsconfig.json .prettierrc.json .github render.yaml",
-    "format:check": "prettier --check src tests *.mjs package.json tsconfig.json .prettierrc.json .github render.yaml",
-    "lint": "eslint src tests *.mjs --max-warnings 0",
+    "format": "prettier --write src tests *.mjs playwright.config.ts package.json tsconfig.json .prettierrc.json .github render.yaml",
+    "format:check": "prettier --check src tests *.mjs playwright.config.ts package.json tsconfig.json .prettierrc.json .github render.yaml",
+    "lint": "eslint src tests *.mjs playwright.config.ts --max-warnings 0",
     "verify": "pnpm format:check && pnpm lint && pnpm test:config && pnpm check && pnpm build && pnpm test:runtime",
     "build": "astro build",
     "preview": "astro preview",
     "start": "node --env-file-if-exists=.env dist/server/entry.mjs",
     "test:config": "node --experimental-strip-types --test tests/commerce-config.test.ts",
     "test:runtime": "node --test tests/runtime.test.mjs",
+    "test:ui": "playwright test",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/node": "11.1.9",
-    "astro": "7.4.1"
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource/metrophobic": "5.3.0",
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.4.1",
+    "tailwindcss": "4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.11",
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.1",
     "@types/node": "^22.20.5",
     "eslint": "10.13.0",
     "eslint-plugin-astro": "3.2.1",

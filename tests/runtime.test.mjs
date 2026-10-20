@@ -95,6 +95,8 @@ test('production renders dynamic uncached responses with runtime-only provider c
       const second = await fetch(`${base}/api/health`);
       const next = await second.json();
       assert.notEqual(data.timestamp, next.timestamp);
+      const preview = await fetch(`${base}/dev/design`);
+      assert.equal(preview.status, 404);
     });
   }
 });
