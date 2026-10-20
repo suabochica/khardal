@@ -18,15 +18,16 @@ not a Workers deployment artifact.
 
 | Route/data | Rendering | Freshness policy |
 | --- | --- | --- |
-| Homepage and approved about/FAQ/policy pages | Explicit `export const prerender = true` | New editorial content requires rebuild; catalog sections added later must respect their chosen freshness policy |
-| Catalog, collection, product and search pages (future) | On-demand server rendering | No shared HTML cache initially; provider response cache may use at most 60 seconds, keyed by provider/store/market/currency/query/variant context |
+| About, contact and FAQ pages | Explicit `export const prerender = true` | Editorial content requires rebuild |
+| Homepage, catalog, collection, product and search pages | On-demand server rendering | `Cache-Control: no-store` initially; future provider response cache may use at most 60 seconds, keyed by provider/store/market/currency/query/variant context |
+| Pending policy pages | On-demand server rendering, noindex | `Cache-Control: no-store`; approved publication replaces these structures in S28 |
 | Cart validation and WhatsApp preparation (future) | Server endpoints | `Cache-Control: no-store`; bypass catalog cache and retrieve authoritative current prices/stock |
 | `/api/health` | On-demand server endpoint | `Cache-Control: no-store`; fresh timestamp; configuration/liveness only, not backend connectivity |
 | Fingerprinted build assets | Static | Long-lived immutable caching at the host where configured |
 
-Only the homepage and health endpoint exist at S04. The table specifies later
-implementation constraints; catalog caching, webhooks and cart validation are not
-implemented yet. Do not cache personalized responses. Future adapter caches must
+S11–S15 add shared browsing and informational routes to the S04 baseline.
+Provider caching, webhooks and HTTP cart validation are not implemented yet;
+the mock adapter provides domain validation only. Do not cache personalized responses. Future adapter caches must
 be bounded; never use stale fallback for WhatsApp validation. Multi-instance
 invalidation/webhooks can follow when deployment needs justify them.
 
@@ -75,8 +76,8 @@ or logs. Never prefix credentials with `PUBLIC_`.
 Validation runs when the server configuration module is initialized (during
 prerender if imported there, or runtime route loading). A build without backend
 credentials is valid in mock mode. Real-provider deployments must supply runtime
-credentials and probe `/api/health` before accepting traffic; a successful static
-homepage alone does not validate the dynamic server. An invalid configuration
+credentials and probe `/api/health` before accepting traffic; a successful
+informational page alone does not validate the dynamic server. An invalid configuration
 fails dynamic initialization with a named-field error. Restart after changing
 environment settings.
 
@@ -93,6 +94,6 @@ git diff --check
 
 Configuration tests cover defaults, inactive providers, missing fields, transport
 rules, hostname validation and non-disclosing errors. Runtime smoke tests launch
-the same production build with different process environments, verify the static
-Spanish homepage and uncached dynamic health responses, and check failure behavior
+the same production build with different process environments, verify the dynamic
+Spanish homepage/catalog, informational routes and uncached health responses, and check failure behavior
 and public credential isolation. These checks do not connect to real backends.

@@ -1,0 +1,27 @@
+---
+import StoreLayout from './StoreLayout.astro';
+import Breadcrumbs from '../components/molecules/Breadcrumbs.astro';
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+const { title, description, noindex = false } = Astro.props;
+---
+
+<StoreLayout
+  title={`${title} | Khardal Perfumería`}
+  description={description}
+  noindex={noindex}
+>
+  <div class="page-container section-space space-y-space-xl">
+    <Breadcrumbs items={[{ label: 'Inicio', href: '/' }, { label: title }]} />
+    <header class="max-w-3xl space-y-space-md">
+      <p class="type-label text-primary">Khardal Perfumería · Colombia</p>
+      <h1 class="type-display">{title}</h1>
+    </header>
+    <div class="max-w-3xl space-y-space-xl">
+      <slot />
+    </div>
+  </div>
+</StoreLayout>

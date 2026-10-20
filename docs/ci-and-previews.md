@@ -13,10 +13,14 @@ DEPLOYMENT_ENV=preview pnpm verify
 2. `lint` — ESLint flat config, recommended JavaScript/TypeScript/Astro rules,
    zero warnings allowed.
 3. `test:config` — provider configuration behavior.
-4. `check` — Astro/TypeScript diagnostics.
-5. `build` — Node production artifact and prerendered homepage.
-6. `test:runtime` — actual Node server, runtime-only dummy credentials, dynamic
-   health responses, missing-credential behavior and public-response isolation.
+4. `test:commerce` — integer COP, mock catalog, shared query and validation behavior.
+5. `check` — Astro/TypeScript diagnostics.
+6. `build` — Node production artifact and prerendered informational pages.
+7. `test:runtime` — actual Node server, runtime-only dummy credentials, dynamic
+   catalog/health responses, missing-credential behavior and public-response isolation.
+
+CI also installs Chromium and runs `pnpm test:ui` after `verify`; browser checks
+cover component interactions, shared browsing and automated accessibility scans.
 
 Use `pnpm format` to apply formatting. Formatting/lint targets include application
 code, tests, root `.mjs` configuration and explicit JSON/YAML project configuration.
@@ -66,7 +70,8 @@ production store credentials to the preview baseline.
 
 `DEPLOYMENT_ENV` is a **build-time**, server-public enum: `development`, `preview`,
 or `production`. Non-production HTML gets `noindex, nofollow` metadata, including
-the prerendered homepage. Rebuild when changing it; changing only the runtime
+prerendered informational pages. Mock catalog and pending policies force noindex
+even in production mode. Rebuild when changing it; changing only the runtime
 variable does not change prerendered metadata. Render additionally sets a noindex
 header on its PR previews. Full canonical/sitemap/redirect work remains in S30.
 

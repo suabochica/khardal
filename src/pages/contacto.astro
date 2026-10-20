@@ -1,0 +1,56 @@
+---
+import InformationLayout from '../layouts/InformationLayout.astro';
+import { contacts } from '../content/business';
+export const prerender = true;
+---
+
+<InformationLayout
+  title="Conversemos"
+  description="Contacta a Khardal Perfumería por WhatsApp: +57 310 8570230 o +57 312 2777427."
+>
+  <p>
+    ¿Buscas una fragancia o tienes preguntas sobre una solicitud? Escríbenos por
+    WhatsApp. Para iniciar, utiliza nuestro número principal.
+  </p>
+  <div class="grid gap-space-lg sm:grid-cols-2">
+    {contacts.map((contact, index) => (
+      <section class="bg-surface-container-low p-space-lg space-y-space-md">
+        <h2 class="type-title">{contact.label}</h2>
+        <p>{contact.number}</p>
+        <a
+          href={contact.href}
+          class:list={[
+            'action w-full',
+            index === 0 ? 'action-primary' : 'action-secondary',
+          ]}
+        >
+          Escribir al {index === 0 ? 'principal' : 'alternativo'}
+          <span class="sr-only"> {contact.number}</span>
+        </a>
+      </section>
+    ))}
+  </div>
+  <section class="space-y-space-md">
+    <h2 class="type-headline">Antes de escribirnos</h2>
+    <p>
+      Si preguntas por un perfume, incluye su nombre y la presentación que te
+      interesa. El equipo confirma disponibilidad, envío, valor final y forma de
+      pago.
+    </p>
+    <p>
+      Los productos del catálogo de demostración no están disponibles para
+      pedidos reales.
+    </p>
+  </section>
+  <aside class="border-l-2 border-outline pl-space-lg space-y-space-sm">
+    <h2 class="type-title">Información pendiente de publicación</h2>
+    <p>
+      El horario de atención, el correo de servicio y las direcciones de
+      atención presencial se publicarán cuando estén confirmados. No se ofrece
+      una disponibilidad de atención inmediata.
+    </p>
+  </aside>
+  <a href="/preguntas-frecuentes" class="action action-text">
+    Consultar preguntas frecuentes
+  </a>
+</InformationLayout>

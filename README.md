@@ -23,8 +23,12 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Abre `http://localhost:4321`. No se necesitan credenciales de comercio para esta
-base inicial. La página de inicio es temporal; aún no contiene catálogo ni carrito.
+Abre `http://localhost:4321`. El proveedor predeterminado `mock` no requiere
+credenciales: incluye inicio, tienda, colecciones, búsqueda, detalles de perfumes
+y páginas informativas. Los 12 productos, precios e ilustraciones son muestras
+de desarrollo. Las políticas definitivas están pendientes de publicación.
+El carrito persistente y la solicitud de pedido se implementan en Milestone 4;
+por ahora, “Revisar selección” demuestra la presentación y cantidad elegidas.
 
 ## Comandos
 
@@ -40,6 +44,7 @@ base inicial. La página de inicio es temporal; aún no contiene catálogo ni ca
 | `pnpm preview` | Sirve localmente la compilación existente para revisión |
 | `pnpm start` | Ejecuta el servidor Node compilado; carga `.env` si existe |
 | `pnpm test:config` | Comprueba la validación de configuración de comercio |
+| `pnpm test:commerce` | Prueba dinero COP, catálogo mock, filtros y validación de dominio |
 | `pnpm test:runtime` | Verifica el servidor compilado; requiere `pnpm build` previo |
 | `pnpm astro --help` | Ayuda de la CLI de Astro |
 
@@ -50,8 +55,10 @@ pnpm verify
 git diff --check
 ```
 
-La aplicación usa el adaptador Node standalone. La página de inicio se genera
-estáticamente y `/api/health` se ejecuta en el servidor con `Cache-Control: no-store`.
+La aplicación usa el adaptador Node standalone. Inicio, catálogo, búsqueda y
+detalles se renderizan en el servidor con `Cache-Control: no-store`; las páginas
+de nosotros/contacto/FAQ se generan estáticamente. `/api/health` también usa
+`no-store` y comprueba configuración, no conectividad con un backend.
 Sin variables de entorno se selecciona `mock`. Para configurar un proveedor,
 copia el contenido de `.env.example` en `.env` y consulta la
 [guía de runtime y entornos](docs/runtime-and-environments.md).
@@ -93,12 +100,28 @@ pnpm exec playwright install chromium
 pnpm test:ui
 ```
 
-## Estructura inicial
+## Comercio y navegación
+
+La [guía de comercio compartido](docs/commerce.md) documenta el contrato,
+fixtures, semántica de filtros y checkpoints S10–S15. Para revisar:
+
+- `/tienda`, `/colecciones/top-10`, `/buscar`
+- `/perfumes/brisa-bergamota` (tamaños y precios), `/perfumes/rosa-lluvia` (agotado)
+- `/nosotros`, `/contacto`, `/preguntas-frecuentes`, `/politicas/envios`
+
+Los proveedores reales aún no implementados muestran un error recuperable;
+nunca se sustituyen silenciosamente por datos mock. Las páginas con catálogo de
+muestra y las políticas pendientes fuerzan `noindex`.
+
+## Estructura
 
 ```text
 src/layouts/BaseLayout.astro  Documento compartido con lang="es-CO"
-src/pages/index.astro        Página de inicio temporal
-public/images/              Imágenes de referencia; aprobación pendiente
+src/pages/                  Inicio, catálogo, búsqueda, detalles e información
+src/lib/commerce/           Modelos, contrato, mock y loaders de servidor
+src/components/commerce/    Listados, filtros, galería y selección
+src/content/business.ts     Contactos aprobados y contenido pendiente
+public/images/              Ilustraciones demo y referencias no aprobadas
 ui-design/                  Guías y referencias visuales
 docs/                       Inventario de contenido y migración
 TODO.md                     Pasos, checkpoints y registro de ejecución

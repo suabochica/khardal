@@ -101,6 +101,23 @@ test('production renders dynamic uncached responses with runtime-only provider c
       assert.equal(catalog.status, settings.COMMERCE_PROVIDER ? 503 : 200);
       assert.equal(catalog.headers.get('cache-control'), 'no-store');
       assert.ok(!(await catalog.text()).includes(marker));
+      const contact = await fetch(`${base}/contacto`);
+      assert.equal(contact.status, 200);
+      const contactHtml = await contact.text();
+      assert.match(contactHtml, /https:\/\/wa.me\/573122777427/);
+      assert.ok(!contactHtml.includes(marker));
+      const policy = await fetch(`${base}/politicas/privacidad`);
+      assert.equal(policy.status, 200);
+      assert.match(
+        await policy.text(),
+        /name="robots" content="noindex, nofollow"/,
+      );
+      const missing = await fetch(`${base}/missing-route`);
+      assert.equal(missing.status, 404);
+      assert.match(await missing.text(), /No encontramos esta página/);
+      const failure = await fetch(`${base}/500`);
+      assert.equal(failure.status, 500);
+      assert.equal(failure.headers.get('cache-control'), 'no-store');
       if (!settings.COMMERCE_PROVIDER) {
         assert.equal((await fetch(`${base}/colecciones/missing`)).status, 404);
         assert.equal((await fetch(`${base}/tienda?page=invalid`)).status, 400);

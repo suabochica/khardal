@@ -2,20 +2,23 @@
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/organisms/Header.astro';
 import Footer from '../components/organisms/Footer.astro';
+import { policies } from '../content/business';
 interface Props {
   title: string;
   description: string;
   sample?: boolean;
+  noindex?: boolean;
 }
-const { title, description, sample = false } = Astro.props;
+const { title, description, sample = false, noindex = false } = Astro.props;
 const links = [
   { label: 'Tienda', href: '/tienda' },
   { label: 'Más vendidos', href: '/colecciones/top-10' },
-  { label: 'WhatsApp', href: 'https://wa.me/573108570230' },
+  { label: 'Nosotros', href: '/nosotros' },
+  { label: 'Contacto', href: '/contacto' },
 ];
 ---
 
-<BaseLayout title={title} description={description} noindex={sample}>
+<BaseLayout title={title} description={description} noindex={sample || noindex}>
   <a href="#contenido" class="skip-link">
     Saltar al contenido
   </a>
@@ -24,6 +27,18 @@ const links = [
       Buscar
     </a>
   </Header>
+  <noscript>
+    <nav
+      aria-label="Navegación sin JavaScript"
+      class="page-container flex flex-wrap gap-space-md py-space-sm lg:hidden"
+    >
+      {links.map((link) => (
+        <a href={link.href} class="inline-flex min-h-11 items-center underline">
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </noscript>
   <main id="contenido" tabindex="-1">
     {sample && (
       <p class="bg-secondary-container px-space-md py-space-sm text-center text-sm text-on-surface">
@@ -33,5 +48,13 @@ const links = [
     )}
     <slot />
   </main>
-  <Footer />
+  <Footer
+    links={[
+      { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes' },
+      ...policies.map((p) => ({
+        label: p.title,
+        href: `/politicas/${p.slug}`,
+      })),
+    ]}
+  />
 </BaseLayout>

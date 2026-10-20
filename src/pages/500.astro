@@ -1,0 +1,24 @@
+---
+import InformationLayout from '../layouts/InformationLayout.astro';
+Astro.response.status = 500;
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+
+<InformationLayout
+  title="Algo no salió como esperábamos"
+  description="No pudimos completar la solicitud. Vuelve a intentarlo o contacta a Khardal Perfumería."
+  noindex
+>
+  <p>
+    No pudimos completar la solicitud. Intenta de nuevo en unos minutos o
+    comunícate con nuestro equipo.
+  </p>
+  <div class="flex flex-wrap gap-space-md">
+    <a class="action action-primary" href="/">
+      Volver al inicio
+    </a>
+    <a class="action action-secondary" href="/contacto">
+      Contactar al equipo
+    </a>
+  </div>
+</InformationLayout>

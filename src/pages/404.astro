@@ -1,0 +1,25 @@
+---
+import InformationLayout from '../layouts/InformationLayout.astro';
+Astro.response.status = 404;
+---
+
+<InformationLayout
+  title="No encontramos esta página"
+  description="La página que buscas no está disponible. Sigue explorando Khardal Perfumería."
+  noindex
+>
+  <p>
+    Puede que el enlace haya cambiado o que la página ya no esté disponible.
+  </p>
+  <div class="flex flex-wrap gap-space-md">
+    <a class="action action-primary" href="/tienda">
+      Explorar perfumes
+    </a>
+    <a class="action action-secondary" href="/buscar">
+      Buscar un perfume
+    </a>
+    <a class="action action-text" href="/contacto">
+      Contactar al equipo
+    </a>
+  </div>
+</InformationLayout>

@@ -1,0 +1,37 @@
+---
+import InformationLayout from '../layouts/InformationLayout.astro';
+export const prerender = true;
+---
+
+<InformationLayout
+  title="Perfumes, a tu manera"
+  description="Conoce Khardal Perfumería y nuestra atención por WhatsApp en Colombia."
+>
+  <section class="space-y-space-lg">
+    <h2 class="type-headline">Somos Khardal Perfumería</h2>
+    <p>
+      Una tienda de perfumes en Colombia. Te acompañamos a explorar fragancias,
+      comparar presentaciones y resolver tus dudas en una conversación directa.
+    </p>
+    <p>
+      La atención y la confirmación de pedidos se coordinan por WhatsApp.
+      Nuestro equipo confirma disponibilidad, envío, valor final y forma de pago
+      antes de aceptar un pedido.
+    </p>
+  </section>
+  <aside class="bg-surface-container p-space-lg space-y-space-sm">
+    <h2 class="type-title">Nuestra historia, próximamente</h2>
+    <p>
+      La historia del equipo, las fotografías y los datos de nuestras
+      ubicaciones están pendientes de confirmación y publicación.
+    </p>
+  </aside>
+  <div class="flex flex-wrap gap-space-md">
+    <a href="/tienda" class="action action-primary">
+      Explorar perfumes
+    </a>
+    <a href="/contacto" class="action action-secondary">
+      Hablar con el equipo
+    </a>
+  </div>
+</InformationLayout>

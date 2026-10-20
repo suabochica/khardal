@@ -109,7 +109,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: each variant updates price/availability correctly; missing products return 404; optional content is omitted cleanly; responsive gallery works.
   - Commit: `feat: Add perfume detail pages`
 
-- [ ] **S15 — Build informational pages**
+- [x] **S15 — Build informational pages**
   - Deliver: `/nosotros`, `/contacto`, `/preguntas-frecuentes`, `/politicas/*`, and useful error pages. Keep missing policy/business content explicitly pending publication.
   - Checkpoint: navigation works, both WhatsApp numbers are accurate, and no placeholder claims are presented as facts.
   - Commit: `feat: Add business and policy page layouts`
@@ -253,5 +253,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S13 | [URL search/filter semantics](docs/commerce.md): `/buscar`, adapter facets, category/family/inclusive COP range, stable sorting and mobile drawer with no-JS fallback. `pnpm verify` and all 14 browser tests passed, zero diagnostics. Checked bounded/duplicate queries, combinations, empty results, reload/back, pagination reset/preservation and mobile no-JS filtering; `git diff --check` passed. | `git log --all --grep='Step: S13'` |
 
 | S14 | [Perfume details and selection event](docs/commerce.md): gallery, live variant prices/SKUs/stock, bounded quantity, optional notes, related cards and policy summaries. `pnpm verify` and 17 browser tests passed, zero diagnostics. Checked missing products (404), unavailable variants/products, gallery, cart-integration payload, no-JS review and long names at four widths. Reviewed mobile/desktop catalog/detail screenshots against references; `git diff --check` passed. | `git log --all --grep='Step: S14'` |
+
+| S15 | [Business, policy and error pages](docs/commerce.md): about/contact/FAQ, all four pending policy structures, custom 404/500 and complete shared navigation/footer. `pnpm verify`, all 20 browser tests and `git diff --check` passed; zero diagnostics. Internal-link destinations return 200, both WhatsApp contacts match approved numbers, pending policies force noindex, error statuses/recovery work. Axe: no WCAG A/AA violations on five mobile/desktop surfaces and open filters. Final business/policy approval remains S28. | `git log --all --grep='Step: S15'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

@@ -1,0 +1,41 @@
+---
+import InformationLayout from '../layouts/InformationLayout.astro';
+import Accordion from '../components/molecules/Accordion.astro';
+import { faqs, policies } from '../content/business';
+export const prerender = true;
+---
+
+<InformationLayout
+  title="Preguntas frecuentes"
+  description="Resuelve tus dudas sobre solicitudes por WhatsApp, confirmación, envíos y pagos con Khardal Perfumería."
+>
+  <section aria-label="Respuestas sobre tu solicitud">
+    {faqs.map((faq) => (
+      <Accordion title={faq.question}>
+        <p>{faq.answer}</p>
+      </Accordion>
+    ))}
+  </section>
+  <section class="space-y-space-md">
+    <h2 class="type-headline">Información y políticas</h2>
+    <p>
+      Las políticas definitivas están pendientes de publicación. Cada página
+      indica la información por confirmar.
+    </p>
+    <ul class="space-y-space-sm">
+      {policies.map((p) => (
+        <li>
+          <a
+            class="inline-flex min-h-11 items-center text-primary underline"
+            href={`/politicas/${p.slug}`}
+          >
+            {p.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <a href="/contacto" class="action action-secondary">
+    ¿Otra pregunta? Contáctanos
+  </a>
+</InformationLayout>

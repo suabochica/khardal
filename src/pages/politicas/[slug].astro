@@ -1,0 +1,54 @@
+---
+import InformationLayout from '../../layouts/InformationLayout.astro';
+import { policies } from '../../content/business';
+const policy = policies.find((p) => p.slug === Astro.params.slug);
+if (!policy) Astro.response.status = 404;
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+
+<InformationLayout
+  title={policy?.title ?? 'Política no encontrada'}
+  description={policy?.description ?? 'Información de Khardal Perfumería.'}
+  noindex
+>
+  {policy ? (
+    <>
+      <section
+        class="bg-secondary-container p-space-lg space-y-space-sm"
+        aria-label="Estado de publicación"
+      >
+        <h2 class="type-title">Pendiente de aprobación y publicación</h2>
+        <p>
+          Esta página es una estructura informativa en preparación. No contiene
+          la política definitiva ni sustituye las condiciones que deben
+          publicarse antes del lanzamiento.
+        </p>
+      </section>
+      <section class="space-y-space-md">
+        <h2 class="type-headline">Lo que podemos indicarte ahora</h2>
+        <p>{policy.known}</p>
+      </section>
+      <section class="space-y-space-md">
+        <h2 class="type-headline">Información por confirmar</h2>
+        <ul class="list-disc space-y-space-sm pl-space-lg">
+          {policy.pending.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
+      <a href="/contacto" class="action action-secondary">
+        Consultar con el equipo
+      </a>
+    </>
+  ) : (
+    <>
+      <p>
+        No encontramos esta política. Consulta la información disponible o
+        contacta a nuestro equipo.
+      </p>
+      <a class="action action-secondary" href="/preguntas-frecuentes">
+        Ver preguntas frecuentes
+      </a>
+    </>
+  )}
+</InformationLayout>

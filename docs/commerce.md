@@ -139,3 +139,36 @@ change, integration payload, gallery selection, absent notes/images, unknown
 availability, real 404 and native no-JavaScript review. Long-title detail layouts
 fit 320/390/768/1440px. Reviewed 390/1440px catalog/detail screenshots against the
 four listing/detail references; shared home screenshots were reviewed in S11.
+
+## S15 — business information, policies and recovery
+
+`/nosotros`, `/contacto` and `/preguntas-frecuentes` are prerendered informational
+pages, using a shared readable InformationLayout. The header now has the approved
+Tienda / Más vendidos / Nosotros / Contacto structure; the footer links FAQ and
+all four policy routes. A native no-JavaScript navigation fallback is available
+on mobile. Contact uses the approved primary +57 310 8570230 and secondary
++57 312 2777427. The latter is a contact alternative, not the order-request route.
+
+`src/content/business.ts` contains the approved contacts, limited workflow FAQ and
+pending policy structures. No conflicting legacy email, address, hours, years in
+business, founders, social accounts, delivery times or guarantees are asserted.
+The brand story/locations remain explicitly pending I02/I06; final copy is S28.
+`/politicas/{envios,devoluciones,privacidad,terminos}` each expose publication
+status, the limited information currently known, and topics awaiting I08–I11.
+They force noindex and are not represented as definitive legal/purchase terms.
+
+Custom 404/500 pages offer discovery/contact recovery without raw error details.
+Known provider failures continue to use the explicit recoverable 503 view;
+malformed queries use 400 and missing products/collections/policies use 404.
+Static information remains available when a real catalog provider is unconnected.
+README/runtime/CI documentation now reflects dynamic browsing and static info.
+
+Checkpoint: `pnpm verify`, all 20 Chromium tests and `git diff --check` passed;
+zero type errors/warnings/hints. Internal-link checks gathered destinations from
+home, both catalog pages, collection, detail and information pages, then verified
+HTTP 200. Both contact numbers/links, pending policies, noindex and error recovery
+were verified. Production tests cover information availability independently of
+provider credentials and real 404/500 statuses. Axe scans found no WCAG A/AA
+violations on home/catalog/detail/contact/privacy at 390px and 1440px, or in the
+open mobile filters. These are automated Chromium checks; real device and
+screen-reader coverage remains S32, and hosted verification remains S05b.
