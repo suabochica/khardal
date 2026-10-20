@@ -40,7 +40,7 @@ Astro.response.headers.set('Cache-Control', 'no-store');
             Explora matices frescos, florales y amaderados. Encuentra una
             fragancia que te acompañe a tu manera.
           </p>
-          <a class="action action-primary" href="#seleccion">
+          <a class="action action-primary" href="/tienda">
             Explorar perfumes
           </a>
           <p class="type-caption">
@@ -104,7 +104,10 @@ Astro.response.headers.set('Cache-Control', 'no-store');
           {catalog.collections
             .filter((c) => c.slug !== 'top-10')
             .map((c) => (
-              <a class="action action-secondary" href={`#coleccion-${c.slug}`}>
+              <a
+                class="action action-secondary"
+                href={`/colecciones/${c.slug}`}
+              >
                 {c.name}
               </a>
             ))}

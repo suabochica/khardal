@@ -13,11 +13,13 @@ test('homepage hierarchy, collection anchors and responsive layout', async ({
   await page
     .getByRole('link', { name: 'Explorar perfumes', exact: true })
     .click();
-  await expect(page).toHaveURL(/#seleccion$/);
+  await expect(page).toHaveURL(/\/tienda$/);
+  await page.goto('/');
   await page
     .getByRole('link', { name: 'Encuentros frescos', exact: true })
     .click();
-  await expect(page.locator('#coleccion-frescos')).toBeInViewport();
+  await expect(page).toHaveURL(/\/colecciones\/frescos$/);
+  await page.goto('/');
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     expect(

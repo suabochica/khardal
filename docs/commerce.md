@@ -62,3 +62,24 @@ one h1, working discovery/collection anchors, image priority and no horizontal
 overflow at 320/390/768/1440px. Reviewed 390px and 1440px screenshots against the
 home references: stacked mobile / split desktop hero, tonal sections, generous
 spacing and three editorial cards. Final photography/content remains S28/S29.
+
+## S12 — catalog and collection browsing
+
+`/tienda` and `/colecciones/[slug]` use one listing loader/presentation. Route
+frontmatter sets HTTP status/headers (setting them in a nested Astro component
+does not propagate reliably). Missing collections are 404, malformed pages 400,
+provider failures 503; successful listings use no-store while adapter caching is
+pending S24/S26. The UI distinguishes sold-out from unknown availability, renders
+absent images, and offers first-page recovery for out-of-range pages. Pagination
+is native links with an optional pending live status; no JavaScript is required
+for browsing. Back/forward restores the pending/busy state on pageshow.
+
+Homepage collection links and discovery CTA now reach real routes; the header
+includes Tienda and Más vendidos. Top 10 explicitly discloses its curated sample
+status. Product cards gain detail links at S14, when those destinations exist.
+
+Checkpoint: `pnpm verify` and all 11 browser tests passed. Checked collection
+membership, two-page listing, sold-out/unknown/missing-image cards, malformed and
+out-of-range pages, actual 404/400/503 responses, pending navigation and layouts
+at 320/390/768/1440px. Production runtime tests verify no-store and no secret
+sentinels in listing responses; configured real providers never fall back to mock.

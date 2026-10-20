@@ -1,0 +1,9 @@
+---
+import ListingPage from '../../components/commerce/ListingPage.astro';
+import { loadListing } from '../../lib/commerce/listing.server';
+const result = await loadListing(Astro.url, Astro.params.slug);
+Astro.response.status = result.status;
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+
+<ListingPage result={result} collectionSlug={Astro.params.slug} />

@@ -1,0 +1,152 @@
+---
+import StoreLayout from '../../layouts/StoreLayout.astro';
+import CatalogCard from './CatalogCard.astro';
+import CatalogError from './CatalogError.astro';
+import Breadcrumbs from '../molecules/Breadcrumbs.astro';
+import type { loadListing } from '../../lib/commerce/listing.server';
+import { pageUrl } from '../../lib/commerce/query';
+interface Props {
+  collectionSlug?: string;
+  result: Awaited<ReturnType<typeof loadListing>>;
+}
+const { collectionSlug, result } = Astro.props;
+const { data } = result;
+const missing = result.status === 404;
+const invalid = result.status === 400;
+const title = data?.collection?.name ?? 'Todos los perfumes';
+---
+
+<StoreLayout
+  title={`${missing ? 'Colección no encontrada' : title} | Khardal Perfumería`}
+  description="Explora perfumes y colecciones. Compara presentaciones y consulta la disponibilidad con Khardal Perfumería."
+  sample={data?.provider === 'mock'}
+>
+  {data ? (
+    <div class="page-container section-space space-y-space-xl">
+      <Breadcrumbs
+        items={[
+          { label: 'Inicio', href: '/' },
+          ...(collectionSlug ? [{ label: 'Tienda', href: '/tienda' }] : []),
+          { label: title },
+        ]}
+      />
+      <header class="space-y-space-md">
+        <p class="type-label text-primary">El universo Khardal</p>
+        <h1 class="type-display">{title}</h1>
+        <p class="max-w-2xl">
+          {data.collection?.description ??
+            'Descubre perfiles, compara tamaños y encuentra una fragancia a tu manera.'}
+        </p>
+      </header>
+      <nav aria-label="Colecciones" class="flex flex-wrap gap-space-sm">
+        <a
+          class="chip inline-flex items-center"
+          href="/tienda"
+          aria-current={!collectionSlug ? 'page' : undefined}
+        >
+          Todos
+        </a>
+        {data.collections.map((c) => (
+          <a
+            class="chip inline-flex items-center"
+            href={`/colecciones/${c.slug}`}
+            aria-current={collectionSlug === c.slug ? 'page' : undefined}
+          >
+            {c.name}
+          </a>
+        ))}
+      </nav>
+      <p class="type-caption">
+        {data.results.total} perfumes · Página {data.results.page} de{' '}
+        {Math.max(1, data.results.totalPages)}
+      </p>
+      <p data-navigation-status role="status" hidden>
+        Cargando perfumes…
+      </p>
+      <section
+        data-results
+        aria-label="Perfumes"
+        class="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {data.results.items.map((product) => (
+          <CatalogCard product={product} />
+        ))}
+      </section>
+      {!data.results.items.length && (
+        <section class="bg-surface-container p-space-xl space-y-space-md">
+          <h2 class="type-headline">No hay perfumes en esta página</h2>
+          <p>Vuelve al inicio del catálogo para seguir explorando.</p>
+          <a class="action action-secondary" href={Astro.url.pathname}>
+            Ver primera página
+          </a>
+        </section>
+      )}
+      {data.results.totalPages > 1 && (
+        <nav
+          aria-label="Paginación"
+          class="flex flex-wrap items-center gap-space-md"
+        >
+          {data.results.page > 1 && (
+            <a
+              data-pagination
+              class="action action-secondary"
+              href={pageUrl(
+                Astro.url,
+                Math.min(data.results.page - 1, data.results.totalPages),
+              )}
+            >
+              Anterior
+            </a>
+          )}
+          <span>Página {data.results.page}</span>
+          {data.results.page < data.results.totalPages && (
+            <a
+              data-pagination
+              class="action action-secondary"
+              href={pageUrl(Astro.url, data.results.page + 1)}
+            >
+              Siguiente
+            </a>
+          )}
+        </nav>
+      )}
+    </div>
+  ) : missing || invalid ? (
+    <section class="page-container section-space space-y-space-lg">
+      <h1 class="type-headline">
+        {missing ? 'Colección no encontrada' : 'Revisa el número de página'}
+      </h1>
+      <p>
+        {missing
+          ? 'Esta colección no está disponible.'
+          : 'Elige una página válida para continuar.'}
+      </p>
+      <a class="action action-secondary" href="/tienda">
+        Explorar la tienda
+      </a>
+    </section>
+  ) : (
+    <CatalogError />
+  )}
+</StoreLayout>
+<script>
+  const status = document.querySelector<HTMLElement>(
+    '[data-navigation-status]',
+  );
+  document
+    .querySelectorAll<HTMLAnchorElement>('[data-pagination]')
+    .forEach((link) =>
+      link.addEventListener('click', (event) => {
+        if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)
+          return;
+        if (status) status.hidden = false;
+        document
+          .querySelector('[data-results]')
+          ?.setAttribute('aria-busy', 'true');
+      }),
+    );
+  window.addEventListener('pageshow', () => {
+    if (status) status.hidden = true;
+    document.querySelector('[data-results]')?.removeAttribute('aria-busy');
+  });
+</script>

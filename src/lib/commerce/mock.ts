@@ -4,10 +4,10 @@ import {
   type CartLineInput,
   type CommerceAdapter,
   type ProductQuery,
-  type Product,
   type Variant,
 } from './models.ts';
 import { cop, lineTotal } from './money.ts';
+import { lowestPrice } from './catalog.ts';
 
 export function normalizeSearch(value: string): string {
   return value
@@ -15,9 +15,6 @@ export function normalizeSearch(value: string): string {
     .replace(/[\u0300-\u036f]/g, '')
     .toLocaleLowerCase('es-CO')
     .trim();
-}
-export function lowestPrice(product: Product): number {
-  return Math.min(...product.variants.map((v) => v.price.amount));
 }
 export function createMockAdapter(): CommerceAdapter {
   const products = structuredClone(sampleProducts);

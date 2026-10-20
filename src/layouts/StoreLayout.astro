@@ -8,9 +8,9 @@ interface Props {
   sample?: boolean;
 }
 const { title, description, sample = false } = Astro.props;
-// Expand these links as real routes arrive in S11–S15, rather than linking to 404s.
 const links = [
-  { label: 'Inicio', href: '/' },
+  { label: 'Tienda', href: '/tienda' },
+  { label: 'Más vendidos', href: '/colecciones/top-10' },
   { label: 'WhatsApp', href: 'https://wa.me/573108570230' },
 ];
 ---

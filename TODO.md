@@ -94,7 +94,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: compare mobile/desktop hierarchy with references; use one clear primary CTA and working links.
   - Commit: `feat: Build the Spanish storefront homepage`
 
-- [ ] **S12 — Build catalog and collection pages**
+- [x] **S12 — Build catalog and collection pages**
   - Deliver: `/tienda`, `/colecciones/[slug]`, pagination, loading/error/empty states, and responsive product grids.
   - Checkpoint: collection membership, pagination, unavailable products, and narrow layouts behave correctly.
   - Commit: `feat: Add catalog and collection pages`
@@ -247,5 +247,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S10 | [Shared contract and mock catalog](docs/commerce.md): 12 labeled sample products, 36 stable variants/SKUs, curated Top 10, integer COP and authoritative mock validation. `pnpm verify` passed: 4 commerce tests, 4 config tests, 2 runtime tests and zero diagnostics. Pagination, money/overflow, identities, optional/unavailable data and combined filtering checked; `git diff --check` passed. | `git log --all --grep='Step: S10'` |
 
 | S11 | [Editorial homepage](docs/commerce.md): server-driven selection, sample/noindex notice, hero, collections, service steps, brand introduction, FAQs and WhatsApp. `pnpm verify` and 8 browser tests passed; zero type diagnostics. Reviewed mobile/desktop screenshots against references; verified anchors, reserved hero image and four-width overflow checks. Real-provider unavailable views return 503; `git diff --check` passed. | `git log --all --grep='Step: S11'` |
+
+| S12 | [Catalog and collections](docs/commerce.md): shared SSR listing, native pagination, loading/empty/error views, real navigation links and distinct unknown/sold-out states. `pnpm verify` and all 11 browser tests passed, zero diagnostics. Actual 404/400/503 and no-store checked in production; collection membership, optional data, pending status and four viewport widths checked; `git diff --check` passed. | `git log --all --grep='Step: S12'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

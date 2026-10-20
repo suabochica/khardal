@@ -97,6 +97,14 @@ test('production renders dynamic uncached responses with runtime-only provider c
       assert.notEqual(data.timestamp, next.timestamp);
       const preview = await fetch(`${base}/dev/design`);
       assert.equal(preview.status, 404);
+      const catalog = await fetch(`${base}/tienda`);
+      assert.equal(catalog.status, settings.COMMERCE_PROVIDER ? 503 : 200);
+      assert.equal(catalog.headers.get('cache-control'), 'no-store');
+      assert.ok(!(await catalog.text()).includes(marker));
+      if (!settings.COMMERCE_PROVIDER) {
+        assert.equal((await fetch(`${base}/colecciones/missing`)).status, 404);
+        assert.equal((await fetch(`${base}/tienda?page=invalid`)).status, 400);
+      }
     });
   }
 });
