@@ -1,0 +1,87 @@
+name: khardal-woocommerce
+
+x-wordpress-environment: &wordpress-environment
+  WORDPRESS_DB_HOST: db:3306
+  WORDPRESS_DB_NAME: khardal
+  WORDPRESS_DB_USER: khardal
+  WORDPRESS_DB_PASSWORD: ${WC_DB_PASSWORD:?Run pnpm woo:init first}
+  WP_LOCAL_URL: http://127.0.0.1:${WC_PORT:-8000}
+  WORDPRESS_CONFIG_EXTRA: |
+    define('WP_HOME', getenv('WP_LOCAL_URL'));
+    define('WP_SITEURL', getenv('WP_LOCAL_URL'));
+    define('WP_ENVIRONMENT_TYPE', 'local');
+    define('AUTOMATIC_UPDATER_DISABLED', true);
+    define('WP_AUTO_UPDATE_CORE', false);
+    define('DISALLOW_FILE_EDIT', true);
+    define('WP_MEMORY_LIMIT', '256M');
+    define('WP_MAX_MEMORY_LIMIT', '256M');
+
+services:
+  db:
+    image: mariadb:11.4.13@sha256:250e1609e93c0e6aecf64bfbab2d84d5e89d2481540fe77447ff6c855c3b1873
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${WC_DB_ROOT_PASSWORD:?Run pnpm woo:init first}
+      MARIADB_DATABASE: khardal
+      MARIADB_USER: khardal
+      MARIADB_PASSWORD: ${WC_DB_PASSWORD:?Run pnpm woo:init first}
+    volumes:
+      - database:/var/lib/mysql
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  wordpress:
+    image: wordpress:7.1.3-php8.3-apache@sha256:18b73b2dad9c0cdced35c5200dd6562c937a8e994762b4f2b43b1ece9fb317c9
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 127.0.0.1:${WC_PORT:-8000}:80
+    environment: *wordpress-environment
+    volumes:
+      - wordpress:/var/www/html
+    healthcheck:
+      # Apache must be ready before WP-CLI bootstraps the initial database.
+      test:
+        [CMD, php, -r, "$$s = @fsockopen('127.0.0.1', 80); exit($$s ? 0 : 1);"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 15s
+
+  setup:
+    image: wordpress:cli-php8.3@sha256:7a0cd79fe5ea17ac8b9e0bdaae6bd6dcd07887bc460982aa667fb25d1bd4ac39
+    profiles: [tools]
+    user: '33:33'
+    working_dir: /var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+      wordpress:
+        condition: service_healthy
+    environment:
+      <<: *wordpress-environment
+      HOME: /tmp
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
+      WP_CLI_CONFIG_PATH: /opt/khardal/wp-cli.yml
+      WC_ADMIN_USER: ${WC_ADMIN_USER:-khardal_local}
+      WC_ADMIN_PASSWORD: ${WC_ADMIN_PASSWORD:?Run pnpm woo:init first}
+      WC_ADMIN_EMAIL: ${WC_ADMIN_EMAIL:-admin@khardal.test}
+      WC_API_CONSUMER_KEY: ${WC_API_CONSUMER_KEY:?Run pnpm woo:init first}
+      WC_API_CONSUMER_SECRET: ${WC_API_CONSUMER_SECRET:?Run pnpm woo:init first}
+      KHARDAL_WORDPRESS_VERSION: 7.1.3
+      KHARDAL_WOOCOMMERCE_VERSION: 11.2.1
+      KHARDAL_MARIADB_VERSION: 11.4.13
+    volumes:
+      - wordpress:/var/www/html
+      - ./scripts/woocommerce:/opt/khardal:ro
+    entrypoint: [/bin/sh, /opt/khardal/setup.sh]
+
+volumes:
+  database:
+  wordpress:

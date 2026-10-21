@@ -10,9 +10,9 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
-    "format": "prettier --write src tests *.mjs playwright.config.ts package.json tsconfig.json .prettierrc.json .github render.yaml",
-    "format:check": "prettier --check src tests *.mjs playwright.config.ts package.json tsconfig.json .prettierrc.json .github render.yaml",
-    "lint": "eslint src tests *.mjs playwright.config.ts --max-warnings 0",
+    "format": "prettier --write src tests scripts/woocommerce/*.mjs scripts/woocommerce/*.yml *.mjs playwright.config.ts package.json tsconfig.json .prettierrc.json .github render.yaml docker-compose.yml",
+    "format:check": "prettier --check src tests scripts/woocommerce/*.mjs scripts/woocommerce/*.yml *.mjs playwright.config.ts package.json tsconfig.json .prettierrc.json .github render.yaml docker-compose.yml",
+    "lint": "eslint src tests scripts/woocommerce/*.mjs *.mjs playwright.config.ts --max-warnings 0",
     "verify": "pnpm format:check && pnpm lint && pnpm test:config && pnpm test:commerce && pnpm check && pnpm build && pnpm test:runtime",
     "build": "astro build",
     "preview": "astro preview",
@@ -21,7 +21,14 @@
     "test:commerce": "node --experimental-strip-types --test tests/commerce.test.ts tests/cart.test.ts tests/cart-validation.test.ts tests/whatsapp.test.ts",
     "test:runtime": "node --test tests/runtime.test.mjs",
     "test:ui": "playwright test",
-    "astro": "astro"
+    "astro": "astro",
+    "woo:init": "node scripts/woocommerce/init-env.mjs",
+    "woo:up": "docker compose --env-file .env.woocommerce up -d --wait db wordpress",
+    "woo:setup": "docker compose --env-file .env.woocommerce run --rm setup",
+    "woo:cli": "docker compose --env-file .env.woocommerce run --rm --entrypoint wp setup",
+    "woo:check": "node --env-file=.env.woocommerce scripts/woocommerce/check.mjs",
+    "woo:stop": "docker compose --env-file .env.woocommerce stop",
+    "woo:down": "docker compose --env-file .env.woocommerce down"
   },
   "dependencies": {
     "@astrojs/node": "11.1.9",

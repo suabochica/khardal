@@ -129,7 +129,24 @@ La [guía operativa del equipo](docs/manual-order-operations.md) explica confirm
 entrada manual, inventario, pagos y duplicados. El recorrido real de administrador
 queda pendiente hasta disponer del backend y catálogo de prueba (S20b).
 
-## Estructura
+## WooCommerce local (S21)
+
+```sh
+pnpm woo:init
+pnpm woo:up
+pnpm woo:setup
+pnpm woo:check
+```
+
+Administrador: **http://127.0.0.1:8000/wp-admin/**. Usuario `khardal_local` y
+contraseña `WC_ADMIN_PASSWORD` en el archivo ignorado `.env.woocommerce`.
+Las imágenes oficiales están fijadas por versión y digest: WordPress 7.1.3 con
+PHP 8.3.36, MariaDB 11.4.13 y WP-CLI 2.12.0; WooCommerce 11.2.1.
+Consulta la [guía local](docs/local-woocommerce.md) para parada/reinicio,
+persistencia, API, actualizaciones y reset destructivo. Astro sigue usando mock
+hasta S23–S24; el catálogo compartido se sembrará en S22.
+
+## Estructura del proyecto
 
 ```text
 src/layouts/BaseLayout.astro  Documento compartido con lang="es-CO"
