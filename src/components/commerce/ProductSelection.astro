@@ -36,6 +36,7 @@ const status = selected
   data-sample={product.sample ? 'true' : 'false'}
   data-product-id={product.id}
   data-product-name={product.name}
+  data-product-slug={product.slug}
   method="get"
   action={Astro.url.pathname}
   class="space-y-space-lg"
@@ -77,12 +78,19 @@ const status = selected
     type="submit"
     disabled={!selected}
   >
-    Revisar selección
+    Agregar al carrito
   </button>
   <p class="type-caption">
-    Vista previa de selección. El carrito se conectará en la siguiente etapa.
-    Esta acción no guarda un carrito ni reserva inventario.
+    El carrito se guarda en este navegador. Los precios son estimados y el
+    inventario no se reserva. Revisaremos disponibilidad y precios antes de
+    solicitar el pedido.
   </p>
+  <noscript>
+    <p>
+      Activa JavaScript para guardar el carrito. Puedes revisar una selección
+      con este formulario; no se guardará ni se creará un pedido.
+    </p>
+  </noscript>
   <p role="status" data-selection-summary>
     {requested
       ? `Selección preparada: ${product.name} · ${requested.label} × ${quantity}. No se ha creado un pedido.`
@@ -90,6 +98,8 @@ const status = selected
   </p>
 </form>
 <script>
+  import { getCartStore } from '../../lib/cart/client';
+  import { isProvider } from '../../lib/cart/state';
   document
     .querySelectorAll<HTMLFormElement>('[data-product-selection]')
     .forEach((form) => {
@@ -130,13 +140,32 @@ const status = selected
           sku: radio.dataset.sku,
           quantity: quantity.valueAsNumber,
           amountCop: Number(radio.dataset.amount),
+          slug: form.dataset.productSlug ?? '',
+          name: form.dataset.productName ?? '',
+          label: radio.dataset.label ?? '',
         };
-        // S16 consumes this request; prices remain non-authoritative until S18 validation.
+        // Display prices are never authoritative; S18 validates against the server.
         form.dispatchEvent(
           new CustomEvent('cart:add-request', { bubbles: true, detail }),
         );
-        if (summary)
-          summary.textContent = `Selección preparada: ${form.dataset.productName} · ${radio.dataset.label} × ${detail.quantity}. No se ha creado un pedido.`;
+        try {
+          if (!isProvider(detail.provider))
+            throw new Error('Proveedor de carrito no disponible.');
+          const store = getCartStore(detail.provider);
+          store.add({
+            ...detail,
+            productId: detail.productId ?? '',
+            sku: detail.sku ?? '',
+          });
+          if (summary)
+            summary.textContent = `Agregado al carrito: ${detail.name} · ${detail.label} × ${detail.quantity}. No se ha creado un pedido. ${store.warning()}`;
+        } catch (error) {
+          if (summary)
+            summary.textContent =
+              error instanceof Error
+                ? error.message
+                : 'No pudimos agregar la presentación. Intenta de nuevo.';
+        }
       });
     });
 </script>

@@ -8,7 +8,7 @@ test('native product selection remains reviewable without JavaScript', async ({
     const page = await context.newPage();
     await page.goto('/perfumes/brisa-bergamota');
     await page.getByRole('radio', { name: /50 ml/ }).check();
-    await page.getByRole('button', { name: 'Revisar selección' }).click();
+    await page.getByRole('button', { name: 'Agregar al carrito' }).click();
     await expect(page.locator('[data-selected-price]')).toHaveText(
       'COP 110.000',
     );
@@ -46,7 +46,7 @@ test('product variants update price/SKU/quantity bounds and emit a cart integrat
       ).detail;
     }),
   );
-  await page.getByRole('button', { name: 'Revisar selección' }).click();
+  await page.getByRole('button', { name: 'Agregar al carrito' }).click();
   expect(
     await page.evaluate(
       () => (window as unknown as { selection: unknown }).selection,
@@ -79,14 +79,14 @@ test('details omit absent content, disable sold-out products and return a real 4
   ).toHaveCount(0);
   await page.goto('/perfumes/rosa-lluvia');
   await expect(
-    page.getByRole('button', { name: 'Revisar selección' }),
+    page.getByRole('button', { name: 'Agregar al carrito' }),
   ).toBeDisabled();
   await page.goto('/perfumes/horizonte-mineral');
   await expect(
     page.getByText('Imagen no disponible', { exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByRole('button', { name: 'Revisar selección' }),
+    page.getByRole('button', { name: 'Agregar al carrito' }),
   ).toBeDisabled();
   expect((await page.goto('/perfumes/missing'))?.status()).toBe(404);
   await page.goto('/perfumes/memoria-luminosa');

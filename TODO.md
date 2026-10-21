@@ -116,7 +116,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
 
 ## Milestone 4 — Cart and WhatsApp ordering
 
-- [ ] **S16 — Implement persistent cart state**
+- [x] **S16 — Implement persistent cart state**
   - Deliver: add/update/remove variants, quantity validation, money calculations, and versioned provider-namespaced local persistence.
   - Checkpoint: targeted tests cover repeated additions, invalid quantities, corrupt stored data, reloads, and provider isolation. Stored prices are not authoritative.
   - Commit: `feat: Add persistent shopping cart state`
@@ -255,5 +255,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S14 | [Perfume details and selection event](docs/commerce.md): gallery, live variant prices/SKUs/stock, bounded quantity, optional notes, related cards and policy summaries. `pnpm verify` and 17 browser tests passed, zero diagnostics. Checked missing products (404), unavailable variants/products, gallery, cart-integration payload, no-JS review and long names at four widths. Reviewed mobile/desktop catalog/detail screenshots against references; `git diff --check` passed. | `git log --all --grep='Step: S14'` |
 
 | S15 | [Business, policy and error pages](docs/commerce.md): about/contact/FAQ, all four pending policy structures, custom 404/500 and complete shared navigation/footer. `pnpm verify`, all 20 browser tests and `git diff --check` passed; zero diagnostics. Internal-link destinations return 200, both WhatsApp contacts match approved numbers, pending policies force noindex, error statuses/recovery work. Axe: no WCAG A/AA violations on five mobile/desktop surfaces and open filters. Final business/policy approval remains S28. | `git log --all --grep='Step: S15'` |
+
+| S16 | [Persistent cart](docs/cart-and-ordering.md): versioned provider namespaces, merge/update/remove, bounded quantities, safe COP estimates and recoverable corrupt/blocked storage. `pnpm verify` passed (8 commerce/cart tests, zero diagnostics); all 21 browser tests passed, including repeated additions through reload. `git diff --check` passed. | `git log --all --grep='Step: S16'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.
