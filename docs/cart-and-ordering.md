@@ -115,3 +115,13 @@ WCAG A/AA violations on the long-cart/handoff view. A compiled-server browser
 smoke check completed add → validate → preview → drawer, and mobile/desktop
 screenshots were reviewed. No message was sent to the business; actual iOS/Android
 WhatsApp-app behavior remains a device check in S32.
+
+## S20 — manual operations checkpoint
+
+[Staff procedure, admin guidance, deduplication, inventory/payment timing,
+measurement and simulated walkthrough](manual-order-operations.md) are recorded
+under S20a, with a reusable [entry worksheet](manual-order-template.md). The
+mock-handler exercise reconciled changed prices and a COP 240,000 subtotal;
+no message, backend order or stock movement was created. S20b stays blocked until
+a test admin and seeded catalog exist (S21–S22; Shopify also requires S27).
+Parent S20 remains open. Application checks remain those from S19; S20a changes docs.

@@ -125,6 +125,9 @@ La [guía de carrito y pedidos](docs/cart-and-ordering.md) documenta persistenci
 reconciliación y handoff. Los mensajes largos se copian completos para pegarlos
 en WhatsApp; si falla el portapapeles, el campo permite copia manual. La
 verificación caduca tras un minuto y se invalida al editar el carrito.
+La [guía operativa del equipo](docs/manual-order-operations.md) explica confirmación,
+entrada manual, inventario, pagos y duplicados. El recorrido real de administrador
+queda pendiente hasta disponer del backend y catálogo de prueba (S20b).
 
 ## Estructura
 
