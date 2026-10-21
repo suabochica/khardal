@@ -127,7 +127,7 @@ en WhatsApp; si falla el portapapeles, el campo permite copia manual. La
 verificación caduca tras un minuto y se invalida al editar el carrito.
 La [guía operativa del equipo](docs/manual-order-operations.md) explica confirmación,
 entrada manual, inventario, pagos y duplicados. El recorrido real de administrador
-queda pendiente hasta disponer del backend y catálogo de prueba (S20b).
+se registrará en S20b; el backend y catálogo de prueba ya están disponibles.
 
 ## WooCommerce local (S21)
 
@@ -144,7 +144,19 @@ Las imágenes oficiales están fijadas por versión y digest: WordPress 7.1.3 co
 PHP 8.3.36, MariaDB 11.4.13 y WP-CLI 2.12.0; WooCommerce 11.2.1.
 Consulta la [guía local](docs/local-woocommerce.md) para parada/reinicio,
 persistencia, API, actualizaciones y reset destructivo. Astro sigue usando mock
-hasta S23–S24; el catálogo compartido se sembrará en S22.
+hasta S23–S24. El catálogo compartido está disponible con:
+
+```sh
+pnpm woo:seed                # Crear/actualizar los registros de muestra
+pnpm woo:seed:check          # Verificar paridad sin modificar el catálogo
+pnpm woo:seed:repeat-check   # Sembrar dos veces y comprobar IDs/no duplicados
+```
+
+Son 12 productos variables, 36 variantes y 22 imágenes de demostración. La
+[guía de seeding](docs/woocommerce-seeding.md) describe SKUs, metadatos, imágenes
+y reglas de repetición. El seed utiliza Chromium (instalable con
+`pnpm exec playwright install chromium`) y evita restablecer stock de productos
+que ya estén referenciados por pedidos. El siguiente checkpoint es S20b.
 
 ## Estructura del proyecto
 

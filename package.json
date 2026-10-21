@@ -27,6 +27,9 @@
     "woo:setup": "docker compose --env-file .env.woocommerce run --rm setup",
     "woo:cli": "docker compose --env-file .env.woocommerce run --rm --entrypoint wp setup",
     "woo:check": "node --env-file=.env.woocommerce scripts/woocommerce/check.mjs",
+    "woo:seed": "node --env-file=.env.woocommerce --experimental-strip-types scripts/woocommerce/seed.mjs seed",
+    "woo:seed:check": "node --env-file=.env.woocommerce --experimental-strip-types scripts/woocommerce/seed.mjs check",
+    "woo:seed:repeat-check": "node --env-file=.env.woocommerce --experimental-strip-types scripts/woocommerce/seed.mjs repeat-check",
     "woo:stop": "docker compose --env-file .env.woocommerce stop",
     "woo:down": "docker compose --env-file .env.woocommerce down"
   },

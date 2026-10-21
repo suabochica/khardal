@@ -141,7 +141,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: walk through one request through manual order entry; distinguish handoff analytics from completed sales.
   - Commit: `docs: Define manual order handling`
   - [x] **S20a — Document operations and simulate the request-to-entry worksheet.** Deliver staff procedure, duplicate handling, inventory/payment rules and a labeled mock walkthrough. Checkpoint: reconcile a server-validated sample request with a manually completed worksheet, review totals and recovery cases. Commit: `docs: Define manual order handling` (`Step: S20a`).
-  - [ ] **S20b — Verify actual backend order entry.** Dependency: provisioned/seeded WooCommerce (S21–S22), or accessible selected backend. Checkpoint: create one test order in the admin, record its ID and before/after stock, payment/status behavior and duplicate-request recovery. Real Shopify operations additionally require S27. S21 now provides a working local admin/API; shared catalog seeding (S22) and this actual-entry walkthrough remain pending. Parent S20 remains open until this checkpoint passes.
+  - [ ] **S20b — Verify actual backend order entry.** Dependency: provisioned/seeded WooCommerce (S21–S22), or accessible selected backend. Checkpoint: create one test order in the admin, record its ID and before/after stock, payment/status behavior and duplicate-request recovery. Real Shopify operations additionally require S27. S21–S22 now provide the local admin/API and shared sample catalog; this actual-entry walkthrough is ready to run. Parent S20 remains open until this checkpoint passes.
 
 ## Milestone 5 — Real local WooCommerce
 
@@ -150,7 +150,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: clean startup, working admin/API, and persistence across restart; document start/stop and explicit destructive reset separately.
   - Commit: `ops: Add local WooCommerce environment`
 
-- [ ] **S22 — Seed the shared sample catalog**
+- [x] **S22 — Seed the shared sample catalog**
   - Deliver: repeatable SKU-based seed process for products, variations, images, categories, custom fragrance metadata, and stock from S10 fixtures.
   - Checkpoint: seed twice without duplicates; variant prices, category membership, and unavailable states match fixtures.
   - Commit: `ops: Seed the WooCommerce sample catalog`
@@ -267,7 +267,9 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S19 | [WhatsApp handoff](docs/cart-and-ordering.md): authoritative encoded Spanish message, explicit open/copy, full long-cart fallback, expiry/edit invalidation and retained cart. `pnpm verify` passed (5 config, 13 domain/handler/message tests, zero diagnostics); all 29 browser tests passed. Fixed compiled-server trusted-origin mismatch; actual Origin-header regression and compiled browser smoke passed. Reviewed cart screenshots; axe found no violations on long-cart/handoff. External navigation intercepted, no business message sent; `git diff --check` passed. | `git log --all --grep='Step: S19'` |
 
 | S20a | [Staff operations and labeled walkthrough](docs/manual-order-operations.md), [entry worksheet](docs/manual-order-template.md). Reviewed official WooCommerce/Shopify admin/stock documentation. Executed mock validation handler with price-change rejection then acceptance: COP 240,000 subtotal; manually reconciled simulated COP 15,000 shipping / COP 255,000 total and stock arithmetic. Recorded duplicate handling, payment pending and no real backend ID/order/stock movement. Content/link/whitespace review passed; application checks unchanged from S19. | `git log --all --grep='Step: S20a'` |
-| S20b | S21 provides a working local WooCommerce admin/API. Shared catalog seeding S22 and the actual admin-entry/stock-transition walkthrough remain pending; Shopify also requires S27. Parent S20 remains open. | Pending S22 and actual walkthrough; no completion commit |
+| S20b | S21–S22 provide the local WooCommerce admin/API and shared sample catalog. The actual admin-entry/stock-transition walkthrough is now unblocked; Shopify also requires S27. Parent S20 remains open. | Ready for actual walkthrough; no completion commit |
 | S21 | [Pinned local WooCommerce](docs/local-woocommerce.md): WordPress 7.1.3/PHP 8.3.36, MariaDB 11.4.13, WP-CLI 2.12.0 (images digest-pinned), WooCommerce 11.2.1 with official checksums. Fresh healthy startup, repeated setup (one API key), es_CO/CO/COP, real admin login and OAuth-signed REST checks passed. Stop/start and down/up preserved marker, plugin/user/API credentials. Env ignored/0600, frozen install, Compose/shell validation and `pnpm verify` passed (zero diagnostics); `git diff --check` passed. | `git log --all --grep='Step: S21'` |
+
+| S22 | [Shared catalog seed and mapping](docs/woocommerce-seeding.md): 12 variable products, 36 exact fixture SKUs, 22 rasterized sample images, 7 managed categories and 2 global attributes. `pnpm woo:seed:repeat-check` passed with identical IDs and zero products/variants/images created on the second run. CRUD + native REST verified all prices/stock, unknown/sold-out states, categories, optional notes, image alt/dimensions/content and curated Top 10 order. `pnpm woo:check`, `pnpm verify` (zero diagnostics) and `git diff --check` passed. S20b is now unblocked but not completed. | `git log --all --grep='Step: S22'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

@@ -122,6 +122,7 @@ WhatsApp-app behavior remains a device check in S32.
 measurement and simulated walkthrough](manual-order-operations.md) are recorded
 under S20a, with a reusable [entry worksheet](manual-order-template.md). The
 mock-handler exercise reconciled changed prices and a COP 240,000 subtotal;
-no message, backend order or stock movement was created. S20b stays blocked until
-a test admin and seeded catalog exist (S21–S22; Shopify also requires S27).
-Parent S20 remains open. Application checks remain those from S19; S20a changes docs.
+no message, backend order or stock movement was created. S21–S22 now supply the
+local test admin and [seeded catalog](woocommerce-seeding.md), so S20b is ready for
+the actual-entry walkthrough. Shopify also requires S27. Parent S20 remains open.
+Application checks for the cart remain those from S19; S20a changed docs only.

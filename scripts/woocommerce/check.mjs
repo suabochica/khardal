@@ -1,38 +1,5 @@
 import assert from 'node:assert/strict';
-import { createHmac, randomBytes } from 'node:crypto';
-
-const base = `http://127.0.0.1:${process.env.WC_PORT ?? '8000'}`;
-const encode = (value) =>
-  encodeURIComponent(value).replace(
-    /[!'()*]/g,
-    (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
-  );
-function auth(url, secret = process.env.WC_API_CONSUMER_SECRET) {
-  const oauth = {
-    oauth_consumer_key: process.env.WC_API_CONSUMER_KEY,
-    oauth_nonce: randomBytes(16).toString('hex'),
-    oauth_signature_method: 'HMAC-SHA256',
-    oauth_timestamp: String(Math.floor(Date.now() / 1000)),
-    oauth_version: '1.0',
-  };
-  const params = [...url.searchParams, ...Object.entries(oauth)]
-    .map(([k, v]) => [encode(k), encode(v)])
-    .sort(
-      ([ak, av], [bk, bv]) =>
-        ak.localeCompare(bk, 'en') || av.localeCompare(bv, 'en'),
-    )
-    .map(([k, v]) => `${k}=${v}`)
-    .join('&');
-  oauth.oauth_signature = createHmac('sha256', `${encode(secret)}&`)
-    .update(`GET&${encode(url.origin + url.pathname)}&${encode(params)}`)
-    .digest('base64');
-  return (
-    'OAuth ' +
-    Object.entries(oauth)
-      .map(([k, v]) => `${encode(k)}="${encode(v)}"`)
-      .join(', ')
-  );
-}
+import { base, auth } from './api.mjs';
 const get = (url, options = {}) =>
   fetch(url, { ...options, signal: AbortSignal.timeout(15000) });
 const root = await get(`${base}/wp-json/`);

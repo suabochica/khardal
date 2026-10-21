@@ -87,8 +87,9 @@ reglas Apache para generar `.htaccess`. Los scripts se montan en solo lectura.
   desde las pruebas administrativas. El plugin solo aplica al entorno `local`.
 
 No se inventan direcciones, impuestos, tarifas de envío ni medios de pago del
-negocio. La configuración comercial definitiva sigue pendiente de S28. No hay
-productos de muestra sembrados todavía: eso corresponde a S22.
+negocio. La configuración comercial definitiva sigue pendiente de S28. S22 añade
+el [catálogo compartido de muestra](woocommerce-seeding.md), con comandos de seed
+repetible y comprobación de paridad.
 
 ## API y Astro
 
@@ -176,4 +177,5 @@ Resultados registrados en `TODO.md`:
 
 La verificación Docker es explícita y separada de `pnpm verify`; CI y previews
 mock no necesitan iniciar contenedores. S20b sigue pendiente de S22 y del recorrido
-administrativo real de un pedido de prueba.
+administrativo real de un pedido de prueba en este checkpoint histórico. S22 ya
+proporciona el catálogo; el recorrido S20b aún debe ejecutarse y registrarse.
