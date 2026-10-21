@@ -1,0 +1,38 @@
+---
+import Drawer from '../molecules/Drawer.astro';
+import Icon from '../atoms/Icon.astro';
+import CartPanel from './CartPanel.astro';
+---
+
+<a
+  data-cart-fallback
+  href="/carrito"
+  class="icon-action"
+  aria-label="Ver carrito"
+>
+  <Icon name="bag" />
+</a>
+<div data-cart-enhancement hidden>
+  <Drawer
+    id="shopping-cart"
+    title="Carrito"
+    triggerLabel="Abrir carrito"
+    triggerClass="icon-action relative"
+  >
+    <span slot="trigger" class="inline-flex">
+      <Icon name="bag" />
+      <span
+        data-cart-count
+        aria-hidden="true"
+        class="absolute -top-1 -right-1 min-w-5 bg-primary px-space-xs text-xs text-on-primary"
+      >
+        0
+      </span>
+    </span>
+    <CartPanel id="drawer" drawer />
+  </Drawer>
+</div>
+<script>
+  import { initCartUI } from '../../lib/cart/ui';
+  void initCartUI();
+</script>

@@ -1,0 +1,92 @@
+---
+interface Props {
+  id: string;
+  drawer?: boolean;
+}
+const { id, drawer = false } = Astro.props;
+---
+
+<section
+  data-cart-panel={id}
+  aria-label={drawer ? 'Resumen del carrito' : 'Contenido del carrito'}
+  class="space-y-space-lg"
+>
+  <p data-cart-loading role="status">
+    Cargando carrito…
+  </p>
+  <p data-cart-sample hidden class="bg-secondary-container p-space-md text-sm">
+    Carrito de demostración: productos y precios de muestra. No representa un
+    pedido real.
+  </p>
+  <p data-cart-warning role="status" class="text-sm text-error"></p>
+  <p data-cart-feedback role="status" tabindex="-1" class="type-caption"></p>
+  <div data-cart-empty hidden class="space-y-space-lg">
+    <p>Tu carrito está vacío.</p>
+    <a class="action action-primary" href="/tienda">
+      Explorar perfumes
+    </a>
+  </div>
+  <ul data-cart-items class="space-y-space-lg"></ul>
+  <div
+    data-cart-totals
+    hidden
+    class="space-y-space-md border-t border-outline-variant pt-space-lg"
+  >
+    <p class="flex flex-wrap justify-between gap-space-sm font-medium">
+      Subtotal estimado <span data-cart-subtotal></span>
+    </p>
+    <p class="flex justify-between gap-space-sm">
+      Envío <span>Por confirmar</span>
+    </p>
+    <p class="type-caption">
+      Los precios guardados no son definitivos. La disponibilidad, el envío, el
+      valor final y el pago se confirman con el equipo. El carrito no reserva
+      inventario.
+    </p>
+    {drawer && (
+      <a class="action action-primary w-full" href="/carrito">
+        Ver carrito completo
+      </a>
+    )}
+  </div>
+  <noscript>
+    <p>
+      Activa JavaScript para consultar el carrito guardado en este navegador.
+      También puedes{' '}
+      <a href="/contacto" class="underline">
+        contactar al equipo
+      </a>
+      .
+    </p>
+  </noscript>
+  <template data-cart-item>
+    <li class="space-y-space-md border border-outline-variant bg-surface-container-low p-space-md">
+      <a data-item-name class="type-title block text-primary underline"></a>
+      <p data-item-detail class="type-caption"></p>
+      <p data-item-price class="text-sm"></p>
+      <div class="flex flex-wrap items-end justify-between gap-space-md">
+        <div>
+          <label data-item-label class="block text-sm mb-space-xs">
+            Cantidad
+          </label>
+          <input
+            data-item-quantity
+            class="field-control w-24"
+            type="number"
+            min="1"
+            max="99"
+            step="1"
+            inputmode="numeric"
+            required
+          />
+        </div>
+        <button type="button" data-item-remove class="action action-text">
+          Quitar
+        </button>
+      </div>
+      <p class="text-sm font-medium">
+        Total estimado: <span data-item-total></span>
+      </p>
+    </li>
+  </template>
+</section>

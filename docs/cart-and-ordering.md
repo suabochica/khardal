@@ -24,3 +24,24 @@ Checkpoint: `pnpm verify` passed (8 domain/config-independent commerce/cart test
 4 config tests, 2 compiled runtime tests, zero diagnostics); all 21 Chromium
 tests passed. Tested repeat additions, invalid quantities, overflow, corrupt data,
 version/provider isolation, blocked storage, removal and real browser reload.
+
+## S17 — cart surfaces
+
+`/carrito` and the header's native-dialog drawer subscribe to the same store.
+They expose item quantities, estimated unit/line totals and subtotal, removal,
+empty state and shipping **Por confirmar**. The count is total units, not lines.
+Focus is restored after rendering edited rows; Escape returns to the opener.
+The drawer links to the full cart; the header begins as a native full-cart link
+until enhancement is ready. Without JavaScript the page explains how to contact
+the team rather than pretending a local-storage cart can be rendered server-side.
+
+`GET /api/cart/context` exposes only the active provider enum, no-store. This lets
+prerendered information pages choose the correct runtime cart without baking
+provider credentials into HTML. Missing configuration gives a recoverable failure.
+Mock cart panels are clearly labeled; real-provider carts do not become mock.
+
+Checkpoint: `pnpm verify` passed with zero diagnostics; full browser suite passed
+22 tests before the final sample notice/cross-tab additions, then both targeted
+cart tests passed. Covered page/drawer/count synchronization, reload, removal,
+empty state, Escape/focus return, fractional-input recovery, cross-tab storage
+events and overflow checks at 320/390/768/1440px. `git diff --check` passed.

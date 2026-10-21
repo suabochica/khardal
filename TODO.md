@@ -121,7 +121,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: targeted tests cover repeated additions, invalid quantities, corrupt stored data, reloads, and provider isolation. Stored prices are not authoritative.
   - Commit: `feat: Add persistent shopping cart state`
 
-- [ ] **S17 — Build cart page and drawer**
+- [x] **S17 — Build cart page and drawer**
   - Deliver: `/carrito`, accessible drawer, item count, line totals, subtotal, and empty state. Shipping reads “Por confirmar”.
   - Checkpoint: changes update all visible cart surfaces; keyboard and mobile interactions work; full cart remains directly accessible.
   - Commit: `feat: Add cart page and drawer`
@@ -257,5 +257,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S15 | [Business, policy and error pages](docs/commerce.md): about/contact/FAQ, all four pending policy structures, custom 404/500 and complete shared navigation/footer. `pnpm verify`, all 20 browser tests and `git diff --check` passed; zero diagnostics. Internal-link destinations return 200, both WhatsApp contacts match approved numbers, pending policies force noindex, error statuses/recovery work. Axe: no WCAG A/AA violations on five mobile/desktop surfaces and open filters. Final business/policy approval remains S28. | `git log --all --grep='Step: S15'` |
 
 | S16 | [Persistent cart](docs/cart-and-ordering.md): versioned provider namespaces, merge/update/remove, bounded quantities, safe COP estimates and recoverable corrupt/blocked storage. `pnpm verify` passed (8 commerce/cart tests, zero diagnostics); all 21 browser tests passed, including repeated additions through reload. `git diff --check` passed. | `git log --all --grep='Step: S16'` |
+
+| S17 | [Cart page and drawer](docs/cart-and-ordering.md): synchronized counts, edits/removal, COP estimates, empty state, shipping “Por confirmar” and runtime provider context. `pnpm verify` passed, zero diagnostics; full 22-test UI suite passed, followed by 2 passing targeted cart tests after cross-tab/sample refinements. Checked focus/Escape, reload, invalid input, cross-tab updates and four-width overflow; `git diff --check` passed. | `git log --all --grep='Step: S17'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

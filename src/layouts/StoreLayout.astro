@@ -3,6 +3,8 @@ import BaseLayout from './BaseLayout.astro';
 import Header from '../components/organisms/Header.astro';
 import Footer from '../components/organisms/Footer.astro';
 import { policies } from '../content/business';
+import CartNavigation from '../components/cart/CartNavigation.astro';
+import Icon from '../components/atoms/Icon.astro';
 interface Props {
   title: string;
   description: string;
@@ -24,8 +26,10 @@ const links = [
   </a>
   <Header links={links}>
     <a slot="actions" href="/buscar" class="icon-action px-space-sm text-sm">
-      Buscar
+      <Icon name="search" />
+      <span class="sr-only">Buscar</span>
     </a>
+    <CartNavigation slot="actions" />
   </Header>
   <noscript>
     <nav

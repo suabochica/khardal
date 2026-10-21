@@ -1,0 +1,26 @@
+---
+import StoreLayout from '../layouts/StoreLayout.astro';
+import CartPanel from '../components/cart/CartPanel.astro';
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+
+<StoreLayout
+  title="Tu carrito | Khardal Perfumería"
+  description="Revisa tus perfumes y cantidades antes de solicitar tu pedido por WhatsApp."
+  noindex
+>
+  <div class="page-container section-space max-w-4xl space-y-space-xl">
+    <header class="space-y-space-md">
+      <p class="type-label text-primary">Una selección a tu manera</p>
+      <h1 class="type-display">Tu carrito</h1>
+      <p>
+        Revisa presentaciones y cantidades. Guardar un carrito no confirma un
+        pedido ni un pago.
+      </p>
+    </header>
+    <CartPanel id="page" />
+    <a class="action action-text" href="/tienda">
+      Seguir explorando
+    </a>
+  </div>
+</StoreLayout>
