@@ -109,7 +109,7 @@ Las credenciales/cookies no se imprimen. Para verificar configuración interna:
 pnpm woo:cli eval-file /opt/khardal/verify.php
 ```
 
-Cuando implementemos S23–S24, los valores locales se mapearán al `.env` de Astro:
+Desde S23, `pnpm woo:use` mapea los valores locales al `.env` ignorado de Astro:
 
 ```dotenv
 COMMERCE_PROVIDER=woocommerce
@@ -118,8 +118,9 @@ WOOCOMMERCE_URL=http://127.0.0.1:8000
 # WOOCOMMERCE_CONSUMER_SECRET toma WC_API_CONSUMER_SECRET del archivo local.
 ```
 
-Por ahora Astro continúa con `mock`: el adaptador WooCommerce aún no está
-implementado. Que el backend y su REST funcionen no completa S23/S24 ni S20b.
+El [adaptador S23](woocommerce-adapter.md) ya conecta catálogo, colecciones y
+detalles. La validación de pedidos y optimización de navegación siguen en S24;
+el recorrido de entrada manual S20b permanece separado.
 
 ## Persistencia y reinicio
 

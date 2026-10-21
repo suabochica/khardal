@@ -24,7 +24,10 @@ Astro.response.headers.set('Cache-Control', 'no-store');
 <StoreLayout
   title="Khardal Perfumería | Encuentra tu próximo perfume"
   description="Explora fragancias y conoce cómo solicitar tu pedido con el equipo de Khardal Perfumería por WhatsApp en Colombia."
-  sample={catalog?.provider === 'mock'}
+  sample={
+    catalog?.provider === 'mock' ||
+    catalog?.products.items.some((p) => p.sample)
+  }
 >
   {catalog ? (
     <>

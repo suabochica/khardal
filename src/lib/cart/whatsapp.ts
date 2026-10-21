@@ -39,7 +39,7 @@ export function prepareHandoff(
       const item = line.current!;
       return [
         `${index + 1}. ${clean(item.name)} · ${clean(item.label)}`,
-        `SKU: ${clean(item.sku)} | Cantidad: ${line.quantity}`,
+        `SKU: ${clean(item.sku) || `Sin SKU asignado (variante ${clean(item.variantId)})`} | Cantidad: ${line.quantity}`,
         `Precio unitario: ${formatCop(item.amountCop)} | Total: ${formatCop(item.amountCop * line.quantity)}`,
         new URL(`/perfumes/${encodeURIComponent(item.slug)}`, base.origin).href,
         '',

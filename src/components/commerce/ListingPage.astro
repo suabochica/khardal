@@ -25,7 +25,9 @@ const title =
 <StoreLayout
   title={`${missing ? 'Colección no encontrada' : title} | Khardal Perfumería`}
   description="Explora perfumes y colecciones. Compara presentaciones y consulta la disponibilidad con Khardal Perfumería."
-  sample={data?.provider === 'mock'}
+  sample={
+    data?.provider === 'mock' || data?.results.items.some((p) => p.sample)
+  }
 >
   {data ? (
     <div class="page-container section-space space-y-space-xl">

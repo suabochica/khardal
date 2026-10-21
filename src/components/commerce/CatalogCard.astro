@@ -9,15 +9,22 @@ interface Props {
 const { product, linked = true } = Astro.props;
 const available = product.variants.some((v) => v.availability === 'available');
 const unknown = product.variants.some((v) => v.availability === 'unknown');
+const price = lowestPrice(product);
 ---
 
 <ProductCard
   name={product.name}
   href={linked ? `/perfumes/${product.slug}` : undefined}
-  amountCop={lowestPrice(product)}
+  amountCop={price}
   from={product.variants.length > 1}
-  notes={`${product.category} · ${product.family}`}
+  notes={[product.category, product.family].filter(Boolean).join(' · ')}
   image={product.images[0]}
   available={available}
-  unavailableLabel={unknown ? 'Disponibilidad por confirmar' : 'Agotado'}
+  unavailableLabel={
+    price === null
+      ? 'Precio por confirmar'
+      : unknown
+        ? 'Disponibilidad por confirmar'
+        : 'Agotado'
+  }
 />

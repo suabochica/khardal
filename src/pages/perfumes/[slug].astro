@@ -37,7 +37,7 @@ Astro.response.headers.set('Cache-Control', 'no-store');
   description={
     data?.product.description ?? 'Explora perfumes en Khardal Perfumería.'
   }
-  sample={data?.product.sample}
+  sample={data?.product.sample || data?.related.some((p) => p.sample)}
 >
   {data ? (
     <div class="page-container section-space space-y-space-xl">
@@ -55,7 +55,9 @@ Astro.response.headers.set('Cache-Control', 'no-store');
           aria-label="Detalles del perfume"
         >
           <p class="type-label text-primary">
-            {data.product.category} · {data.product.family}
+            {[data.product.category, data.product.family]
+              .filter(Boolean)
+              .join(' · ')}
           </p>
           <h1 class="type-display">{data.product.name}</h1>
           <p>{data.product.description}</p>

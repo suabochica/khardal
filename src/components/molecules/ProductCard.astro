@@ -5,7 +5,7 @@ import Price from './Price.astro';
 interface Props {
   name: string;
   href?: string;
-  amountCop: number;
+  amountCop: number | null;
   notes?: string;
   image?: { src: string; alt: string };
   available?: boolean;
@@ -58,7 +58,11 @@ const {
       )}
     </h3>
     {notes && <p class="type-caption">{notes}</p>}
-    <Price amountCop={amountCop} from={from} />
+    {amountCop === null ? (
+      <p class="font-medium">Precio por confirmar</p>
+    ) : (
+      <Price amountCop={amountCop} from={from} />
+    )}
     {href && (
       <a
         href={href}

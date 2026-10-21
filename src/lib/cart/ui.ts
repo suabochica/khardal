@@ -22,7 +22,10 @@ function connectPanel(panel: HTMLElement, store: CartStore) {
         fragment.querySelector<HTMLAnchorElement>('[data-item-name]')!;
       name.textContent = item.name;
       name.href = `/perfumes/${item.slug}`;
-      text('[data-item-detail]', `${item.label} · SKU ${item.sku}`);
+      text(
+        '[data-item-detail]',
+        `${item.label} · ${item.sku ? `SKU ${item.sku}` : 'Sin SKU asignado'}`,
+      );
       text(
         '[data-item-price]',
         `Precio estimado: ${formatCop(item.amountCop)}`,

@@ -7,15 +7,15 @@ export interface CatalogImage {
   id: string;
   src: string;
   alt: string;
-  width: number;
-  height: number;
+  width: number | null;
+  height: number | null;
 }
 export type Availability = 'available' | 'sold-out' | 'unknown';
 export interface Variant {
   id: string;
   sku: string;
   label: string;
-  sizeMl: number;
+  sizeMl: number | null;
   price: Money;
   availability: Availability;
   stockQuantity: number | null;

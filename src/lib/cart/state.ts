@@ -39,12 +39,14 @@ function validItem(value: unknown): value is CartItem {
   if (!value || typeof value !== 'object') return false;
   const item = value as CartItem;
   return (
-    ['productId', 'variantId', 'name', 'label', 'sku'].every(
+    ['productId', 'variantId', 'name', 'label'].every(
       (key) =>
         typeof item[key as keyof CartItem] === 'string' &&
         String(item[key as keyof CartItem]).trim().length > 0 &&
         String(item[key as keyof CartItem]).length <= 300,
     ) &&
+    typeof item.sku === 'string' &&
+    item.sku.length <= 300 &&
     typeof item.slug === 'string' &&
     /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug) &&
     item.slug.length <= 200 &&

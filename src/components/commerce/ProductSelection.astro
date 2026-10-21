@@ -23,11 +23,14 @@ const quantity = Math.max(
     Math.trunc(Number(Astro.url.searchParams.get('quantity'))) || 1,
   ),
 );
-const status = selected
-  ? `Disponible${product.sample ? ' en muestra' : ''} · ${selected.stockQuantity === null ? 'Cantidad por confirmar' : `${selected.stockQuantity} unidades`}`
-  : product.variants.some((v) => v.availability === 'unknown')
-    ? 'Disponibilidad por confirmar'
-    : 'Agotado';
+const currentPrice = (selected ?? product.variants[0])?.price;
+const status = !product.variants.length
+  ? 'Sin presentaciones con precio publicado.'
+  : selected
+    ? `Disponible${product.sample ? ' en muestra' : ''} · ${selected.stockQuantity === null ? 'Cantidad por confirmar' : `${selected.stockQuantity} unidades`}`
+    : product.variants.some((v) => v.availability === 'unknown')
+      ? 'Disponibilidad por confirmar'
+      : 'Agotado';
 ---
 
 <form
@@ -43,30 +46,36 @@ const status = selected
 >
   <div class="bg-surface-container p-space-lg">
     <p data-selected-price class="text-2xl font-medium">
-      {formatCop((selected ?? product.variants[0])!.price.amount)}
+      {currentPrice ? formatCop(currentPrice.amount) : 'Precio por confirmar'}
     </p>
     <p data-stock-status class="type-caption mt-space-sm">
       {status}
     </p>
-    <p class="type-caption mt-space-sm">
-      SKU:{' '}
-      <span data-selected-sku>{(selected ?? product.variants[0])?.sku}</span>
-    </p>
+    {product.variants.length > 0 && (
+      <p class="type-caption mt-space-sm">
+        SKU:{' '}
+        <span data-selected-sku>
+          {(selected ?? product.variants[0])?.sku || 'Sin SKU asignado'}
+        </span>
+      </p>
+    )}
   </div>
-  <VariantSelector
-    id="variante"
-    selectedId={selected?.id}
-    variants={product.variants.map((v) => ({
-      id: v.id,
-      label: v.label,
-      amountCop: v.price.amount,
-      available: v.availability === 'available',
-      stockQuantity: v.stockQuantity,
-      sku: v.sku,
-      unavailableLabel:
-        v.availability === 'unknown' ? 'Por confirmar' : 'Agotado',
-    }))}
-  />
+  {product.variants.length > 0 && (
+    <VariantSelector
+      id="variante"
+      selectedId={selected?.id}
+      variants={product.variants.map((v) => ({
+        id: v.id,
+        label: v.label,
+        amountCop: v.price.amount,
+        available: v.availability === 'available',
+        stockQuantity: v.stockQuantity,
+        sku: v.sku,
+        unavailableLabel:
+          v.availability === 'unknown' ? 'Por confirmar' : 'Agotado',
+      }))}
+    />
+  )}
   <QuantityControl
     id="product-quantity"
     value={quantity}
@@ -125,7 +134,7 @@ const status = selected
         if (price) price.textContent = radio.dataset.price ?? '';
         if (stock)
           stock.textContent = `Disponible${form.dataset.sample === 'true' ? ' en muestra' : ''} · ${radio.dataset.stockKnown === 'true' ? `${radio.dataset.stock} unidades` : 'Cantidad por confirmar'}`;
-        if (sku) sku.textContent = radio.dataset.sku ?? '';
+        if (sku) sku.textContent = radio.dataset.sku || 'Sin SKU asignado';
         clearSummary();
       });
       form.addEventListener('quantity-change', clearSummary);

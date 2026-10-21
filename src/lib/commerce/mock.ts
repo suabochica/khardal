@@ -3,19 +3,11 @@ import {
   CommerceError,
   type CartLineInput,
   type CommerceAdapter,
-  type ProductQuery,
   type Variant,
 } from './models.ts';
 import { cop, lineTotal } from './money.ts';
-import { lowestPrice } from './catalog.ts';
+import { selectProducts } from './catalog.ts';
 
-export function normalizeSearch(value: string): string {
-  return value
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLocaleLowerCase('es-CO')
-    .trim();
-}
 export function createMockAdapter(): CommerceAdapter {
   const products = structuredClone(sampleProducts);
   const collections = structuredClone(sampleCollections);
@@ -30,67 +22,8 @@ export function createMockAdapter(): CommerceAdapter {
         families: [...new Set(members.map((p) => p.family))].sort(),
       };
     },
-    async listProducts(query: ProductQuery = {}) {
-      const {
-        page = 1,
-        pageSize = 6,
-        sort = 'featured',
-        minPrice,
-        maxPrice,
-      } = query;
-      if (
-        !Number.isSafeInteger(page) ||
-        page < 1 ||
-        !Number.isSafeInteger(pageSize) ||
-        pageSize < 1 ||
-        pageSize > 100 ||
-        [minPrice, maxPrice].some(
-          (v) => v !== undefined && (!Number.isSafeInteger(v) || v < 0),
-        ) ||
-        (minPrice !== undefined &&
-          maxPrice !== undefined &&
-          minPrice > maxPrice) ||
-        !['featured', 'price-asc', 'price-desc', 'name'].includes(sort)
-      ) {
-        throw new CommerceError(
-          'invalid-request',
-          'Parámetros de catálogo inválidos.',
-        );
-      }
-      const term = normalizeSearch(query.search ?? '');
-      let items = products.filter(
-        (p) =>
-          (!term ||
-            normalizeSearch(`${p.name} ${p.description} ${p.family}`).includes(
-              term,
-            )) &&
-          (!query.collection || p.collectionSlugs.includes(query.collection)) &&
-          (!query.category || p.category === query.category) &&
-          (!query.family || p.family === query.family) &&
-          // Price bounds must match the SAME variant, including unavailable variants for browsing.
-          p.variants.some(
-            (v) =>
-              (minPrice === undefined || v.price.amount >= minPrice) &&
-              (maxPrice === undefined || v.price.amount <= maxPrice),
-          ),
-      );
-      if (sort !== 'featured')
-        items = items.toSorted((a, b) => {
-          const comparison =
-            sort === 'name'
-              ? a.name.localeCompare(b.name, 'es-CO')
-              : (lowestPrice(a) - lowestPrice(b)) *
-                (sort === 'price-desc' ? -1 : 1);
-          return comparison || a.id.localeCompare(b.id);
-        });
-      const total = items.length;
-      return structuredClone({
-        items: items.slice((page - 1) * pageSize, page * pageSize),
-        page,
-        pageSize,
-        total,
-        totalPages: Math.ceil(total / pageSize),
-      });
+    async listProducts(query = {}) {
+      return selectProducts(products, query);
     },
     async getProduct(slug) {
       return structuredClone(products.find((p) => p.slug === slug) ?? null);

@@ -160,5 +160,6 @@ estados agotado/desconocido, categorías, notas opcionales, galería/alt text y 
 orden esperado. `woo:check` sigue disponible para comprobar el admin y la API.
 
 El catálogo compartido ya permite preparar el recorrido administrativo S20b, que
-continúa pendiente. Astro sigue en mock hasta S23–S24; sembrar datos no implementa
-el adaptador ni constituye verificación de Shopify.
+continúa pendiente. S23 ya incorpora el [adaptador de catálogo](woocommerce-adapter.md)
+y permite activarlo con `pnpm woo:use`; S24 completa validación/optimización.
+El seed por sí solo no constituye verificación de esas integraciones ni de Shopify.

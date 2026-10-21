@@ -14,9 +14,10 @@ DEPLOYMENT_ENV=preview pnpm verify
    zero warnings allowed.
 3. `test:config` — provider configuration behavior.
 4. `test:commerce` — integer COP, mock catalog, shared query and validation behavior.
-5. `check` — Astro/TypeScript diagnostics.
-6. `build` — Node production artifact and prerendered informational pages.
-7. `test:runtime` — actual Node server, runtime-only dummy credentials, dynamic
+5. `test:woocommerce` — isolated catalog mapping/client error and credential-boundary checks.
+6. `check` — Astro/TypeScript diagnostics.
+7. `build` — Node production artifact and prerendered informational pages.
+8. `test:runtime` — actual Node server, runtime-only dummy credentials, dynamic
    catalog/health responses, missing-credential behavior and public-response isolation.
 
 CI also installs Chromium and runs `pnpm test:ui` after `verify`; browser checks

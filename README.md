@@ -48,6 +48,7 @@ reales. Abrir WhatsApp conserva el carrito y no confirma una compra ni un pago.
 | `pnpm start` | Ejecuta el servidor Node compilado; carga `.env` si existe |
 | `pnpm test:config` | Comprueba la validación de configuración de comercio |
 | `pnpm test:commerce` | Prueba dinero COP, catálogo mock, filtros y validación de dominio |
+| `pnpm test:woocommerce` | Prueba cliente y mapeo WooCommerce con respuestas aisladas; no requiere Docker |
 | `pnpm test:runtime` | Verifica el servidor compilado; requiere `pnpm build` previo |
 | `pnpm astro --help` | Ayuda de la CLI de Astro |
 
@@ -117,8 +118,9 @@ fixtures, semántica de filtros y checkpoints S10–S15. Para revisar:
 - `/nosotros`, `/contacto`, `/preguntas-frecuentes`, `/politicas/envios`
 - `/carrito` (edición, validación y preparación del mensaje de WhatsApp)
 
-Los proveedores reales aún no implementados muestran un error recuperable;
-nunca se sustituyen silenciosamente por datos mock. Las páginas con catálogo de
+WooCommerce ya dispone de mapeo de catálogo real (S23); Shopify sigue pendiente.
+Los proveedores no disponibles muestran un error recuperable y nunca se sustituyen
+silenciosamente por datos mock. Las páginas con catálogo de
 muestra y las políticas pendientes fuerzan `noindex`.
 
 La [guía de carrito y pedidos](docs/cart-and-ordering.md) documenta persistencia,
@@ -143,8 +145,7 @@ contraseña `WC_ADMIN_PASSWORD` en el archivo ignorado `.env.woocommerce`.
 Las imágenes oficiales están fijadas por versión y digest: WordPress 7.1.3 con
 PHP 8.3.36, MariaDB 11.4.13 y WP-CLI 2.12.0; WooCommerce 11.2.1.
 Consulta la [guía local](docs/local-woocommerce.md) para parada/reinicio,
-persistencia, API, actualizaciones y reset destructivo. Astro sigue usando mock
-hasta S23–S24. El catálogo compartido está disponible con:
+persistencia, API, actualizaciones y reset destructivo. El catálogo compartido está disponible con:
 
 ```sh
 pnpm woo:seed                # Crear/actualizar los registros de muestra
@@ -157,6 +158,20 @@ Son 12 productos variables, 36 variantes y 22 imágenes de demostración. La
 y reglas de repetición. El seed utiliza Chromium (instalable con
 `pnpm exec playwright install chromium`) y evita restablecer stock de productos
 que ya estén referenciados por pedidos. El siguiente checkpoint es S20b.
+
+Para que Astro lea WooCommerce en lugar de las fixtures:
+
+```sh
+pnpm woo:use  # Configura .env ignorado usando las credenciales locales
+pnpm dev
+```
+
+Consulta [el adaptador WooCommerce](docs/woocommerce-adapter.md). Los productos
+publicados creados manualmente también aparecen; sin precio publicado se muestran
+como “Precio por confirmar”. El orden del catálogo respeta `menu_order` y la
+paginación. La validación de pedidos WooCommerce y la política de caché se
+completan en S24. Las pruebas reales separadas son `pnpm test:woocommerce:local`
+y, tras compilar, `pnpm test:woocommerce:storefront`.
 
 ## Estructura del proyecto
 

@@ -75,6 +75,19 @@ test('versioned persistence survives reload, isolates providers and handles corr
     assert.equal(recovered.warning(), '');
   }
 });
+test('merchant items without an assigned SKU keep variant identity and persist', () => {
+  const cart = addItem(emptyCart('woocommerce'), {
+    ...item,
+    variantId: 'wc-p-10',
+    sku: '',
+  });
+  assert.equal(
+    parseCart(JSON.stringify(cart), 'woocommerce').items[0]?.variantId,
+    'wc-p-10',
+  );
+  assert.equal(cart.items[0]?.sku, '');
+});
+
 test('blocked storage retains in-memory cart and reports non-persistence', () => {
   const store = createCartStore('mock', {
     getItem() {

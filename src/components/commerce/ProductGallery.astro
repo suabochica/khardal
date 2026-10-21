@@ -18,8 +18,8 @@ const first = images[0];
         data-gallery-main
         src={first.src}
         alt={first.alt}
-        width={first.width}
-        height={first.height}
+        width={first.width ?? undefined}
+        height={first.height ?? undefined}
         fetchpriority="high"
         class="aspect-[4/5] max-h-[42rem] w-full bg-surface-container object-contain"
       />
