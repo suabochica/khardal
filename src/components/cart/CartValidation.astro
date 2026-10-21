@@ -1,0 +1,32 @@
+<section
+  data-cart-validation
+  hidden
+  class="space-y-space-lg border-t border-outline-variant pt-space-xl"
+  aria-label="Validación del carrito"
+>
+  <h2 class="type-headline">Antes de solicitar tu pedido</h2>
+  <p>
+    Verificaremos precios y disponibilidad actuales. Un resultado válido no
+    reserva inventario ni confirma una compra.
+  </p>
+  <button data-cart-validate class="action action-primary" type="button">
+    Validar precios y disponibilidad
+  </button>
+  <p data-validation-status role="status" tabindex="-1"></p>
+  <ul data-validation-lines class="list-disc space-y-space-sm pl-space-lg"></ul>
+  <button
+    data-accept-prices
+    hidden
+    class="action action-secondary"
+    type="button"
+  >
+    Aceptar precios actualizados
+  </button>
+  <a class="action action-text" href="https://wa.me/573108570230">
+    Contacto general por WhatsApp
+  </a>
+</section>
+<script>
+  import { initValidation } from '../../lib/cart/validation-client';
+  void initValidation();
+</script>

@@ -45,3 +45,32 @@ Checkpoint: `pnpm verify` passed with zero diagnostics; full browser suite passe
 cart tests passed. Covered page/drawer/count synchronization, reload, removal,
 empty state, Escape/focus return, fractional-input recovery, cross-tab storage
 events and overflow checks at 320/390/768/1440px. `git diff --check` passed.
+
+## S18 — authoritative reconciliation
+
+`POST /api/cart/validate` accepts the provider and 1–50 unique variant IDs,
+quantities 1–99 and expected display prices. Extra client totals are ignored.
+JSON bodies are limited to 16 KiB while streaming, with a 5-second read deadline;
+invalid JSON/content types, duplicate IDs, wrong providers and malformed numbers
+fail before commerce work. Browser-origin requests must be same-origin. Responses
+are no-store; configuration/API internals and credentials never reach the client.
+
+The active server adapter retrieves current variant stock/prices with no catalog
+cache. The server recomputes line/subtotals and returns normalized current items,
+price changes and missing/unavailable/insufficient-stock issues. Provider failures
+are recoverable 503 (rate limit: 429); provider changes are 409. No inventory is
+reserved and no backend order is created. Real adapters remain future milestones.
+
+Cart-page validation lists current issues and old → new prices. Valid changed
+prices require explicit acceptance, updating stored estimates, then another fresh
+validation. Unavailable lines must be removed or quantities adjusted. Every edit,
+including cross-tab changes, aborts/discards an in-flight or previous result.
+The browser has a 12-second timeout and retains the cart on failure. A general
+WhatsApp contact remains available; it is not an unvalidated order message.
+
+Checkpoint: `pnpm verify` passed (10 commerce/cart/HTTP-handler tests, 4 config,
+2 production runtime tests, zero diagnostics). Targeted cart and validation browser
+tests passed, including stale-price acceptance, insufficient stock, edit
+invalidation, failure/retry and retention. Production runtime checks exercise the
+actual route, no-store, current totals despite client tampering, method rejection,
+provider context and failure isolation for unconnected real providers.

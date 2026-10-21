@@ -126,7 +126,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: changes update all visible cart surfaces; keyboard and mobile interactions work; full cart remains directly accessible.
   - Commit: `feat: Add cart page and drawer`
 
-- [ ] **S18 — Validate cart against the provider**
+- [x] **S18 — Validate cart against the provider**
   - Deliver: server-side price/availability reconciliation before handoff, bounded request validation, changed-price review, missing-variant handling, and recoverable provider errors.
   - Checkpoint: tests cover stale prices, unavailable items, excessive quantities, backend failures, and tampered client totals.
   - Commit: `feat: Revalidate cart prices and availability`
@@ -259,5 +259,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S16 | [Persistent cart](docs/cart-and-ordering.md): versioned provider namespaces, merge/update/remove, bounded quantities, safe COP estimates and recoverable corrupt/blocked storage. `pnpm verify` passed (8 commerce/cart tests, zero diagnostics); all 21 browser tests passed, including repeated additions through reload. `git diff --check` passed. | `git log --all --grep='Step: S16'` |
 
 | S17 | [Cart page and drawer](docs/cart-and-ordering.md): synchronized counts, edits/removal, COP estimates, empty state, shipping “Por confirmar” and runtime provider context. `pnpm verify` passed, zero diagnostics; full 22-test UI suite passed, followed by 2 passing targeted cart tests after cross-tab/sample refinements. Checked focus/Escape, reload, invalid input, cross-tab updates and four-width overflow; `git diff --check` passed. | `git log --all --grep='Step: S17'` |
+
+| S18 | [Server reconciliation](docs/cart-and-ordering.md): bounded no-store API, current provider prices/stock, changed-price acceptance, missing/unavailable/quantity recovery and stale-result invalidation. `pnpm verify` passed (10 commerce/cart/handler tests, zero diagnostics); targeted cart/validation browser checks passed. Compiled API verified current totals despite tampering, provider failure isolation and method/no-store behavior; `git diff --check` passed. | `git log --all --grep='Step: S18'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

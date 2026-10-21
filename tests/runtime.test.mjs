@@ -101,6 +101,29 @@ test('production renders dynamic uncached responses with runtime-only provider c
       assert.equal(catalog.status, settings.COMMERCE_PROVIDER ? 503 : 200);
       assert.equal(catalog.headers.get('cache-control'), 'no-store');
       assert.ok(!(await catalog.text()).includes(marker));
+      const context = await fetch(`${base}/api/cart/context`);
+      assert.deepEqual(await context.json(), {
+        provider: settings.COMMERCE_PROVIDER ?? 'mock',
+      });
+      const validation = await fetch(`${base}/api/cart/validate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: settings.COMMERCE_PROVIDER ?? 'mock',
+          lines: [
+            { variantId: 'mock-001-30', quantity: 1, expectedAmountCop: 1 },
+          ],
+          subtotal: 1,
+        }),
+      });
+      assert.equal(validation.status, settings.COMMERCE_PROVIDER ? 503 : 200);
+      assert.equal(validation.headers.get('cache-control'), 'no-store');
+      const validationBody = await validation.text();
+      assert.ok(!validationBody.includes(marker));
+      if (!settings.COMMERCE_PROVIDER) {
+        assert.equal(JSON.parse(validationBody).subtotalCop, 65000);
+        assert.equal((await fetch(`${base}/api/cart/validate`)).status, 405);
+      }
       const contact = await fetch(`${base}/contacto`);
       assert.equal(contact.status, 200);
       const contactHtml = await contact.text();

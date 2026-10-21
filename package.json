@@ -18,7 +18,7 @@
     "preview": "astro preview",
     "start": "node --env-file-if-exists=.env dist/server/entry.mjs",
     "test:config": "node --experimental-strip-types --test tests/commerce-config.test.ts",
-    "test:commerce": "node --experimental-strip-types --test tests/commerce.test.ts tests/cart.test.ts",
+    "test:commerce": "node --experimental-strip-types --test tests/commerce.test.ts tests/cart.test.ts tests/cart-validation.test.ts",
     "test:runtime": "node --test tests/runtime.test.mjs",
     "test:ui": "playwright test",
     "astro": "astro"
