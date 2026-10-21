@@ -107,7 +107,7 @@ test('production renders dynamic uncached responses with runtime-only provider c
       });
       const validation = await fetch(`${base}/api/cart/validate`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Origin: base },
         body: JSON.stringify({
           provider: settings.COMMERCE_PROVIDER ?? 'mock',
           lines: [

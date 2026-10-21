@@ -1,6 +1,7 @@
 import { defineConfig, envField } from 'astro/config';
 import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
+import { storefrontDomains } from './storefront-origin.mjs';
 
 const serverSecret = { context: 'server', access: 'secret', optional: true };
 
@@ -8,6 +9,11 @@ export default defineConfig({
   output: 'server',
   adapter: node({ mode: 'standalone' }),
   vite: { plugins: [tailwindcss()] },
+  security: {
+    allowedDomains: storefrontDomains(
+      process.env.STOREFRONT_ORIGIN ?? process.env.RENDER_EXTERNAL_URL,
+    ),
+  },
   env: {
     schema: {
       DEPLOYMENT_ENV: envField.enum({

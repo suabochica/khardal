@@ -1,0 +1,43 @@
+<section
+  data-handoff
+  hidden
+  class="space-y-space-md bg-surface-container-low p-space-lg"
+  aria-label="Solicitud por WhatsApp"
+>
+  <h3 data-handoff-title class="type-title">
+    Tu mensaje está preparado
+  </h3>
+  <p>
+    Revisa el mensaje y abre WhatsApp para enviarlo. Abrir WhatsApp no confirma
+    un pedido ni un pago. Tu carrito se conserva.
+  </p>
+  <p data-handoff-status role="status"></p>
+  <a
+    data-whatsapp-open
+    class="action action-primary"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Abrir WhatsApp
+  </a>
+  <div>
+    <label class="block font-medium mb-space-sm" for="whatsapp-message">
+      Mensaje para WhatsApp
+    </label>
+    <textarea
+      id="whatsapp-message"
+      data-whatsapp-message
+      readonly
+      rows="10"
+      class="field-control text-sm"
+    ></textarea>
+  </div>
+  <button data-whatsapp-copy type="button" class="action action-secondary">
+    Copiar mensaje
+  </button>
+  <p class="type-caption">
+    Si WhatsApp no abre, copia el mensaje y envíalo al +57 310 8570230. Si el
+    enlace caduca, vuelve a verificar el carrito. El equipo confirma envío, pago
+    y aceptación.
+  </p>
+</section>

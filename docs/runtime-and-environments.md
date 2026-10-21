@@ -33,6 +33,24 @@ invalidation/webhooks can follow when deployment needs justify them.
 
 ## Configuration
 
+### Trusted public origin (S19)
+
+Astro's production adapter normalizes untrusted Host headers to localhost. The
+cart API compares browser Origin to the normalized request origin; WhatsApp
+messages also use this trusted origin for product links. `security.allowedDomains`
+therefore permits exact HTTP loopback hosts for local checks and the explicit
+public storefront origin for hosted builds. It never trusts all domains.
+
+Set `STOREFRONT_ORIGIN=https://your-storefront.example` **in the build process
+environment** before `pnpm build`; this configuration-time setting is not loaded
+from `.env`. Render's `RENDER_EXTERNAL_URL` is used when no explicit value exists.
+Only HTTPS non-loopback origins without credentials/path/query/fragment are
+accepted. Rebuild when the public origin changes. Reverse proxies must pass the
+approved external host/protocol; S05b/S35 must verify their actual configuration.
+This is the storefront address, not the WooCommerce/Shopify backend URL.
+
+### Runtime commerce settings
+
 For development, copy the contents of `.env.example` into an ignored `.env` file.
 Without a file, `mock` is the default. Astro loads local env files during dev/build.
 `pnpm start` explicitly loads `.env` with Node's `--env-file-if-exists` flag;

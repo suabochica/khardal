@@ -27,8 +27,11 @@ Abre `http://localhost:4321`. El proveedor predeterminado `mock` no requiere
 credenciales: incluye inicio, tienda, colecciones, búsqueda, detalles de perfumes
 y páginas informativas. Los 12 productos, precios e ilustraciones son muestras
 de desarrollo. Las políticas definitivas están pendientes de publicación.
-El carrito persistente y la solicitud de pedido se implementan en Milestone 4;
-por ahora, “Revisar selección” demuestra la presentación y cantidad elegidas.
+El carrito persiste por proveedor en este navegador. En `/carrito`, “Solicitar
+pedido por WhatsApp” verifica precios y stock en el servidor y prepara un mensaje
+para revisar y enviar. Los precios cambiados requieren aceptación y una nueva
+verificación. Las solicitudes mock están marcadas como demostración, no pedidos
+reales. Abrir WhatsApp conserva el carrito y no confirma una compra ni un pago.
 
 ## Comandos
 
@@ -85,6 +88,10 @@ preview Node con catálogo mock, comprobación de salud y metadatos `noindex`.
 `DEPLOYMENT_ENV=preview` debe estar definido al compilar esa preview.
 La conexión de hosting y la verificación alojada están pendientes; consulta la
 [guía de CI y previews](docs/ci-and-previews.md).
+Para una compilación alojada, define `STOREFRONT_ORIGIN=https://tu-tienda.example`
+en el entorno del proceso de build. Render usa `RENDER_EXTERNAL_URL` si no se
+indica otro origen. Esto permite verificar el origen de las solicitudes y generar
+enlaces de producto correctos; consulta la [guía de runtime](docs/runtime-and-environments.md).
 
 ## Sistema de diseño
 
@@ -108,10 +115,16 @@ fixtures, semántica de filtros y checkpoints S10–S15. Para revisar:
 - `/tienda`, `/colecciones/top-10`, `/buscar`
 - `/perfumes/brisa-bergamota` (tamaños y precios), `/perfumes/rosa-lluvia` (agotado)
 - `/nosotros`, `/contacto`, `/preguntas-frecuentes`, `/politicas/envios`
+- `/carrito` (edición, validación y preparación del mensaje de WhatsApp)
 
 Los proveedores reales aún no implementados muestran un error recuperable;
 nunca se sustituyen silenciosamente por datos mock. Las páginas con catálogo de
 muestra y las políticas pendientes fuerzan `noindex`.
+
+La [guía de carrito y pedidos](docs/cart-and-ordering.md) documenta persistencia,
+reconciliación y handoff. Los mensajes largos se copian completos para pegarlos
+en WhatsApp; si falla el portapapeles, el campo permite copia manual. La
+verificación caduca tras un minuto y se invalida al editar el carrito.
 
 ## Estructura
 

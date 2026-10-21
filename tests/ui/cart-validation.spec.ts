@@ -14,7 +14,7 @@ test('provider failure keeps the cart and allows retry', async ({ page }) => {
     }),
   );
   await page
-    .getByRole('button', { name: 'Validar precios y disponibilidad' })
+    .getByRole('button', { name: 'Solicitar pedido por WhatsApp' })
     .click();
   await expect(page.locator('[data-validation-status]')).toContainText(
     'Intenta de nuevo',
@@ -24,7 +24,7 @@ test('provider failure keeps the cart and allows retry', async ({ page }) => {
   ).toHaveCount(1);
   await page.unroute('**/api/cart/validate');
   await page
-    .getByRole('button', { name: 'Validar precios y disponibilidad' })
+    .getByRole('button', { name: 'Solicitar pedido por WhatsApp' })
     .click();
   await expect(page.locator('[data-validation-status]')).toContainText(
     'Precios y disponibilidad verificados',
@@ -43,7 +43,7 @@ test('stale prices require review and edits invalidate validation', async ({
   });
   await page.goto('/carrito');
   await page
-    .getByRole('button', { name: 'Validar precios y disponibilidad' })
+    .getByRole('button', { name: 'Solicitar pedido por WhatsApp' })
     .click();
   await expect(page.locator('[data-validation-status]')).toContainText(
     'Los precios cambiaron',
@@ -55,7 +55,7 @@ test('stale prices require review and edits invalidate validation', async ({
     page.locator('[data-cart-panel="page"] [data-cart-subtotal]'),
   ).toHaveText('COP 65.000');
   await page
-    .getByRole('button', { name: 'Validar precios y disponibilidad' })
+    .getByRole('button', { name: 'Solicitar pedido por WhatsApp' })
     .click();
   await expect(page.locator('[data-validation-status]')).toContainText(
     'Precios y disponibilidad verificados',
@@ -70,7 +70,7 @@ test('stale prices require review and edits invalidate validation', async ({
     .press('Tab');
   await expect(page.locator('[data-validation-status]')).toBeEmpty();
   await page
-    .getByRole('button', { name: 'Validar precios y disponibilidad' })
+    .getByRole('button', { name: 'Solicitar pedido por WhatsApp' })
     .click();
   await expect(page.locator('[data-validation-lines]')).toContainText(
     'Solo hay 5 unidades',

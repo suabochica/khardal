@@ -131,7 +131,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: tests cover stale prices, unavailable items, excessive quantities, backend failures, and tampered client totals.
   - Commit: `feat: Revalidate cart prices and availability`
 
-- [ ] **S19 — Implement WhatsApp handoff**
+- [x] **S19 — Implement WhatsApp handoff**
   - Deliver: encoded Spanish message with names, variant/SKU, presentation, quantities, current prices, estimated subtotal, and useful product links; primary number routing; copy-message and contact fallback.
   - Checkpoint: accents, line breaks, long carts, mobile/desktop links, and unavailable clipboard are handled. Cart persists; no false order/payment confirmation appears; failed validation offers retry/general contact.
   - Commit: `feat: Add WhatsApp order requests`
@@ -261,5 +261,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S17 | [Cart page and drawer](docs/cart-and-ordering.md): synchronized counts, edits/removal, COP estimates, empty state, shipping “Por confirmar” and runtime provider context. `pnpm verify` passed, zero diagnostics; full 22-test UI suite passed, followed by 2 passing targeted cart tests after cross-tab/sample refinements. Checked focus/Escape, reload, invalid input, cross-tab updates and four-width overflow; `git diff --check` passed. | `git log --all --grep='Step: S17'` |
 
 | S18 | [Server reconciliation](docs/cart-and-ordering.md): bounded no-store API, current provider prices/stock, changed-price acceptance, missing/unavailable/quantity recovery and stale-result invalidation. `pnpm verify` passed (10 commerce/cart/handler tests, zero diagnostics); targeted cart/validation browser checks passed. Compiled API verified current totals despite tampering, provider failure isolation and method/no-store behavior; `git diff --check` passed. | `git log --all --grep='Step: S18'` |
+
+| S19 | [WhatsApp handoff](docs/cart-and-ordering.md): authoritative encoded Spanish message, explicit open/copy, full long-cart fallback, expiry/edit invalidation and retained cart. `pnpm verify` passed (5 config, 13 domain/handler/message tests, zero diagnostics); all 29 browser tests passed. Fixed compiled-server trusted-origin mismatch; actual Origin-header regression and compiled browser smoke passed. Reviewed cart screenshots; axe found no violations on long-cart/handoff. External navigation intercepted, no business message sent; `git diff --check` passed. | `git log --all --grep='Step: S19'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

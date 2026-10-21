@@ -10,6 +10,26 @@ const request = (body: unknown) =>
     body: JSON.stringify(body),
   });
 const load = async () => createMockAdapter();
+test('trusted adapter URL supplies the external origin behind a proxy', async () => {
+  const input = new Request('http://localhost:4321/api/cart/validate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Origin: 'https://store.example.test',
+    },
+    body: JSON.stringify({
+      provider: 'mock',
+      lines: [{ ...line, expectedAmountCop: 65000 }],
+    }),
+  });
+  const result = await (
+    await handleValidation(input, load, 'https://store.example.test')
+  ).json();
+  assert.match(
+    result.handoff.message,
+    /https:\/\/store.example.test\/perfumes\/brisa-bergamota/,
+  );
+});
 test('validation recomputes tampered totals and reports changed prices and missing stock', async () => {
   const response = await handleValidation(
     request({ provider: 'mock', lines: [line], subtotal: 1 }),
@@ -20,6 +40,17 @@ test('validation recomputes tampered totals and reports changed prices and missi
   assert.equal(result.subtotalCop, 130000);
   assert.equal(result.changed, true);
   assert.equal(result.valid, true);
+  assert.equal(result.handoff, undefined);
+  const ready = await (
+    await handleValidation(
+      request({
+        provider: 'mock',
+        lines: [{ ...line, expectedAmountCop: 65000 }],
+      }),
+      load,
+    )
+  ).json();
+  assert.match(ready.handoff.message, /KH-DEMO-001-030/);
   const failed = await (
     await handleValidation(
       request({

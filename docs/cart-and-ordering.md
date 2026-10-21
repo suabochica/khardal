@@ -74,3 +74,44 @@ tests passed, including stale-price acceptance, insufficient stock, edit
 invalidation, failure/retry and retention. Production runtime checks exercise the
 actual route, no-store, current totals despite client tampering, method rejection,
 provider context and failure isolation for unconnected real providers.
+
+## S19 — WhatsApp request handoff
+
+The primary CTA is **Solicitar pedido por WhatsApp**. It always initiates server
+validation; only a valid, unchanged result can include a server-prepared message.
+The customer reviews it, then explicitly opens WhatsApp. This second user gesture
+avoids asynchronous popup blockers. The cart remains saved after open/copy and no
+order/payment confirmation screen is shown. Mock messages start with an explicit
+**DEMOSTRACIÓN — NO ES UN PEDIDO REAL** notice.
+
+Messages include a request reference (not an order number), Spanish names and
+presentations, SKUs, quantities, current unit/line prices, estimated COP subtotal,
+trusted-origin product links, timestamp and staff confirmation of shipping/payment.
+The only order-request number is +57 310 8570230. Messages are URL encoded without
+losing accents, ampersands or line breaks. No phone-app availability is assumed.
+
+Prepared results expire after one minute and are discarded after any cart edit,
+including in-flight races. Expiry clears the message/link and requires validation
+again; it does not reserve inventory for that minute. At a conservative 4,000-char
+encoded URL threshold (an application policy, not a claimed universal WhatsApp
+limit), the UI offers the complete message for copy/paste and opens the bare
+primary-number link. Nothing is silently truncated. Clipboard failures select the
+readonly message and explain native copy; general contact remains available on
+validation failures without an unvalidated order payload.
+
+Compiled-browser inspection caught a production Origin mismatch hidden by dev
+mode: Astro normalizes untrusted hosts to localhost. S19 adds exact trusted public
+origin configuration plus loopback defaults, and uses Astro's trusted URL for
+origin comparison/product links. See [runtime setup](runtime-and-environments.md).
+The production regression now sends an actual browser Origin header. Hosted proxy
+verification is still S05b/S35; no wildcard trust is enabled.
+
+Checkpoint: `pnpm verify` passed (5 config, 13 commerce/cart/handler/message tests,
+2 production runtime tests, zero diagnostics); all 29 Chromium tests passed.
+Covered accents/line breaks, 50-line message preservation, desktop long-cart
+copy fallback, mobile open-link interception, clipboard success/failure, edit and
+in-flight invalidation, expiry, provider retry and retained carts. Axe reported no
+WCAG A/AA violations on the long-cart/handoff view. A compiled-server browser
+smoke check completed add → validate → preview → drawer, and mobile/desktop
+screenshots were reviewed. No message was sent to the business; actual iOS/Android
+WhatsApp-app behavior remains a device check in S32.

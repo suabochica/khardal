@@ -1,3 +1,7 @@
+---
+import WhatsAppHandoff from './WhatsAppHandoff.astro';
+---
+
 <section
   data-cart-validation
   hidden
@@ -10,7 +14,7 @@
     reserva inventario ni confirma una compra.
   </p>
   <button data-cart-validate class="action action-primary" type="button">
-    Validar precios y disponibilidad
+    Solicitar pedido por WhatsApp
   </button>
   <p data-validation-status role="status" tabindex="-1"></p>
   <ul data-validation-lines class="list-disc space-y-space-sm pl-space-lg"></ul>
@@ -22,11 +26,14 @@
   >
     Aceptar precios actualizados
   </button>
+  <WhatsAppHandoff />
   <a class="action action-text" href="https://wa.me/573108570230">
     Contacto general por WhatsApp
   </a>
 </section>
 <script>
   import { initValidation } from '../../lib/cart/validation-client';
+  import { initHandoff } from '../../lib/cart/handoff-client';
+  initHandoff();
   void initValidation();
 </script>

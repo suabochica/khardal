@@ -2,6 +2,7 @@ import { CommerceError, type CommerceAdapter } from '../commerce/models.ts';
 import { cop, lineTotal } from '../commerce/money.ts';
 import { isProvider, validQuantity, MAX_LINES } from './state.ts';
 import type { ValidationResult } from './validation.ts';
+import { prepareHandoff } from './whatsapp.ts';
 
 class InputError extends Error {
   status: number;
@@ -14,15 +15,17 @@ const headers = {
   'Cache-Control': 'no-store',
   'X-Content-Type-Options': 'nosniff',
 };
-async function readBody(request: Request): Promise<unknown> {
+async function readBody(
+  request: Request,
+  trustedOrigin: string,
+): Promise<unknown> {
   if (
     request.headers.get('content-type')?.split(';')[0]?.trim() !==
     'application/json'
   )
     throw new InputError(415);
   const origin = request.headers.get('origin');
-  if (origin && origin !== new URL(request.url).origin)
-    throw new InputError(403);
+  if (origin && origin !== trustedOrigin) throw new InputError(403);
   if (Number(request.headers.get('content-length') ?? 0) > 16384)
     throw new InputError(413);
   const reader = request.body?.getReader();
@@ -64,6 +67,7 @@ async function readBody(request: Request): Promise<unknown> {
 export async function handleValidation(
   request: Request,
   load: () => Promise<CommerceAdapter>,
+  trustedOrigin = new URL(request.url).origin,
 ): Promise<Response> {
   if (request.method !== 'POST')
     return Response.json(
@@ -71,7 +75,7 @@ export async function handleValidation(
       { status: 405, headers: { ...headers, Allow: 'POST' } },
     );
   try {
-    const body = await readBody(request);
+    const body = await readBody(request, trustedOrigin);
     if (
       !body ||
       typeof body !== 'object' ||
@@ -177,6 +181,8 @@ export async function handleValidation(
       ).amount,
       lines: resultLines,
     };
+    if (result.valid && !result.changed)
+      result.handoff = prepareHandoff(result, trustedOrigin);
     return Response.json(result, { headers });
   } catch (error) {
     const status =
