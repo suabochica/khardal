@@ -222,7 +222,7 @@ or real Shopify result is claimed.
   - Deliver: recorded desktop/tablet/phone checks, keyboard/screen-reader review, and real iOS Safari/Android Chrome checks when devices are available; fixes split into substeps if needed.
   - Checkpoint: six reference layouts reviewed, no overflow or blocked CTAs, functional focus management and announcements, readable text, and usable touch targets.
   - Commit: `docs: Record responsive accessibility checks`
-  - [ ] **S32a — Run available viewport, keyboard and automated accessibility checks.** Record browser/emulation scope, compare six references and commit evidence with `Step: S32a`.
+  - [x] **S32a — Run available viewport, keyboard and automated accessibility checks.** Record browser/emulation scope, compare six references and commit evidence with `Step: S32a`.
   - [ ] **S32b — Complete assistive-technology and physical-device review.** Record real screen-reader and iOS Safari/Android Chrome results when available. Parent S32 remains open until required manual coverage is recorded.
 
 - [ ] **S33 — Measure and tune performance**
@@ -299,5 +299,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S30a | [SEO and verified redirects](docs/seo-and-migration.md): host-gated metadata/canonicals/OG, brand card, accurate non-sample Product/Breadcrumb JSON-LD, robots/sitemap and live-destination legacy routing. `pnpm verify` passed with zero diagnostics; isolated example.test production-host/forwarded-host test and real compiled Woo test passed. Final host/catalog/migration publication remains S30b; `git diff --check` passed. | `git log --all --grep='Step: S30a'` |
 
 | S31 | [WooCommerce journey review](docs/journey-review.md): real compiled filtering/cart/price-stock/handoff checks plus native invalid-credential failure/recovery with unchanged cart. `pnpm verify`, real local API/journey/recovery and all 29 mock UI checks passed; zero diagnostics. Real cache refresh 27,867ms; outbound WhatsApp intercepted and no order/payment claimed. Shopify scope deferred; `git diff --check` passed. | `git log --all --grep='Step: S31'` |
+
+| S32a | [Responsive/accessibility review](docs/responsive-accessibility.md): compiled real Woo pages at 320/390/768/1440, 18 zero-violation WCAG scans, skip/focus/trap/Escape checks and six opened home/PLP/PDP captures. Fixed adjacent desktop brand-link spacing and reran audit; `pnpm verify` passed with zero diagnostics and `git diff --check` passed. Physical device/screen-reader review remains S32b. | `git log --all --grep='Step: S32a'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.
