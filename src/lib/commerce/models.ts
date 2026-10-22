@@ -63,6 +63,7 @@ export interface CartLineInput {
   quantity: number;
 }
 export interface ValidatedLine {
+  stockGroup?: string;
   variantId: string;
   quantity: number;
   product: Product | null;
@@ -71,6 +72,7 @@ export interface ValidatedLine {
   total: Money | null;
 }
 export interface CartValidation {
+  sample?: boolean;
   lines: ValidatedLine[];
   valid: boolean;
   subtotal: Money;

@@ -71,14 +71,16 @@ export async function initValidation() {
           const li = document.createElement('li');
           const name = line.current
             ? `${line.current.name} · ${line.current.label}`
-            : 'Presentación retirada del catálogo';
+            : line.productName || 'Presentación no disponible';
           const issue =
             line.issue === 'missing'
               ? 'No disponible: quítala del carrito.'
               : line.issue === 'unavailable'
                 ? 'Agotada o disponibilidad por confirmar: quítala o consulta al equipo.'
                 : line.issue === 'insufficient-stock'
-                  ? `Solo hay ${line.maxQuantity} unidades; ajusta la cantidad.`
+                  ? line.sharedStock
+                    ? `Estas presentaciones comparten ${line.maxQuantity} unidades; ajusta sus cantidades.`
+                    : `Solo hay ${line.maxQuantity} unidades; ajusta la cantidad.`
                   : 'Disponible.';
           li.textContent = `${name}: ${issue}${line.changed ? ` Precio anterior ${formatCop(line.expectedAmountCop)} → actual ${formatCop(line.current!.amountCop)}.` : ''}`;
           list.append(li);

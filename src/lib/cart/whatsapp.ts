@@ -26,7 +26,7 @@ export function prepareHandoff(
   if (!['http:', 'https:'].includes(base.protocol))
     throw new Error('Invalid storefront URL.');
   const message = [
-    ...(result.provider === 'mock'
+    ...(result.provider === 'mock' || result.sample
       ? [
           'DEMOSTRACIÓN — NO ES UN PEDIDO REAL. Productos y precios de muestra.',
           '',

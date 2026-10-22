@@ -111,7 +111,14 @@ test('production renders dynamic uncached responses with runtime-only provider c
         body: JSON.stringify({
           provider: settings.COMMERCE_PROVIDER ?? 'mock',
           lines: [
-            { variantId: 'mock-001-30', quantity: 1, expectedAmountCop: 1 },
+            {
+              variantId:
+                settings.COMMERCE_PROVIDER === 'woocommerce'
+                  ? 'wc-v-37-38'
+                  : 'mock-001-30',
+              quantity: 1,
+              expectedAmountCop: 1,
+            },
           ],
           subtotal: 1,
         }),

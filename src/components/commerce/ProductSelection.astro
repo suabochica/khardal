@@ -149,6 +149,7 @@ const status = !product.variants.length
           sku: radio.dataset.sku,
           quantity: quantity.valueAsNumber,
           amountCop: Number(radio.dataset.amount),
+          sample: form.dataset.sample === 'true',
           slug: form.dataset.productSlug ?? '',
           name: form.dataset.productName ?? '',
           label: radio.dataset.label ?? '',

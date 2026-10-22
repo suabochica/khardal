@@ -160,7 +160,7 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: real local API integration checks cover normal and missing products, variation prices, image mapping, and authentication failures.
   - Commit: `feat: Add WooCommerce catalog adapter`
 
-- [ ] **S24 — Complete WooCommerce browsing and validation**
+- [x] **S24 — Complete WooCommerce browsing and validation**
   - Deliver: search/filter/pagination parity, current cart validation, bounded caching, freshness policy, and operational backup/update documentation.
   - Checkpoint: common browsing-to-WhatsApp scenarios pass against Docker; stock/price changes become visible within the documented policy and immediately at handoff validation.
   - Commit: `feat: Complete WooCommerce integration`
@@ -273,5 +273,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S22 | [Shared catalog seed and mapping](docs/woocommerce-seeding.md): 12 variable products, 36 exact fixture SKUs, 22 rasterized sample images, 7 managed categories and 2 global attributes. `pnpm woo:seed:repeat-check` passed with identical IDs and zero products/variants/images created on the second run. CRUD + native REST verified all prices/stock, unknown/sold-out states, categories, optional notes, image alt/dimensions/content and curated Top 10 order. `pnpm woo:check`, `pnpm verify` (zero diagnostics) and `git diff --check` passed. S20b is now unblocked but not completed. | `git log --all --grep='Step: S22'` |
 
 | S23 | [Server-only WooCommerce catalog adapter](docs/woocommerce-adapter.md): authenticated bounded REST, simple/variable products, native collections, current COP/stock/images and normalized failures. `pnpm verify` passed (5 config, 14 commerce/cart, 6 Woo mapping/client tests, zero diagnostics, build and 2 runtime tests). Real Docker API and compiled Chromium storefront checks passed, including the merchant-created Perfume WooCommerce, missing products, variation prices, images and credential isolation; all 29 mock UI tests passed. Local ignored `.env` activated WooCommerce; merchant routes return 200 with “Precio por confirmar” for the unpriced variation. `git diff --check` passed. S24 cart reconciliation/caching and S20b remain open. | `git log --all --grep='Step: S23'` |
+
+| S24 | [WooCommerce freshness, reconciliation and operations](docs/woocommerce-operations.md): bounded 30s credential-partitioned cache, uncached current cart reads, aggregate parent-stock validation, sample-aware handoff and backup/update runbook. `pnpm verify` passed (5 config, 14 commerce/cart, 11 Woo tests, zero diagnostics, build/2 runtime tests); real API, compiled storefront and live price/stock-to-WhatsApp journey passed; all 29 mock UI tests passed. Native price edit refreshed after 27,845ms; price review, unavailable/missing data and retained cart verified. Probe cleanup/fixture parity passed. Private backup creation/integrity and restart/admin/API checks passed; full restore rehearsal remains S35. `git diff --check` passed. S20b remains pending. | `git log --all --grep='Step: S24'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

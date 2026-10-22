@@ -290,7 +290,7 @@ test('adapter follows API pages and shares a complete request-local snapshot; lo
   assert.equal(pages, 2);
   assert.equal(await adapter.getProduct('does-not-exist'), null);
   assert.equal((await adapter.getProduct('perfume-101'))!.name, 'Perfume 101');
-  await assert.rejects(adapter.validateCart([]), { code: 'unavailable' });
+  assert.equal((await adapter.validateCart([])).valid, true);
   const wrongCurrency = createWooCommerceAdapter(config, async (input) =>
     json(
       String(input).includes('/settings/')

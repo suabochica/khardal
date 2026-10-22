@@ -9,6 +9,8 @@ function connectPanel(panel: HTMLElement, store: CartStore) {
   const feedback = panel.querySelector<HTMLElement>('[data-cart-feedback]')!;
   const render = () => {
     const items = store.snapshot().items;
+    panel.querySelector<HTMLElement>('[data-cart-sample]')!.hidden =
+      store.snapshot().provider !== 'mock' && !items.some((i) => i.sample);
     const focused = panel.contains(document.activeElement)
       ? document.activeElement?.getAttribute('data-focus-key')
       : null;
@@ -97,12 +99,7 @@ function connectPanel(panel: HTMLElement, store: CartStore) {
 }
 export async function initCartUI() {
   try {
-    const { store, provider } = await activeCart();
-    document
-      .querySelectorAll<HTMLElement>('[data-cart-sample]')
-      .forEach((el) => {
-        el.hidden = provider !== 'mock';
-      });
+    const { store } = await activeCart();
     document
       .querySelectorAll<HTMLElement>('[data-cart-panel]')
       .forEach((panel) => connectPanel(panel, store));

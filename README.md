@@ -169,9 +169,19 @@ pnpm dev
 Consulta [el adaptador WooCommerce](docs/woocommerce-adapter.md). Los productos
 publicados creados manualmente también aparecen; sin precio publicado se muestran
 como “Precio por confirmar”. El orden del catálogo respeta `menu_order` y la
-paginación. La validación de pedidos WooCommerce y la política de caché se
-completan en S24. Las pruebas reales separadas son `pnpm test:woocommerce:local`
+paginación. S24 ya valida precios/stock actuales antes de preparar WhatsApp y usa
+una caché de catálogo de 30 segundos que la validación omite. Las pruebas reales son `pnpm test:woocommerce:local`
 y, tras compilar, `pnpm test:woocommerce:storefront`.
+
+`pnpm test:woocommerce:journey` verifica el recorrido completo contra Docker con
+productos temporales de prueba. Incluye cambios de precio/stock, revisión,
+retención del carrito y caducidad real de caché. Los productos de muestra generan
+mensajes explícitamente marcados como demostración.
+
+Para respaldar el backend: `pnpm woo:backup`; para comprobar el respaldo:
+`pnpm woo:backup:check <directorio>`. El comando pausa WordPress brevemente y lo
+reinicia al terminar. Consulta [la guía operativa](docs/woocommerce-operations.md)
+para límites, recuperación y actualizaciones. S20b sigue pendiente.
 
 ## Estructura del proyecto
 

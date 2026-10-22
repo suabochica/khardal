@@ -6,6 +6,7 @@ export interface ValidationResult {
   valid: boolean;
   changed: boolean;
   subtotalCop: number;
+  sample?: boolean;
   handoff?: Handoff;
   lines: {
     variantId: string;
@@ -15,5 +16,7 @@ export interface ValidationResult {
     expectedAmountCop: number;
     current: CartItem | null;
     maxQuantity: number | null;
+    productName?: string | null;
+    sharedStock?: boolean;
   }[];
 }

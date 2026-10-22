@@ -6,6 +6,13 @@ import {
 import { selectProducts } from '../catalog.ts';
 import { createWooClient, type WooConfig } from './client.server.ts';
 import {
+  catalogCacheKey,
+  createWooCatalogCache,
+  wooCatalogCache,
+  type WooCatalogCache,
+} from './cache.server.ts';
+import { validateWooCart } from './validation.server.ts';
+import {
   isPublic,
   mapCategories,
   mapProduct,
@@ -16,9 +23,12 @@ import {
 export function createWooCommerceAdapter(
   config: WooConfig,
   transport: typeof fetch = fetch,
+  cache: WooCatalogCache = transport === fetch
+    ? wooCatalogCache
+    : createWooCatalogCache(),
 ): CommerceAdapter {
   const client = createWooClient(config, transport);
-  const searchOnly = new Set<string>();
+  const cacheKey = catalogCacheKey(config);
   const categories = (signal: AbortSignal) =>
     client
       .all('products/categories', { hide_empty: 'false' }, signal)
@@ -54,6 +64,7 @@ export function createWooCommerceAdapter(
     return mapProduct(source, variations, cats, config.url);
   }
   async function loadCatalog() {
+    const searchOnly: string[] = [];
     const signal = AbortSignal.timeout(20000);
     const [raw, cats] = await Promise.all([
       client.all(
@@ -73,7 +84,7 @@ export function createWooCommerceAdapter(
       );
     for (const p of sorted)
       if (p.catalog_visibility === 'search')
-        searchOnly.add(`wc-p-${nativeId(p.id)}`);
+        searchOnly.push(`wc-p-${nativeId(p.id)}`);
     const output: (Product | null)[] = new Array(sorted.length);
     let next = 0;
     await Promise.all(
@@ -87,30 +98,24 @@ export function createWooCommerceAdapter(
     return {
       products: output.filter((p): p is Product => p !== null),
       collections: cats.collections,
+      searchOnly,
     };
   }
-  // One request-local snapshot shared by facets/list/collections; no cross-request cache.
-  let snapshot: ReturnType<typeof loadCatalog> | undefined;
-  const load = () => (snapshot ??= loadCatalog());
+  const load = () => cache.load(cacheKey, loadCatalog);
   return {
     provider: 'woocommerce',
     async listProducts(query = {}) {
-      const { products } = await load();
+      const { products, searchOnly } = await load();
       return selectProducts(
-        products.filter((p) => Boolean(query.search) || !searchOnly.has(p.id)),
+        products.filter(
+          (p) => Boolean(query.search) || !searchOnly.includes(p.id),
+        ),
         query,
       );
     },
     async getProduct(slug) {
       if (!slug || slug.length > 200) return null;
-      const signal = AbortSignal.timeout(12000);
-      const [raw, cats] = await Promise.all([
-        client.all('products', { slug, status: 'publish' }, signal),
-        categories(signal),
-        currency(signal),
-      ]);
-      const found = raw.map(record).find((p) => p.slug === slug && isPublic(p));
-      return found ? product(found, cats, signal) : null;
+      return (await load()).products.find((p) => p.slug === slug) ?? null;
     },
     async listCollections() {
       return structuredClone((await load()).collections);
@@ -133,11 +138,18 @@ export function createWooCommerceAdapter(
         ].sort(),
       };
     },
-    async validateCart() {
-      throw new CommerceError(
-        'unavailable',
-        'La validación de pedidos de WooCommerce se conecta en S24.',
-      );
+    async validateCart(lines) {
+      try {
+        return await validateWooCart(
+          lines,
+          client,
+          categories,
+          currency,
+          config.url,
+        );
+      } finally {
+        cache.invalidate(cacheKey);
+      }
     },
   };
 }

@@ -142,6 +142,8 @@ export async function handleValidation(
         )!.expectedAmountCop;
         return {
           variantId: line.variantId,
+          productName: product?.name ?? null,
+          sharedStock: Boolean(line.stockGroup),
           quantity: line.quantity,
           issue: line.issue,
           changed:
@@ -158,6 +160,7 @@ export async function handleValidation(
                   sku: variant.sku,
                   label: variant.label,
                   amountCop: cop(variant.price.amount).amount,
+                  ...(product.sample ? { sample: true } : {}),
                   quantity: line.quantity,
                 }
               : null,
@@ -179,6 +182,8 @@ export async function handleValidation(
           0,
         ),
       ).amount,
+      sample:
+        validated.sample ?? validated.lines.some((l) => l.product?.sample),
       lines: resultLines,
     };
     if (result.valid && !result.changed)

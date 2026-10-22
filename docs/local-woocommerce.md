@@ -119,8 +119,8 @@ WOOCOMMERCE_URL=http://127.0.0.1:8000
 ```
 
 El [adaptador S23](woocommerce-adapter.md) ya conecta catálogo, colecciones y
-detalles. La validación de pedidos y optimización de navegación siguen en S24;
-el recorrido de entrada manual S20b permanece separado.
+detalles. S24 añade [validación de pedidos, caché acotada y operaciones de
+backup/actualización](woocommerce-operations.md); el recorrido manual S20b sigue separado.
 
 ## Persistencia y reinicio
 

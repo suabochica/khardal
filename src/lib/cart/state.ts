@@ -10,6 +10,7 @@ export interface CartItem {
   sku: string;
   amountCop: number;
   quantity: number;
+  sample?: boolean;
 }
 export interface CartState {
   version: 1;
@@ -46,6 +47,7 @@ function validItem(value: unknown): value is CartItem {
         String(item[key as keyof CartItem]).length <= 300,
     ) &&
     typeof item.sku === 'string' &&
+    (item.sample === undefined || typeof item.sample === 'boolean') &&
     item.sku.length <= 300 &&
     typeof item.slug === 'string' &&
     /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug) &&
@@ -94,6 +96,7 @@ export function parseCart(raw: string | null, provider: Provider): CartState {
         sku,
         amountCop,
         quantity,
+        sample,
       }) => ({
         productId,
         variantId,
@@ -103,6 +106,7 @@ export function parseCart(raw: string | null, provider: Provider): CartState {
         sku,
         amountCop,
         quantity,
+        ...(sample ? { sample: true } : {}),
       }),
     ),
   };

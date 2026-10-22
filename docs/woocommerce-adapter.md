@@ -94,7 +94,7 @@ the merchant's own category when no type hierarchy exists. Fragrance notes and
 the sample marker preserve the S22 specification. Pages containing sample products
 keep the demo notice/noindex behavior even though the provider is WooCommerce.
 
-## S23 browsing baseline and S24 boundary
+## S23 browsing baseline and S24 continuation
 
 The existing storefront requires list/collection/facet operations together. S23
 therefore loads a **bounded complete normalized catalog per request**, shares that
@@ -109,12 +109,10 @@ catalog operation has a 20-second deadline; detail lookup has 12 seconds. Featur
 order follows native `menu_order`, then native numeric ID. Detail misses return null
 and produce the existing real 404 page.
 
-There is **no cross-request catalog cache**. S24 still owns scalable browsing/query
-optimization, freshness/cache policy, current cart reconciliation, full
-browsing-to-WhatsApp verification and backend operational guidance. The WooCommerce
-adapter currently rejects cart validation as unavailable; it never falls back to
-mock validation or prepares an unverified WooCommerce order message. Existing cart
-failure recovery/contact remains available. S20b is a separate pending admin workflow.
+The original S23 checkpoint had no cross-request cache or Woo cart reconciliation.
+S24 now adds [bounded catalog caching, current cart validation and operational
+guidance](woocommerce-operations.md). It preserves this mapping, client limits and
+shared query semantics. S20b remains a separate pending manual admin workflow.
 
 ## Checkpoint commands and evidence
 

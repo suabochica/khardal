@@ -4,6 +4,7 @@ dist/
 .astro/
 test-results/
 playwright-report/
+/backups/woocommerce/
 
 # Local environment and tooling
 .env
