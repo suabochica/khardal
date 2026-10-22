@@ -10,8 +10,15 @@ interface Props {
   description: string;
   sample?: boolean;
   noindex?: boolean;
+  structuredData?: Record<string, unknown>[];
 }
-const { title, description, sample = false, noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  sample = false,
+  noindex = false,
+  structuredData = [],
+} = Astro.props;
 const links = [
   { label: 'Tienda', href: '/tienda' },
   { label: 'Más vendidos', href: '/colecciones/top-10' },
@@ -20,7 +27,12 @@ const links = [
 ];
 ---
 
-<BaseLayout title={title} description={description} noindex={sample || noindex}>
+<BaseLayout
+  title={title}
+  description={description}
+  noindex={sample || noindex}
+  structuredData={structuredData}
+>
   <a href="#contenido" class="skip-link">
     Saltar al contenido
   </a>

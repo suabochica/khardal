@@ -1,8 +1,22 @@
 ---
+import { siteOrigin, jsonLd } from '../../lib/seo';
 interface Props {
   items: { label: string; href?: string }[];
 }
 const { items } = Astro.props;
+const site = siteOrigin(import.meta.env.SITE);
+const schema = site
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: items.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.label,
+        item: new URL(item.href ?? Astro.url.pathname, site).href,
+      })),
+    }
+  : null;
 ---
 
 <nav aria-label="Ruta de navegación">
@@ -26,3 +40,4 @@ const { items } = Astro.props;
     ))}
   </ol>
 </nav>
+{schema && <script type="application/ld+json" set:html={jsonLd(schema)} />}

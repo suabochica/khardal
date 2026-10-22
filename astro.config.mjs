@@ -7,6 +7,7 @@ import { mediaPatterns } from './media-origin.mjs';
 const serverSecret = { context: 'server', access: 'secret', optional: true };
 
 export default defineConfig({
+  site: process.env.STOREFRONT_ORIGIN ?? process.env.RENDER_EXTERNAL_URL,
   output: 'server',
   adapter: node({ mode: 'standalone' }),
   vite: { plugins: [tailwindcss()] },

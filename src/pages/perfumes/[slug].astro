@@ -7,6 +7,7 @@ import ProductSelection from '../../components/commerce/ProductSelection.astro';
 import Breadcrumbs from '../../components/molecules/Breadcrumbs.astro';
 import Accordion from '../../components/molecules/Accordion.astro';
 import { getCommerce } from '../../lib/commerce/provider.server';
+import { productSchema, siteOrigin } from '../../lib/seo';
 let data;
 let missing = false;
 try {
@@ -30,6 +31,9 @@ try {
   Astro.response.status = 503;
 }
 Astro.response.headers.set('Cache-Control', 'no-store');
+const schema = data
+  ? productSchema(data.product, siteOrigin(import.meta.env.SITE))
+  : null;
 ---
 
 <StoreLayout
@@ -38,6 +42,7 @@ Astro.response.headers.set('Cache-Control', 'no-store');
     data?.product.description ?? 'Explora perfumes en Khardal Perfumería.'
   }
   sample={data?.product.sample || data?.related.some((p) => p.sample)}
+  structuredData={schema ? [schema] : []}
 >
   {data ? (
     <div class="page-container section-space space-y-space-xl">

@@ -210,7 +210,7 @@ or real Shopify result is claimed.
   - Deliver: metadata, canonicals, social previews, sitemap, accurate product/breadcrumb structured data, old-to-new URL redirects, and noindex configuration for comparison environments.
   - Checkpoint: representative old URLs resolve correctly; structured data matches visible products/prices; only the chosen production hostname is indexable.
   - Commit: `feat: Add SEO and migration redirects`
-  - [ ] **S30a — Implement configurable SEO and verified route redirects.** Checkpoint metadata/schema/indexability behavior in local production builds; commit with `Step: S30a`.
+  - [x] **S30a — Implement configurable SEO and verified route redirects.** Checkpoint metadata/schema/indexability behavior in local production builds; commit with `Step: S30a`.
   - [ ] **S30b — Verify final host and complete approved migration map.** Blocked on domain/hosting and final real product URLs. Parent S30 remains open.
 
 - [ ] **S31 — Verify WooCommerce customer journeys**
@@ -295,5 +295,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S28a | [Launch content audit/intake](docs/launch-content.md): read-only live Woo REST confirmed 13 products/37 variations, 12 sample products and the unpriced merchant variation. Mapped approved contacts/workflow and all pending copy/catalog/policy/photo/social inputs. Content and whitespace review passed. No sample content was approved for launch; S28b remains blocked. | `git log --all --grep='Step: S28a'` |
 
 | S29a | [Responsive image delivery and asset review](docs/photography.md): bounded intrinsic-size lookup, authorized Woo upload paths, WebP/srcset/sizes, eager PDP/lazy lower images and responsive gallery updates. Reopened three reference PNGs; publication remains unapproved. `pnpm verify`, real compiled image/WebP check and all 29 UI tests passed; zero diagnostics and `git diff --check` passed. S29b remains blocked on approved photography. | `git log --all --grep='Step: S29a'` |
+
+| S30a | [SEO and verified redirects](docs/seo-and-migration.md): host-gated metadata/canonicals/OG, brand card, accurate non-sample Product/Breadcrumb JSON-LD, robots/sitemap and live-destination legacy routing. `pnpm verify` passed with zero diagnostics; isolated example.test production-host/forwarded-host test and real compiled Woo test passed. Final host/catalog/migration publication remains S30b; `git diff --check` passed. | `git log --all --grep='Step: S30a'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

@@ -97,6 +97,23 @@ test('production renders dynamic uncached responses with runtime-only provider c
       assert.notEqual(data.timestamp, next.timestamp);
       const preview = await fetch(`${base}/dev/design`);
       assert.equal(preview.status, 404);
+      const robots = await fetch(`${base}/robots.txt`);
+      assert.match(await robots.text(), /Disallow: \//);
+      const sitemap = await fetch(`${base}/sitemap.xml`);
+      assert.equal(sitemap.status, 200);
+      assert.ok(!(await sitemap.text()).includes('<loc>'));
+      for (const [oldPath, newPath] of [
+        ['/collections/all', '/tienda'],
+        ['/pages/nosotros', '/nosotros'],
+        ['/pages/contact', '/contacto'],
+        ['/cart', '/carrito'],
+      ]) {
+        const redirect = await fetch(`${base}${oldPath}`, {
+          redirect: 'manual',
+        });
+        assert.equal(redirect.status, 301);
+        assert.equal(redirect.headers.get('location'), newPath);
+      }
       const catalog = await fetch(`${base}/tienda`);
       assert.equal(catalog.status, settings.COMMERCE_PROVIDER ? 503 : 200);
       assert.equal(catalog.headers.get('cache-control'), 'no-store');
