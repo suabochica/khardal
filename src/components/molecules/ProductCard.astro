@@ -2,6 +2,7 @@
 import Badge from '../atoms/Badge.astro';
 import Icon from '../atoms/Icon.astro';
 import Price from './Price.astro';
+import CatalogImage from '../atoms/CatalogImage.astro';
 interface Props {
   name: string;
   href?: string;
@@ -27,13 +28,10 @@ const {
 <article class="product-card min-w-0 border border-outline-variant bg-surface-container-low">
   <div class="relative aspect-[4/5] overflow-hidden bg-surface-container">
     {image ? (
-      <img
+      <CatalogImage
         src={image.src}
         alt={image.alt}
-        width="516"
-        height="690"
         loading="lazy"
-        decoding="async"
         class="h-full w-full object-cover"
       />
     ) : (

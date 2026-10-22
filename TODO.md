@@ -203,7 +203,7 @@ or real Shopify result is claimed.
   - Deliver: review three local assets; obtain original approved social/product assets; consistent bottle, alternate angle, packaging, and lifestyle imagery; responsive sizes and modern formats.
   - Checkpoint: images represent actual products, have useful Spanish alt text, reserve layout space, and prioritize the main image while lazy-loading lower content.
   - Commit: `perf: Optimize storefront photography`
-  - [ ] **S29a — Implement verified responsive image delivery and review current assets.** Use existing development artwork for technical checks; checkpoint responsive/modern formats, alt text and reserved layout. Commit with `Step: S29a`.
+  - [x] **S29a — Implement verified responsive image delivery and review current assets.** Use existing development artwork for technical checks; checkpoint responsive/modern formats, alt text and reserved layout. Commit with `Step: S29a`.
   - [ ] **S29b — Publish approved photography.** Blocked on originals and confirmed product mapping; technical image checks do not approve reference artwork. Parent S29 remains open.
 
 - [ ] **S30 — Add SEO and migration redirects**
@@ -293,5 +293,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S34a | [WooCommerce launch scope](docs/launch-scope.md): recorded owner-requested Shopify deferral, Woo release candidate, Woo-only S31 scope and explicit publication/host/device blockers. Reviewed checklist/evidence and `git diff --check`; no production selection, Shopify parity or hosted verification claimed. | `git log --all --grep='Step: S34a'` |
 
 | S28a | [Launch content audit/intake](docs/launch-content.md): read-only live Woo REST confirmed 13 products/37 variations, 12 sample products and the unpriced merchant variation. Mapped approved contacts/workflow and all pending copy/catalog/policy/photo/social inputs. Content and whitespace review passed. No sample content was approved for launch; S28b remains blocked. | `git log --all --grep='Step: S28a'` |
+
+| S29a | [Responsive image delivery and asset review](docs/photography.md): bounded intrinsic-size lookup, authorized Woo upload paths, WebP/srcset/sizes, eager PDP/lazy lower images and responsive gallery updates. Reopened three reference PNGs; publication remains unapproved. `pnpm verify`, real compiled image/WebP check and all 29 UI tests passed; zero diagnostics and `git diff --check` passed. S29b remains blocked on approved photography. | `git log --all --grep='Step: S29a'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

@@ -114,10 +114,15 @@ test(
         await page.locator('[data-selected-price]').textContent(),
         /COP\s110\.000/,
       );
-      assert.match(
+      const image = new URL(
         await page.locator('[data-gallery-main]').getAttribute('src'),
-        /\/wp-content\/uploads\//,
+        base,
       );
+      assert.equal(image.pathname, '/_image');
+      assert.match(image.searchParams.get('href'), /\/wp-content\/uploads\//);
+      const optimized = await fetch(image);
+      assert.equal(optimized.status, 200);
+      assert.match(optimized.headers.get('content-type'), /image\/webp/);
       for (const width of [320, 390, 768, 1440]) {
         await page.setViewportSize({ width, height: 900 });
         assert.equal(

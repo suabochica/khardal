@@ -1,10 +1,19 @@
 ---
 import type { CatalogImage } from '../../lib/commerce/models';
+import CatalogImageElement from '../atoms/CatalogImage.astro';
+import { imageAttributes } from '../../lib/images';
 interface Props {
   images: CatalogImage[];
 }
 const { images } = Astro.props;
 const first = images[0];
+const prepared = await Promise.all(
+  images.map(async (image) => ({
+    ...image,
+    attributes: await imageAttributes(image.src, image.width, image.height),
+  })),
+);
+const initial = prepared[0];
 ---
 
 <section
@@ -16,10 +25,14 @@ const first = images[0];
     <>
       <img
         data-gallery-main
-        src={first.src}
+        {...initial!.attributes}
+        sizes={
+          initial!.attributes.srcset
+            ? '(min-width: 1024px) 45vw, 90vw'
+            : undefined
+        }
         alt={first.alt}
-        width={first.width ?? undefined}
-        height={first.height ?? undefined}
+        loading="eager"
         fetchpriority="high"
         class="aspect-[4/5] max-h-[42rem] w-full bg-surface-container object-contain"
       />
@@ -28,20 +41,24 @@ const first = images[0];
           aria-label="Imágenes del perfume"
           class="flex gap-space-sm overflow-x-auto"
         >
-          {images.map((image, i) => (
+          {prepared.map((image, i) => (
             <a
               class="block min-w-20 border border-outline-variant p-space-xs focus-visible:outline-primary"
               href={image.src}
               data-gallery-choice
               data-alt={image.alt}
+              data-main-src={image.attributes.src}
+              data-main-srcset={image.attributes.srcset}
+              data-main-width={image.attributes.width}
+              data-main-height={image.attributes.height}
               aria-label={`Ver imagen ${i + 1}`}
               aria-current={i === 0 ? 'true' : undefined}
             >
-              <img
+              <CatalogImageElement
                 src={image.src}
                 alt=""
-                width="96"
-                height="120"
+                maxWidth={160}
+                sizes="80px"
                 loading="lazy"
                 class="h-24 w-20 object-cover"
               />
@@ -80,7 +97,14 @@ const first = images[0];
           )
             return;
           event.preventDefault();
-          main.src = choice.href;
+          main.src = choice.dataset.mainSrc ?? choice.href;
+          if (choice.dataset.mainSrcset)
+            main.srcset = choice.dataset.mainSrcset;
+          else main.removeAttribute('srcset');
+          if (choice.dataset.mainWidth)
+            main.width = Number(choice.dataset.mainWidth);
+          if (choice.dataset.mainHeight)
+            main.height = Number(choice.dataset.mainHeight);
           main.alt = choice.dataset.alt ?? '';
           const caption = gallery.querySelector('[data-gallery-caption]');
           if (caption) caption.textContent = main.alt;
