@@ -8,6 +8,7 @@ opencode -s ses_ea9e6c727ffePIispo0frfhGLm
 - Brand: **Khardal Perfumería**. Customer-facing content: Spanish (`es-CO`), Colombia, COP.
 - Stack: Astro, strict TypeScript, compiled Tailwind CSS, and pnpm.
 - One shared storefront with mock, WooCommerce, and Shopify commerce adapters; two independently configured backend comparison deployments.
+  - **2026-10-22 scope update:** the owner deferred Milestone 6. WooCommerce is the active launch candidate; Shopify implementation/real-store verification and comparative scoring are deferred, not completed. Mock remains the test baseline.
 - No backend access is available yet. Start with deterministic fixtures, then real local WooCommerce through Docker Compose, then Shopify API simulations. Real Shopify validation remains a release dependency for the Shopify version.
 - Primary WhatsApp: **+57 310 8570230**, `https://wa.me/573108570230`.
 - Secondary WhatsApp: **+57 312 2777427**, available on the contact page.
@@ -165,7 +166,11 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Checkpoint: common browsing-to-WhatsApp scenarios pass against Docker; stock/price changes become visible within the documented policy and immediately at handoff validation.
   - Commit: `feat: Complete WooCommerce integration`
 
-## Milestone 6 — Shopify integration
+## Milestone 6 — Shopify integration (deferred by owner)
+
+S25–S27 are skipped for the current WooCommerce launch scope. Their unchecked
+items preserve future scope, not release blockers for WooCommerce. No simulated
+or real Shopify result is claimed.
 
 - [ ] **S25 — Implement Shopify client and mapping**
   - Deliver: server-side Storefront API client, pinned supported API version, Colombia/COP context, products/variants/collections/images mapping, and fragrance metafield specification.
@@ -191,36 +196,45 @@ No commits or steps below are complete unless explicitly checked. Suggested comm
   - Deliver: real product copy, business/contact information, shipping/returns/privacy/terms content, and genuine reviews only where sourced.
   - Checkpoint: all customer-facing content reviewed; no sample prices, fabricated claims, or unresolved placeholders remain in the launch catalog.
   - Commit: `content: Add approved storefront content`
+  - [ ] **S28a — Audit launch content and prepare owner intake.** Checkpoint: inspect the actual WooCommerce catalog, map all missing launch inputs and document which existing facts are approved. Commit with `Step: S28a`.
+  - [ ] **S28b — Publish owner-approved catalog, business and policy content.** Blocked on final catalog/copy/policies/social information. Keep S28 open until sample products/placeholders are removed from the launch set and reviewed.
 
 - [ ] **S29 — Prepare and optimize photography**
   - Deliver: review three local assets; obtain original approved social/product assets; consistent bottle, alternate angle, packaging, and lifestyle imagery; responsive sizes and modern formats.
   - Checkpoint: images represent actual products, have useful Spanish alt text, reserve layout space, and prioritize the main image while lazy-loading lower content.
   - Commit: `perf: Optimize storefront photography`
+  - [ ] **S29a — Implement verified responsive image delivery and review current assets.** Use existing development artwork for technical checks; checkpoint responsive/modern formats, alt text and reserved layout. Commit with `Step: S29a`.
+  - [ ] **S29b — Publish approved photography.** Blocked on originals and confirmed product mapping; technical image checks do not approve reference artwork. Parent S29 remains open.
 
 - [ ] **S30 — Add SEO and migration redirects**
   - Deliver: metadata, canonicals, social previews, sitemap, accurate product/breadcrumb structured data, old-to-new URL redirects, and noindex configuration for comparison environments.
   - Checkpoint: representative old URLs resolve correctly; structured data matches visible products/prices; only the chosen production hostname is indexable.
   - Commit: `feat: Add SEO and migration redirects`
+  - [ ] **S30a — Implement configurable SEO and verified route redirects.** Checkpoint metadata/schema/indexability behavior in local production builds; commit with `Step: S30a`.
+  - [ ] **S30b — Verify final host and complete approved migration map.** Blocked on domain/hosting and final real product URLs. Parent S30 remains open.
 
-- [ ] **S31 — Verify cross-provider customer journeys**
-  - Deliver: targeted end-to-end coverage for browsing, filtering, variant selection, cart persistence, reconciliation, and WhatsApp handoff against both adapters; label mocked versus real runs explicitly.
-  - Checkpoint: agreed scenarios pass; failure recovery works. Real Shopify results require S27.
-  - Commit: `test: Verify cross-provider shopping journeys`
+- [ ] **S31 — Verify WooCommerce customer journeys**
+  - Deliver: targeted end-to-end coverage for browsing, filtering, variant selection, cart persistence, reconciliation and WhatsApp handoff against real local WooCommerce, with mock regressions labeled separately.
+  - Checkpoint: agreed scenarios and failure recovery pass. Shopify parity is deferred with Milestone 6.
+  - Commit: `test: Verify WooCommerce shopping journeys`
 
 - [ ] **S32 — Complete responsive and accessibility review**
   - Deliver: recorded desktop/tablet/phone checks, keyboard/screen-reader review, and real iOS Safari/Android Chrome checks when devices are available; fixes split into substeps if needed.
   - Checkpoint: six reference layouts reviewed, no overflow or blocked CTAs, functional focus management and announcements, readable text, and usable touch targets.
   - Commit: `docs: Record responsive accessibility checks`
+  - [ ] **S32a — Run available viewport, keyboard and automated accessibility checks.** Record browser/emulation scope, compare six references and commit evidence with `Step: S32a`.
+  - [ ] **S32b — Complete assistive-technology and physical-device review.** Record real screen-reader and iOS Safari/Android Chrome results when available. Parent S32 remains open until required manual coverage is recorded.
 
 - [ ] **S33 — Measure and tune performance**
   - Deliver: representative home/listing/detail/cart lab measurements and targeted improvements; plan real-user monitoring after launch.
   - Checkpoint: target LCP ≤ 2.5s and CLS ≤ 0.1 in documented lab conditions; assess interaction responsiveness. Validate the INP ≤ 200ms target with field data when available rather than claiming lab scores prove it.
   - Commit: `perf: Tune and measure storefront performance`
 
-- [ ] **S34 — Compare providers and select production**
-  - Deliver: comparison of merchant workflow, feature parity, freshness, reliability, development effort, recurring cost, maintenance, exportability, and future Colombian payment support.
-  - Checkpoint: both candidates evaluated against the same catalog and scenarios; unverified capabilities explicitly listed; production choice documented.
-  - Commit: `docs: Record commerce platform comparison`
+- [ ] **S34 — Record WooCommerce production decision**
+  - Deliver: record the current WooCommerce release candidate, verified capabilities and hosting/maintenance/cost ownership. Cross-provider scoring is deferred with Shopify.
+  - Checkpoint: owner confirms the actual production backend/hosting and operating costs; distinguish local evidence from hosted results.
+  - [x] **S34a — Record owner scope change and WooCommerce launch candidate.** Checkpoint: reconcile release dependencies with the Shopify deferral; commit with `Step: S34a`.
+  - [ ] **S34b — Confirm production operating decision.** Pending hosting/backend ownership and costs. Parent S34 remains open.
 
 - [ ] **S35 — Deploy and verify production**
   - Dependency: chosen backend access, hosting/domain access, approved content, and completed release checks for that provider.
@@ -275,5 +289,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S23 | [Server-only WooCommerce catalog adapter](docs/woocommerce-adapter.md): authenticated bounded REST, simple/variable products, native collections, current COP/stock/images and normalized failures. `pnpm verify` passed (5 config, 14 commerce/cart, 6 Woo mapping/client tests, zero diagnostics, build and 2 runtime tests). Real Docker API and compiled Chromium storefront checks passed, including the merchant-created Perfume WooCommerce, missing products, variation prices, images and credential isolation; all 29 mock UI tests passed. Local ignored `.env` activated WooCommerce; merchant routes return 200 with “Precio por confirmar” for the unpriced variation. `git diff --check` passed. S24 cart reconciliation/caching and S20b remain open. | `git log --all --grep='Step: S23'` |
 
 | S24 | [WooCommerce freshness, reconciliation and operations](docs/woocommerce-operations.md): bounded 30s credential-partitioned cache, uncached current cart reads, aggregate parent-stock validation, sample-aware handoff and backup/update runbook. `pnpm verify` passed (5 config, 14 commerce/cart, 11 Woo tests, zero diagnostics, build/2 runtime tests); real API, compiled storefront and live price/stock-to-WhatsApp journey passed; all 29 mock UI tests passed. Native price edit refreshed after 27,845ms; price review, unavailable/missing data and retained cart verified. Probe cleanup/fixture parity passed. Private backup creation/integrity and restart/admin/API checks passed; full restore rehearsal remains S35. `git diff --check` passed. S20b remains pending. | `git log --all --grep='Step: S24'` |
+
+| S34a | [WooCommerce launch scope](docs/launch-scope.md): recorded owner-requested Shopify deferral, Woo release candidate, Woo-only S31 scope and explicit publication/host/device blockers. Reviewed checklist/evidence and `git diff --check`; no production selection, Shopify parity or hosted verification claimed. | `git log --all --grep='Step: S34a'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.
