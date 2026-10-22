@@ -196,7 +196,7 @@ or real Shopify result is claimed.
   - Deliver: real product copy, business/contact information, shipping/returns/privacy/terms content, and genuine reviews only where sourced.
   - Checkpoint: all customer-facing content reviewed; no sample prices, fabricated claims, or unresolved placeholders remain in the launch catalog.
   - Commit: `content: Add approved storefront content`
-  - [ ] **S28a — Audit launch content and prepare owner intake.** Checkpoint: inspect the actual WooCommerce catalog, map all missing launch inputs and document which existing facts are approved. Commit with `Step: S28a`.
+  - [x] **S28a — Audit launch content and prepare owner intake.** Checkpoint: inspect the actual WooCommerce catalog, map all missing launch inputs and document which existing facts are approved. Commit with `Step: S28a`.
   - [ ] **S28b — Publish owner-approved catalog, business and policy content.** Blocked on final catalog/copy/policies/social information. Keep S28 open until sample products/placeholders are removed from the launch set and reviewed.
 
 - [ ] **S29 — Prepare and optimize photography**
@@ -291,5 +291,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S24 | [WooCommerce freshness, reconciliation and operations](docs/woocommerce-operations.md): bounded 30s credential-partitioned cache, uncached current cart reads, aggregate parent-stock validation, sample-aware handoff and backup/update runbook. `pnpm verify` passed (5 config, 14 commerce/cart, 11 Woo tests, zero diagnostics, build/2 runtime tests); real API, compiled storefront and live price/stock-to-WhatsApp journey passed; all 29 mock UI tests passed. Native price edit refreshed after 27,845ms; price review, unavailable/missing data and retained cart verified. Probe cleanup/fixture parity passed. Private backup creation/integrity and restart/admin/API checks passed; full restore rehearsal remains S35. `git diff --check` passed. S20b remains pending. | `git log --all --grep='Step: S24'` |
 
 | S34a | [WooCommerce launch scope](docs/launch-scope.md): recorded owner-requested Shopify deferral, Woo release candidate, Woo-only S31 scope and explicit publication/host/device blockers. Reviewed checklist/evidence and `git diff --check`; no production selection, Shopify parity or hosted verification claimed. | `git log --all --grep='Step: S34a'` |
+
+| S28a | [Launch content audit/intake](docs/launch-content.md): read-only live Woo REST confirmed 13 products/37 variations, 12 sample products and the unpriced merchant variation. Mapped approved contacts/workflow and all pending copy/catalog/policy/photo/social inputs. Content and whitespace review passed. No sample content was approved for launch; S28b remains blocked. | `git log --all --grep='Step: S28a'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.
