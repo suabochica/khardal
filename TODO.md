@@ -225,7 +225,7 @@ or real Shopify result is claimed.
   - [x] **S32a — Run available viewport, keyboard and automated accessibility checks.** Record browser/emulation scope, compare six references and commit evidence with `Step: S32a`.
   - [ ] **S32b — Complete assistive-technology and physical-device review.** Record real screen-reader and iOS Safari/Android Chrome results when available. Parent S32 remains open until required manual coverage is recorded.
 
-- [ ] **S33 — Measure and tune performance**
+- [x] **S33 — Measure and tune performance**
   - Deliver: representative home/listing/detail/cart lab measurements and targeted improvements; plan real-user monitoring after launch.
   - Checkpoint: target LCP ≤ 2.5s and CLS ≤ 0.1 in documented lab conditions; assess interaction responsiveness. Validate the INP ≤ 200ms target with field data when available rather than claiming lab scores prove it.
   - Commit: `perf: Tune and measure storefront performance`
@@ -301,5 +301,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S31 | [WooCommerce journey review](docs/journey-review.md): real compiled filtering/cart/price-stock/handoff checks plus native invalid-credential failure/recovery with unchanged cart. `pnpm verify`, real local API/journey/recovery and all 29 mock UI checks passed; zero diagnostics. Real cache refresh 27,867ms; outbound WhatsApp intercepted and no order/payment claimed. Shopify scope deferred; `git diff --check` passed. | `git log --all --grep='Step: S31'` |
 
 | S32a | [Responsive/accessibility review](docs/responsive-accessibility.md): compiled real Woo pages at 320/390/768/1440, 18 zero-violation WCAG scans, skip/focus/trap/Escape checks and six opened home/PLP/PDP captures. Fixed adjacent desktop brand-link spacing and reran audit; `pnpm verify` passed with zero diagnostics and `git diff --check` passed. Physical device/screen-reader review remains S32b. | `git log --all --grep='Step: S32a'` |
+
+| S33 | [Lab performance and field plan](docs/performance.md): 24 compiled real-Woo samples under documented desktop/throttled-mobile conditions. Found cart CLS 0.243/0.4568; viewport reservation and stable navigation placement reduced observed CLS to 0. Mobile median LCP 960–1,156ms, max 1,164ms; all observed samples met lab budgets. `pnpm verify` and 18 real-Woo accessibility scans passed after fix, zero diagnostics; `git diff --check` passed. Scripted event timings are not INP; final-content/host rerun and field monitoring remain launch work. | `git log --all --grep='Step: S33'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.
