@@ -36,6 +36,7 @@
     "test:woocommerce:local": "node --env-file=.env.woocommerce --experimental-strip-types --test tests/woocommerce.local.test.ts",
     "test:woocommerce:storefront": "node --env-file=.env.woocommerce --test tests/woocommerce-storefront.test.mjs",
     "test:woocommerce:journey": "node --env-file=.env.woocommerce --test tests/woocommerce-journey.test.mjs",
+    "test:woocommerce:recovery": "node --env-file=.env.woocommerce --test tests/woocommerce-recovery.test.mjs",
     "woo:seed": "node --env-file=.env.woocommerce --experimental-strip-types scripts/woocommerce/seed.mjs seed",
     "woo:seed:check": "node --env-file=.env.woocommerce --experimental-strip-types scripts/woocommerce/seed.mjs check",
     "woo:seed:repeat-check": "node --env-file=.env.woocommerce --experimental-strip-types scripts/woocommerce/seed.mjs repeat-check",

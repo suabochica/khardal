@@ -213,7 +213,7 @@ or real Shopify result is claimed.
   - [x] **S30a — Implement configurable SEO and verified route redirects.** Checkpoint metadata/schema/indexability behavior in local production builds; commit with `Step: S30a`.
   - [ ] **S30b — Verify final host and complete approved migration map.** Blocked on domain/hosting and final real product URLs. Parent S30 remains open.
 
-- [ ] **S31 — Verify WooCommerce customer journeys**
+- [x] **S31 — Verify WooCommerce customer journeys**
   - Deliver: targeted end-to-end coverage for browsing, filtering, variant selection, cart persistence, reconciliation and WhatsApp handoff against real local WooCommerce, with mock regressions labeled separately.
   - Checkpoint: agreed scenarios and failure recovery pass. Shopify parity is deferred with Milestone 6.
   - Commit: `test: Verify WooCommerce shopping journeys`
@@ -297,5 +297,7 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 | S29a | [Responsive image delivery and asset review](docs/photography.md): bounded intrinsic-size lookup, authorized Woo upload paths, WebP/srcset/sizes, eager PDP/lazy lower images and responsive gallery updates. Reopened three reference PNGs; publication remains unapproved. `pnpm verify`, real compiled image/WebP check and all 29 UI tests passed; zero diagnostics and `git diff --check` passed. S29b remains blocked on approved photography. | `git log --all --grep='Step: S29a'` |
 
 | S30a | [SEO and verified redirects](docs/seo-and-migration.md): host-gated metadata/canonicals/OG, brand card, accurate non-sample Product/Breadcrumb JSON-LD, robots/sitemap and live-destination legacy routing. `pnpm verify` passed with zero diagnostics; isolated example.test production-host/forwarded-host test and real compiled Woo test passed. Final host/catalog/migration publication remains S30b; `git diff --check` passed. | `git log --all --grep='Step: S30a'` |
+
+| S31 | [WooCommerce journey review](docs/journey-review.md): real compiled filtering/cart/price-stock/handoff checks plus native invalid-credential failure/recovery with unchanged cart. `pnpm verify`, real local API/journey/recovery and all 29 mock UI checks passed; zero diagnostics. Real cache refresh 27,867ms; outbound WhatsApp intercepted and no order/payment claimed. Shopify scope deferred; `git diff --check` passed. | `git log --all --grep='Step: S31'` |
 
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.
