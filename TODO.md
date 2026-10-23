@@ -304,4 +304,6 @@ Accounts, wishlists, fragrance quizzes, newsletter subscriptions, online payment
 
 | S33 | [Lab performance and field plan](docs/performance.md): 24 compiled real-Woo samples under documented desktop/throttled-mobile conditions. Found cart CLS 0.243/0.4568; viewport reservation and stable navigation placement reduced observed CLS to 0. Mobile median LCP 960–1,156ms, max 1,164ms; all observed samples met lab budgets. `pnpm verify` and 18 real-Woo accessibility scans passed after fix, zero diagnostics; `git diff --check` passed. Scripted event timings are not INP; final-content/host rerun and field monitoring remain launch work. | `git log --all --grep='Step: S33'` |
 
+| S20b follow-up | Replaced deprecated navigation waits with document-load events, reran the isolated restore/admin rehearsal with the same native order/stock outcomes, and confirmed `pnpm check` has zero errors/warnings/hints plus lint passes. No source-store mutation. | `git log --all --grep='Step: S20b-followup'` |
+
 For each subsequent step, add the commands/manual checks performed, their results, and any blockers. Keep this log concise; link longer measurement or review reports from the relevant row.

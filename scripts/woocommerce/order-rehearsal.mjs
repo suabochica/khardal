@@ -86,9 +86,10 @@ await withRestoredStore(
       await page.getByRole('button', { name: 'Guardar', exact: true }).click();
       await page.locator('#order_status').selectOption('wc-pending');
       await Promise.all([
-        page.waitForNavigation({ waitUntil: 'networkidle' }),
+        page.waitForEvent('domcontentloaded'),
         page.locator('button[name="save"]').click(),
       ]);
+      await page.waitForLoadState('networkidle');
       const id = Number(new URL(page.url()).searchParams.get('id'));
       assert.ok(Number.isSafeInteger(id) && id > 0);
       await page
@@ -124,9 +125,10 @@ await withRestoredStore(
       async function status(value) {
         await page.locator('#order_status').selectOption(value);
         await Promise.all([
-          page.waitForNavigation({ waitUntil: 'networkidle' }),
+          page.waitForEvent('domcontentloaded'),
           page.locator('button[name="save"]').click(),
         ]);
+        await page.waitForLoadState('networkidle');
         return state();
       }
       const held = await status('wc-on-hold');
