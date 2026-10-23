@@ -112,7 +112,8 @@ and produce the existing real 404 page.
 The original S23 checkpoint had no cross-request cache or Woo cart reconciliation.
 S24 now adds [bounded catalog caching, current cart validation and operational
 guidance](woocommerce-operations.md). It preserves this mapping, client limits and
-shared query semantics. S20b remains a separate pending manual admin workflow.
+shared query semantics. The separate [S20b restored admin rehearsal](order-rehearsal.md)
+now verifies local native order/stock transitions; production workflow checks remain S35.
 
 ## Checkpoint commands and evidence
 

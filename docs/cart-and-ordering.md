@@ -124,5 +124,7 @@ under S20a, with a reusable [entry worksheet](manual-order-template.md). The
 mock-handler exercise reconciled changed prices and a COP 240,000 subtotal;
 no message, backend order or stock movement was created. S21–S22 now supply the
 local test admin and [seeded catalog](woocommerce-seeding.md), so S20b is ready for
-the actual-entry walkthrough. Shopify also requires S27. Parent S20 remains open.
+the actual-entry walkthrough, subsequently verified in the
+[restored admin rehearsal](order-rehearsal.md). S20 is now complete for WooCommerce;
+Shopify is deferred by the owner.
 Application checks for the cart remain those from S19; S20a changed docs only.

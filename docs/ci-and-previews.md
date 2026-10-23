@@ -16,7 +16,7 @@ DEPLOYMENT_ENV=preview pnpm verify
 4. `test:commerce` — integer COP, mock catalog, shared query and validation behavior.
 5. `test:woocommerce` — isolated catalog mapping/client error and credential-boundary checks.
 6. `check` — Astro/TypeScript diagnostics.
-7. `build` — Node production artifact and prerendered informational pages.
+7. `build` — Node production artifact; host-sensitive HTML is on-demand since S30.
 8. `test:runtime` — actual Node server, runtime-only dummy credentials, dynamic
    catalog/health responses, missing-credential behavior and public-response isolation.
 
@@ -71,9 +71,9 @@ production store credentials to the preview baseline.
 
 `DEPLOYMENT_ENV` is a **build-time**, server-public enum: `development`, `preview`,
 or `production`. Non-production HTML gets `noindex, nofollow` metadata, including
-prerendered informational pages. Mock catalog and pending policies force noindex
+informational pages. Mock catalog and pending policies force noindex
 even in production mode. Rebuild when changing it; changing only the runtime
-variable does not change prerendered metadata. Render additionally sets a noindex
+variable does not change compiled environment metadata. Render additionally sets a noindex
 header on its PR previews. Full canonical/sitemap/redirect work remains in S30.
 
 ## Hosted checkpoint (S05b — pending)
@@ -87,7 +87,7 @@ in the execution log after access is available:
 | Hosted homepage | HTTPS 200, brand title, `es-CO`, non-production noindex metadata | Pending; no connected Render service/URL |
 | Dynamic runtime | Two `/api/health` responses with different timestamps and `Cache-Control: no-store` | Local pass; hosted pending |
 | Static image delivery | `/images/01-product.png` returns 200, PNG content type and decodable image | Hosted pending; image is a development reference |
-| Image transformation | Exercise a responsive/optimized real image once S29 implements it | Not implemented yet; do not claim static delivery proves optimization |
+| Image transformation | Exercise a responsive/optimized real image on the hosted runtime | Local compiled WebP verified in S29a; hosted verification pending |
 | Secrets/configuration | Inject test-only private credentials in a separate test service; health succeeds, missing active credentials fail with named-field server logs, no credentials in public output | Local dummy-credential pass; hosted pending |
 | Backend networking | Actual WooCommerce/Shopify API access from hosting runtime | Pending integration steps and test-store access |
 

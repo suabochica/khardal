@@ -18,7 +18,7 @@ not a Workers deployment artifact.
 
 | Route/data | Rendering | Freshness policy |
 | --- | --- | --- |
-| About, contact and FAQ pages | Explicit `export const prerender = true` | Editorial content requires rebuild |
+| About, contact and FAQ pages | On-demand since S30 for host-sensitive SEO | HTML no-store; editorial code changes require rebuild |
 | Homepage, catalog, collection, product and search pages | On-demand server rendering | `Cache-Control: no-store` initially; future provider response cache may use at most 60 seconds, keyed by provider/store/market/currency/query/variant context |
 | Pending policy pages | On-demand server rendering, noindex | `Cache-Control: no-store`; approved publication replaces these structures in S28 |
 | Cart validation and WhatsApp preparation (future) | Server endpoints | `Cache-Control: no-store`; bypass catalog cache and retrieve authoritative current prices/stock |

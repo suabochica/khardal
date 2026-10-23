@@ -60,8 +60,9 @@ git diff --check
 ```
 
 La aplicación usa el adaptador Node standalone. Inicio, catálogo, búsqueda y
-detalles se renderizan en el servidor con `Cache-Control: no-store`; las páginas
-de nosotros/contacto/FAQ se generan estáticamente. `/api/health` también usa
+detalles se renderizan en el servidor con `Cache-Control: no-store`; desde S30,
+nosotros/contacto/FAQ también son dinámicas para verificar el host de indexación.
+`/api/health` también usa
 `no-store` y comprueba configuración, no conectividad con un backend.
 Sin variables de entorno se selecciona `mock`. Para configurar un proveedor,
 copia el contenido de `.env.example` en `.env` y consulta la
@@ -204,6 +205,22 @@ TODO.md                     Pasos, checkpoints y registro de ejecución
 Los archivos `.env*` locales también se excluyen, salvo `.env.example`.
 
 ## Plan y fuentes
+
+Shopify (Milestone 6) está diferido por decisión del propietario. La preparación
+local de lanzamiento WooCommerce está resumida en
+[el handoff de producción](docs/production-readiness.md), con enlaces a contenido,
+imágenes, SEO, journeys, accesibilidad y mediciones. El ensayo real de restore y
+entrada administrativa S20b está verificado. Publicación final, dominio/hosting,
+dispositivos físicos y despliegue siguen pendientes; consulta `TODO.md`.
+
+Comprobaciones adicionales disponibles:
+
+```sh
+pnpm test:seo:host
+pnpm test:woocommerce:recovery
+pnpm test:woocommerce:accessibility
+pnpm measure:performance
+```
 
 - [Checklist de implementación](TODO.md): un paso, un checkpoint y un commit;
   cada commit incluye `Step: Sxx` en su cuerpo.
