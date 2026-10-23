@@ -39,6 +39,7 @@
     "test:woocommerce:recovery": "node --env-file=.env.woocommerce --test tests/woocommerce-recovery.test.mjs",
     "test:woocommerce:accessibility": "node --env-file=.env.woocommerce --test tests/woocommerce-accessibility.test.mjs",
     "measure:performance": "node --env-file=.env.woocommerce scripts/woocommerce/performance.mjs",
+    "woo:rehearse:orders": "node scripts/woocommerce/order-rehearsal.mjs",
     "woo:seed": "node --env-file=.env.woocommerce --experimental-strip-types scripts/woocommerce/seed.mjs seed",
     "woo:seed:check": "node --env-file=.env.woocommerce --experimental-strip-types scripts/woocommerce/seed.mjs check",
     "woo:seed:repeat-check": "node --env-file=.env.woocommerce --experimental-strip-types scripts/woocommerce/seed.mjs repeat-check",

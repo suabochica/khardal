@@ -181,7 +181,10 @@ mensajes explícitamente marcados como demostración.
 Para respaldar el backend: `pnpm woo:backup`; para comprobar el respaldo:
 `pnpm woo:backup:check <directorio>`. El comando pausa WordPress brevemente y lo
 reinicia al terminar. Consulta [la guía operativa](docs/woocommerce-operations.md)
-para límites, recuperación y actualizaciones. S20b sigue pendiente.
+para límites, recuperación y actualizaciones.
+El [ensayo administrativo restaurado](docs/order-rehearsal.md) ya verifica S20b:
+`pnpm woo:rehearse:orders <directorio-backup>` crea una copia local aislada, prueba
+entrada/estados/inventario reales y elimina solo esa copia al terminar.
 
 ## Estructura del proyecto
 

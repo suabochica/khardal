@@ -2,8 +2,8 @@
 
 ## Alcance y estado
 
-**S20a: procedimiento y recorrido simulado. S20b: entrada real en el backend
-pendiente.** El catálogo mock y los mensajes DEMOSTRACIÓN son ejercicios, no
+**S20a: procedimiento y recorrido simulado. S20b: ensayo real en una copia local
+restaurada [verificado posteriormente](order-rehearsal.md).** El catálogo mock y los mensajes DEMOSTRACIÓN son ejercicios, no
 productos disponibles ni solicitudes comerciales reales.
 
 La tienda prepara una solicitud; una persona confirma y registra el pedido en el
@@ -180,7 +180,7 @@ El comando ejecutado comprobó con aserciones cambio de precio, ausencia de hand
 inicial, subtotal vigente, aviso de demostración y total simulado. La revisión de
 duplicados es un ejercicio documental, no un sistema automático de deduplicación.
 
-## Evidencia pendiente S20b
+## Recorrido administrativo S20b
 
 Tras S21–S22, repetir en el admin de prueba con el catálogo sembrado: registrar
 versiones, fecha, operador, referencia, ID real del pedido de prueba, líneas,
@@ -188,8 +188,11 @@ total, aceptación simulada y estado pendiente de pago. Anotar stock antes/despu
 de guardar, asignar y cancelar/liberar. Reabrir y probar reenvío sin duplicados ni
 doble reducción. Usar notificaciones de prueba y evidencia sin datos personales.
 
-Con esas observaciones se podrá completar S20b y S20. Shopify necesita además
-ejecución con acceso S27. No hay evidencia administrativa real en este checkpoint.
+Estas observaciones ya se registraron en el [ensayo restaurado](order-rehearsal.md),
+completando S20b y S20 para WooCommerce local. El checkpoint S20a original era
+solo simulado; el registro posterior distingue la entrada administrativa real.
+Shopify está diferido por el propietario. La operación en producción aún se
+verifica en S35 con el backend/hosting final y contenido aprobado.
 
 ## Fuentes oficiales consultadas (2026-10-21)
 
