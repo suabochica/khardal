@@ -39,6 +39,12 @@ authorization. No credentials or approved publication inputs for a final host
 were supplied in this session. The local `.env` and backup environments remain
 ignored and are not deployment secrets to copy into this document.
 
+Subsequent deployment follow-up: the owner supplied `https://khardal.vercel.app`
+as the frontend deployment target. Its platform 404 exposed the standalone-adapter
+mismatch; the [Vercel configuration fix](vercel-deployment.md) is locally verified.
+Public WooCommerce reachability, hosted redeploy verification and publication
+approvals remain outstanding.
+
 ## Deployment sequence once inputs are supplied
 
 1. Complete the content/photography checkpoints and prepare the approved production

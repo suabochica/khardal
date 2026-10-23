@@ -36,6 +36,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Run quality and production checks
         run: pnpm verify
+      - name: Check Vercel serverless output and routes
+        run: pnpm test:vercel
       - name: Install Chromium
         run: pnpm exec playwright install --with-deps chromium
       - name: Check design system in browser

@@ -84,6 +84,16 @@ y detenerlo con `pnpm astro dev stop` antes de usar el mismo puerto.
 
 ## CI y previews
 
+### Vercel
+
+Vercel selecciona su adaptador dedicado automáticamente. La configuración compila
+con `pnpm build:vercel`: Framework **Astro**, directorio raíz del repositorio y
+Output Directory automático. Consulta [la guía Vercel y la corrección del 404](docs/vercel-deployment.md)
+para variables, acceso público a WooCommerce y redeploy. `pnpm test:vercel`
+verifica la función generada localmente; la verificación alojada se registra aparte.
+
+### CI y baseline Render
+
 GitHub Actions ejecutará `pnpm verify` en pushes a `main` y pull requests usando
 Node 22.22.0 (archivo `.node-version`) y pnpm 12.14.0. `render.yaml` define una
 preview Node con catálogo mock, comprobación de salud y metadatos `noindex`.

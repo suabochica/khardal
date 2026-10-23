@@ -11,6 +11,10 @@ reverse proxy and pass its assigned port through `PORT`.
 
 Hosting is **provisional**. S05/S35 must verify a real preview/production deployment,
 including secrets, image processing, backend networking, and platform limits.
+The owner subsequently selected a Vercel frontend deployment attempt. Vercel builds
+now select its dedicated adapter/Build Output API; standalone Node remains the
+local/CI/Render default. See [Vercel setup](vercel-deployment.md) for exact settings,
+runtime environment and redeployment checks.
 Cloudflare would require its own adapter/runtime validation; this Node build is
 not a Workers deployment artifact.
 
